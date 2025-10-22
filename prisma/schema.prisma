@@ -14,36 +14,7 @@ model User {
   lastName String
   dateBirth DateTime
   password String
-  releases Release[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Categorie {
-  id Int @id @default(autoincrement())
-  name String @unique
-  description String?
-  color String
-  releases Release[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Release {
-  id Int @id @default(autoincrement())
-  title String
-  description String?
-  dueDate DateTime
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-
-  categorieId Int
-  categorie Categorie @relation(fields: [categorieId], references: [id])
-
-  parentId Int?
-  parent Release? @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
-  children Release[] @relation("ParentChild")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
