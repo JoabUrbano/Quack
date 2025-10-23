@@ -1,0 +1,49 @@
+# Build stage
+FROM node:20.19.0-bullseye-slim AS builder
+
+WORKDIR /build
+
+# Copy all project files
+COPY package.json yarn.lock ./
+COPY apps ./apps
+COPY libs ./libs
+COPY tsconfig.json nest-cli.json ./
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Build IMDTravel
+WORKDIR /build/apps/imdtravel
+RUN yarn build
+
+# Build AirlinesHub
+WORKDIR /build/apps/airlineshub
+RUN yarn build
+
+# Production stage
+FROM node:20.19.0-bullseye-slim
+
+WORKDIR /app
+
+# Install procps for debugging
+RUN apt-get update && apt-get install -y procps curl && rm -rf /var/lib/apt/lists/*
+
+# Copy built applications from builder
+COPY --from=builder /build/dist ./dist
+COPY --from=builder /build/node_modules ./node_modules
+COPY --from=builder /build/package.json ./
+
+# Create a non-root user
+RUN useradd -m -u 1001 nestjs && chown -R nestjs:nestjs /app
+USER nestjs
+
+# Expose ports
+EXPOSE 3000 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:${PORT}/health || exit 1
+
+# Start the application
+ARG APP_NAME=imdtravel
+CMD ["node", "dist/apps/${APP_NAME}/main.js"]

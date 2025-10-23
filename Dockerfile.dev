@@ -4,17 +4,18 @@ FROM node:20.19.0-bullseye-slim
 WORKDIR /app
 
 # Install procps to ensure ps command is available
-RUN apt-get update && apt-get install -y procps
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 
-# Copy the backend application files into the container
-COPY package.json ./
-COPY yarn.lock ./
+# Copy the monorepo files into the container
+COPY package.json yarn.lock ./
+COPY apps ./apps
+COPY tsconfig.json nest-cli.json ./
 
-# Install dependencies
-RUN yarn install
+# Install dependencies for all workspaces
+RUN yarn install --no-frozen-lockfile
 
-# Expose the port that your Nest.js backend
-EXPOSE 8080
+# Back to root
+WORKDIR /app
 
-# Start the backend application
-CMD ["yarn", "start:dev"]
+# Expose ports for both microservices
+EXPOSE 3000 3001
