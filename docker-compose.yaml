@@ -20,7 +20,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: yarn workspace imdtravel start:dev
+    command: yarn start:dev imdtravel
 
     # AirlinesHub Microservice
   airlineshub:
@@ -43,7 +43,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: yarn workspace airlineshub start:dev
+    command: yarn start:dev airlineshub
 
   # PostgreSQL Database
   postgres:

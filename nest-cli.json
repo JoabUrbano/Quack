@@ -1,12 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/imdtravel/src",
-  "monorepo": true,
-  "root": "apps/cats-api",
+  "sourceRoot": "apps/airlineshub/src",
   "compilerOptions": {
+    "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/cats-api/tsconfig.json"
+    "tsConfigPath": "apps/airlineshub/tsconfig.app.json"
   },
+  "monorepo": true,
   "projects": {
     "airlineshub": {
       "type": "application",
