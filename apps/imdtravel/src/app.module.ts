@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from '@imdtravel/app.controller';
-import { AppService } from '@imdtravel/app.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
+import { PrismaService } from '@imdtravel/prisma.service';
 
 import { TicketModule } from './ticket/ticket.module';
 
@@ -18,6 +19,6 @@ import { TicketModule } from './ticket/ticket.module';
     TicketModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
