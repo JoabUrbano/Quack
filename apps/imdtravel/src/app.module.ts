@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { PrismaService } from '@imdtravel/prisma.service';
 
+import { TicketModule } from './ticket/ticket.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,6 +16,7 @@ import { PrismaService } from '@imdtravel/prisma.service';
         PORT: Joi.number().default(8080),
       }),
     }),
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
