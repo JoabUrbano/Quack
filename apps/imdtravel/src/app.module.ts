@@ -4,6 +4,8 @@ import { AppService } from '@imdtravel/app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 
+import { TicketModule } from './ticket/ticket.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,6 +15,7 @@ import * as Joi from 'joi';
         PORT: Joi.number().default(8080),
       }),
     }),
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
