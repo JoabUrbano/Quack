@@ -4,7 +4,7 @@ import { Injectable } from "@nestjs/common";
 export class TicketService {
   constructor() {}
 
-    buyTicket(): string {
-        return "Ticket purchased successfully!";
+    buyTicket(flight: string, day: string, user: string): string {
+        return `Ticket purchased successfully for flight ${flight} on ${day} by user ${user}!`;
     }
 }

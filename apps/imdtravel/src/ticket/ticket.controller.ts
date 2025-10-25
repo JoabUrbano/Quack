@@ -1,12 +1,16 @@
-import { Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
 import { TicketService } from "./ticket.service";
 
 @Controller('tickets')
 export class TicketController {
     constructor(private readonly ticketService: TicketService) {}
 
-    @Post()
-    buyTicket() {
-        return this.ticketService.buyTicket();
+    @Post('buyTicket')
+    buyTicket(
+        @Param('flight') flight: string,
+        @Param('day') day: string,
+        @Param('user') user: string,
+    ): string {
+        return this.ticketService.buyTicket(flight, day, user);
     }
 }
