@@ -1,8 +1,11 @@
+import { SharedService } from '@app/shared/shared.service';
 import { Injectable } from '@nestjs/common';
-
+  
 @Injectable()
 export class AppService {
+  constructor(private readonly sharedService: SharedService) {}
+
   async getHello(): Promise<string> {
-    return 'Welcome to AirlinesHub API! ✈️';
+    return this.sharedService.getHello();
   }
 }
