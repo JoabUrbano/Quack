@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output = "./generated/client"
+  provider      = "prisma-client-js"
+  output        = "./generated/client"
   binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
@@ -10,7 +10,7 @@ datasource db {
 }
 
 model Airline {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(uuid())
   name    String @unique
   country String
 
@@ -28,7 +28,7 @@ enum FlightStatus {
 }
 
 model Flight {
-  id                Int      @id @default(autoincrement())
+  id                String   @id @default(uuid())
   flightNumber      Int      @unique
   expectedDeparture DateTime
   expectedArrival   DateTime
@@ -37,7 +37,7 @@ model Flight {
   terminal String
   gate     String
 
-  airlineId Int
+  airlineId String
   airline   Airline @relation(fields: [airlineId], references: [id])
 
   status FlightStatus @default(SCHEDULED)

@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from '@airlineshub/app.controller';
-import { AppService } from '@airlineshub/app.service';
-import { FlightModule } from './flight/flight.module';
-import { PrismaService } from '@airlineshub/prisma.service';
 
 import * as Joi from 'joi';
+
+import { AppController } from '@airlineshub/app.controller';
+import { FlightModule } from '@airlineshub/flight/flight.module';
+import { PrismaService } from '@airlineshub/prisma.service';
+import { AppService } from '@airlineshub/app.service';
+import { AirlinesModule } from '@airlineshub/airlines/airlines.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import * as Joi from 'joi';
       }),
     }),
     FlightModule,
+    AirlinesModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

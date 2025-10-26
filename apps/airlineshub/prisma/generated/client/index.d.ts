@@ -1008,22 +1008,12 @@ export namespace Prisma {
 
   export type AggregateAirline = {
     _count: AirlineCountAggregateOutputType | null
-    _avg: AirlineAvgAggregateOutputType | null
-    _sum: AirlineSumAggregateOutputType | null
     _min: AirlineMinAggregateOutputType | null
     _max: AirlineMaxAggregateOutputType | null
   }
 
-  export type AirlineAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type AirlineSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type AirlineMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     country: string | null
     createdAt: Date | null
@@ -1031,7 +1021,7 @@ export namespace Prisma {
   }
 
   export type AirlineMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     country: string | null
     createdAt: Date | null
@@ -1047,14 +1037,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type AirlineAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type AirlineSumAggregateInputType = {
-    id?: true
-  }
 
   export type AirlineMinAggregateInputType = {
     id?: true
@@ -1119,18 +1101,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: AirlineAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AirlineSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: AirlineMinAggregateInputType
@@ -1161,21 +1131,17 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AirlineCountAggregateInputType | true
-    _avg?: AirlineAvgAggregateInputType
-    _sum?: AirlineSumAggregateInputType
     _min?: AirlineMinAggregateInputType
     _max?: AirlineMaxAggregateInputType
   }
 
   export type AirlineGroupByOutputType = {
-    id: number
+    id: string
     name: string
     country: string
     createdAt: Date
     updatedAt: Date
     _count: AirlineCountAggregateOutputType | null
-    _avg: AirlineAvgAggregateOutputType | null
-    _sum: AirlineSumAggregateOutputType | null
     _min: AirlineMinAggregateOutputType | null
     _max: AirlineMaxAggregateOutputType | null
   }
@@ -1242,7 +1208,7 @@ export namespace Prisma {
       flights: Prisma.$FlightPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       country: string
       createdAt: Date
@@ -1671,7 +1637,7 @@ export namespace Prisma {
    * Fields of the Airline model
    */
   interface AirlineFieldRefs {
-    readonly id: FieldRef<"Airline", 'Int'>
+    readonly id: FieldRef<"Airline", 'String'>
     readonly name: FieldRef<"Airline", 'String'>
     readonly country: FieldRef<"Airline", 'String'>
     readonly createdAt: FieldRef<"Airline", 'DateTime'>
@@ -2119,42 +2085,38 @@ export namespace Prisma {
   }
 
   export type FlightAvgAggregateOutputType = {
-    id: number | null
     flightNumber: number | null
     duration: number | null
-    airlineId: number | null
   }
 
   export type FlightSumAggregateOutputType = {
-    id: number | null
     flightNumber: number | null
     duration: number | null
-    airlineId: number | null
   }
 
   export type FlightMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     flightNumber: number | null
     expectedDeparture: Date | null
     expectedArrival: Date | null
     duration: number | null
     terminal: string | null
     gate: string | null
-    airlineId: number | null
+    airlineId: string | null
     status: $Enums.FlightStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type FlightMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     flightNumber: number | null
     expectedDeparture: Date | null
     expectedArrival: Date | null
     duration: number | null
     terminal: string | null
     gate: string | null
-    airlineId: number | null
+    airlineId: string | null
     status: $Enums.FlightStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2177,17 +2139,13 @@ export namespace Prisma {
 
 
   export type FlightAvgAggregateInputType = {
-    id?: true
     flightNumber?: true
     duration?: true
-    airlineId?: true
   }
 
   export type FlightSumAggregateInputType = {
-    id?: true
     flightNumber?: true
     duration?: true
-    airlineId?: true
   }
 
   export type FlightMinAggregateInputType = {
@@ -2320,14 +2278,14 @@ export namespace Prisma {
   }
 
   export type FlightGroupByOutputType = {
-    id: number
+    id: string
     flightNumber: number
     expectedDeparture: Date
     expectedArrival: Date
     duration: number
     terminal: string
     gate: string
-    airlineId: number
+    airlineId: string
     status: $Enums.FlightStatus
     createdAt: Date
     updatedAt: Date
@@ -2428,14 +2386,14 @@ export namespace Prisma {
       airline: Prisma.$AirlinePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       flightNumber: number
       expectedDeparture: Date
       expectedArrival: Date
       duration: number
       terminal: string
       gate: string
-      airlineId: number
+      airlineId: string
       status: $Enums.FlightStatus
       createdAt: Date
       updatedAt: Date
@@ -2863,14 +2821,14 @@ export namespace Prisma {
    * Fields of the Flight model
    */
   interface FlightFieldRefs {
-    readonly id: FieldRef<"Flight", 'Int'>
+    readonly id: FieldRef<"Flight", 'String'>
     readonly flightNumber: FieldRef<"Flight", 'Int'>
     readonly expectedDeparture: FieldRef<"Flight", 'DateTime'>
     readonly expectedArrival: FieldRef<"Flight", 'DateTime'>
     readonly duration: FieldRef<"Flight", 'Int'>
     readonly terminal: FieldRef<"Flight", 'String'>
     readonly gate: FieldRef<"Flight", 'String'>
-    readonly airlineId: FieldRef<"Flight", 'Int'>
+    readonly airlineId: FieldRef<"Flight", 'String'>
     readonly status: FieldRef<"Flight", 'FlightStatus'>
     readonly createdAt: FieldRef<"Flight", 'DateTime'>
     readonly updatedAt: FieldRef<"Flight", 'DateTime'>
@@ -3352,20 +3310,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'String'
    */
   export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
@@ -3390,6 +3334,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -3428,7 +3386,7 @@ export namespace Prisma {
     AND?: AirlineWhereInput | AirlineWhereInput[]
     OR?: AirlineWhereInput[]
     NOT?: AirlineWhereInput | AirlineWhereInput[]
-    id?: IntFilter<"Airline"> | number
+    id?: StringFilter<"Airline"> | string
     name?: StringFilter<"Airline"> | string
     country?: StringFilter<"Airline"> | string
     createdAt?: DateTimeFilter<"Airline"> | Date | string
@@ -3446,7 +3404,7 @@ export namespace Prisma {
   }
 
   export type AirlineWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     name?: string
     AND?: AirlineWhereInput | AirlineWhereInput[]
     OR?: AirlineWhereInput[]
@@ -3464,17 +3422,15 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AirlineCountOrderByAggregateInput
-    _avg?: AirlineAvgOrderByAggregateInput
     _max?: AirlineMaxOrderByAggregateInput
     _min?: AirlineMinOrderByAggregateInput
-    _sum?: AirlineSumOrderByAggregateInput
   }
 
   export type AirlineScalarWhereWithAggregatesInput = {
     AND?: AirlineScalarWhereWithAggregatesInput | AirlineScalarWhereWithAggregatesInput[]
     OR?: AirlineScalarWhereWithAggregatesInput[]
     NOT?: AirlineScalarWhereWithAggregatesInput | AirlineScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Airline"> | number
+    id?: StringWithAggregatesFilter<"Airline"> | string
     name?: StringWithAggregatesFilter<"Airline"> | string
     country?: StringWithAggregatesFilter<"Airline"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Airline"> | Date | string
@@ -3485,14 +3441,14 @@ export namespace Prisma {
     AND?: FlightWhereInput | FlightWhereInput[]
     OR?: FlightWhereInput[]
     NOT?: FlightWhereInput | FlightWhereInput[]
-    id?: IntFilter<"Flight"> | number
+    id?: StringFilter<"Flight"> | string
     flightNumber?: IntFilter<"Flight"> | number
     expectedDeparture?: DateTimeFilter<"Flight"> | Date | string
     expectedArrival?: DateTimeFilter<"Flight"> | Date | string
     duration?: IntFilter<"Flight"> | number
     terminal?: StringFilter<"Flight"> | string
     gate?: StringFilter<"Flight"> | string
-    airlineId?: IntFilter<"Flight"> | number
+    airlineId?: StringFilter<"Flight"> | string
     status?: EnumFlightStatusFilter<"Flight"> | $Enums.FlightStatus
     createdAt?: DateTimeFilter<"Flight"> | Date | string
     updatedAt?: DateTimeFilter<"Flight"> | Date | string
@@ -3515,7 +3471,7 @@ export namespace Prisma {
   }
 
   export type FlightWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     flightNumber?: number
     AND?: FlightWhereInput | FlightWhereInput[]
     OR?: FlightWhereInput[]
@@ -3525,7 +3481,7 @@ export namespace Prisma {
     duration?: IntFilter<"Flight"> | number
     terminal?: StringFilter<"Flight"> | string
     gate?: StringFilter<"Flight"> | string
-    airlineId?: IntFilter<"Flight"> | number
+    airlineId?: StringFilter<"Flight"> | string
     status?: EnumFlightStatusFilter<"Flight"> | $Enums.FlightStatus
     createdAt?: DateTimeFilter<"Flight"> | Date | string
     updatedAt?: DateTimeFilter<"Flight"> | Date | string
@@ -3555,20 +3511,21 @@ export namespace Prisma {
     AND?: FlightScalarWhereWithAggregatesInput | FlightScalarWhereWithAggregatesInput[]
     OR?: FlightScalarWhereWithAggregatesInput[]
     NOT?: FlightScalarWhereWithAggregatesInput | FlightScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Flight"> | number
+    id?: StringWithAggregatesFilter<"Flight"> | string
     flightNumber?: IntWithAggregatesFilter<"Flight"> | number
     expectedDeparture?: DateTimeWithAggregatesFilter<"Flight"> | Date | string
     expectedArrival?: DateTimeWithAggregatesFilter<"Flight"> | Date | string
     duration?: IntWithAggregatesFilter<"Flight"> | number
     terminal?: StringWithAggregatesFilter<"Flight"> | string
     gate?: StringWithAggregatesFilter<"Flight"> | string
-    airlineId?: IntWithAggregatesFilter<"Flight"> | number
+    airlineId?: StringWithAggregatesFilter<"Flight"> | string
     status?: EnumFlightStatusWithAggregatesFilter<"Flight"> | $Enums.FlightStatus
     createdAt?: DateTimeWithAggregatesFilter<"Flight"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Flight"> | Date | string
   }
 
   export type AirlineCreateInput = {
+    id?: string
     name: string
     country: string
     createdAt?: Date | string
@@ -3577,7 +3534,7 @@ export namespace Prisma {
   }
 
   export type AirlineUncheckedCreateInput = {
-    id?: number
+    id?: string
     name: string
     country: string
     createdAt?: Date | string
@@ -3586,6 +3543,7 @@ export namespace Prisma {
   }
 
   export type AirlineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3594,7 +3552,7 @@ export namespace Prisma {
   }
 
   export type AirlineUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3603,7 +3561,7 @@ export namespace Prisma {
   }
 
   export type AirlineCreateManyInput = {
-    id?: number
+    id?: string
     name: string
     country: string
     createdAt?: Date | string
@@ -3611,6 +3569,7 @@ export namespace Prisma {
   }
 
   export type AirlineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3618,7 +3577,7 @@ export namespace Prisma {
   }
 
   export type AirlineUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3626,6 +3585,7 @@ export namespace Prisma {
   }
 
   export type FlightCreateInput = {
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
@@ -3639,20 +3599,21 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedCreateInput = {
-    id?: number
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
     terminal: string
     gate: string
-    airlineId: number
+    airlineId: string
     status?: $Enums.FlightStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FlightUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3666,34 +3627,35 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
     duration?: IntFieldUpdateOperationsInput | number
     terminal?: StringFieldUpdateOperationsInput | string
     gate?: StringFieldUpdateOperationsInput | string
-    airlineId?: IntFieldUpdateOperationsInput | number
+    airlineId?: StringFieldUpdateOperationsInput | string
     status?: EnumFlightStatusFieldUpdateOperationsInput | $Enums.FlightStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FlightCreateManyInput = {
-    id?: number
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
     terminal: string
     gate: string
-    airlineId: number
+    airlineId: string
     status?: $Enums.FlightStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FlightUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3706,28 +3668,17 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
     duration?: IntFieldUpdateOperationsInput | number
     terminal?: StringFieldUpdateOperationsInput | string
     gate?: StringFieldUpdateOperationsInput | string
-    airlineId?: IntFieldUpdateOperationsInput | number
+    airlineId?: StringFieldUpdateOperationsInput | string
     status?: EnumFlightStatusFieldUpdateOperationsInput | $Enums.FlightStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3774,10 +3725,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type AirlineAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type AirlineMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -3792,26 +3739,6 @@ export namespace Prisma {
     country?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type AirlineSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3846,6 +3773,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumFlightStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FlightStatus | EnumFlightStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
@@ -3873,10 +3811,8 @@ export namespace Prisma {
   }
 
   export type FlightAvgOrderByAggregateInput = {
-    id?: SortOrder
     flightNumber?: SortOrder
     duration?: SortOrder
-    airlineId?: SortOrder
   }
 
   export type FlightMaxOrderByAggregateInput = {
@@ -3908,10 +3844,24 @@ export namespace Prisma {
   }
 
   export type FlightSumOrderByAggregateInput = {
-    id?: SortOrder
     flightNumber?: SortOrder
     duration?: SortOrder
-    airlineId?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumFlightStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -3960,14 +3910,6 @@ export namespace Prisma {
     deleteMany?: FlightScalarWhereInput | FlightScalarWhereInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type FlightUncheckedUpdateManyWithoutAirlineNestedInput = {
     create?: XOR<FlightCreateWithoutAirlineInput, FlightUncheckedCreateWithoutAirlineInput> | FlightCreateWithoutAirlineInput[] | FlightUncheckedCreateWithoutAirlineInput[]
     connectOrCreate?: FlightCreateOrConnectWithoutAirlineInput | FlightCreateOrConnectWithoutAirlineInput[]
@@ -3988,6 +3930,14 @@ export namespace Prisma {
     connect?: AirlineWhereUniqueInput
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumFlightStatusFieldUpdateOperationsInput = {
     set?: $Enums.FlightStatus
   }
@@ -3998,17 +3948,6 @@ export namespace Prisma {
     upsert?: AirlineUpsertWithoutFlightsInput
     connect?: AirlineWhereUniqueInput
     update?: XOR<XOR<AirlineUpdateToOneWithWhereWithoutFlightsInput, AirlineUpdateWithoutFlightsInput>, AirlineUncheckedUpdateWithoutFlightsInput>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -4034,6 +3973,55 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFlightStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FlightStatus | EnumFlightStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFlightStatusFilter<$PrismaModel> | $Enums.FlightStatus
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -4063,44 +4051,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumFlightStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.FlightStatus | EnumFlightStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumFlightStatusFilter<$PrismaModel> | $Enums.FlightStatus
-  }
-
   export type NestedEnumFlightStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.FlightStatus | EnumFlightStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FlightStatus[] | ListEnumFlightStatusFieldRefInput<$PrismaModel>
@@ -4112,6 +4062,7 @@ export namespace Prisma {
   }
 
   export type FlightCreateWithoutAirlineInput = {
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
@@ -4124,7 +4075,7 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedCreateWithoutAirlineInput = {
-    id?: number
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
@@ -4166,20 +4117,21 @@ export namespace Prisma {
     AND?: FlightScalarWhereInput | FlightScalarWhereInput[]
     OR?: FlightScalarWhereInput[]
     NOT?: FlightScalarWhereInput | FlightScalarWhereInput[]
-    id?: IntFilter<"Flight"> | number
+    id?: StringFilter<"Flight"> | string
     flightNumber?: IntFilter<"Flight"> | number
     expectedDeparture?: DateTimeFilter<"Flight"> | Date | string
     expectedArrival?: DateTimeFilter<"Flight"> | Date | string
     duration?: IntFilter<"Flight"> | number
     terminal?: StringFilter<"Flight"> | string
     gate?: StringFilter<"Flight"> | string
-    airlineId?: IntFilter<"Flight"> | number
+    airlineId?: StringFilter<"Flight"> | string
     status?: EnumFlightStatusFilter<"Flight"> | $Enums.FlightStatus
     createdAt?: DateTimeFilter<"Flight"> | Date | string
     updatedAt?: DateTimeFilter<"Flight"> | Date | string
   }
 
   export type AirlineCreateWithoutFlightsInput = {
+    id?: string
     name: string
     country: string
     createdAt?: Date | string
@@ -4187,7 +4139,7 @@ export namespace Prisma {
   }
 
   export type AirlineUncheckedCreateWithoutFlightsInput = {
-    id?: number
+    id?: string
     name: string
     country: string
     createdAt?: Date | string
@@ -4211,6 +4163,7 @@ export namespace Prisma {
   }
 
   export type AirlineUpdateWithoutFlightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4218,7 +4171,7 @@ export namespace Prisma {
   }
 
   export type AirlineUncheckedUpdateWithoutFlightsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4226,7 +4179,7 @@ export namespace Prisma {
   }
 
   export type FlightCreateManyAirlineInput = {
-    id?: number
+    id?: string
     flightNumber: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
@@ -4239,6 +4192,7 @@ export namespace Prisma {
   }
 
   export type FlightUpdateWithoutAirlineInput = {
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4251,7 +4205,7 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedUpdateWithoutAirlineInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4264,7 +4218,7 @@ export namespace Prisma {
   }
 
   export type FlightUncheckedUpdateManyWithoutAirlineInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     flightNumber?: IntFieldUpdateOperationsInput | number
     expectedDeparture?: DateTimeFieldUpdateOperationsInput | Date | string
     expectedArrival?: DateTimeFieldUpdateOperationsInput | Date | string
