@@ -31,7 +31,10 @@ export class PrismaAirlinesRepository implements AirlinesRepository {
     let pagination = {};
 
     if (page && limit) {
-      pagination = (page - 1) * limit;
+      pagination = {
+        skip: (page - 1) * limit,
+        take: limit,
+      };
     }
 
     const airlines = await this.prismaService.airline.findMany({

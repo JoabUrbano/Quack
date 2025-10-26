@@ -20,7 +20,10 @@ export class PrismaFlightsRepository implements FlightsRepository {
     let pagination = {};
 
     if (page && limit) {
-      pagination = (page - 1) * limit;
+      pagination = {
+        skip: (page - 1) * limit,
+        take: limit,
+      };
     }
 
     const flights = await this.prismaService.flight.findMany({
