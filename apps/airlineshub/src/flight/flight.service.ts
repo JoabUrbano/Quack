@@ -4,7 +4,7 @@ import { Injectable } from "@nestjs/common";
 export class FlightService {
     constructor() {}
 
-    getFlightDetails(flight: string, day: string): string {
+    getFlightDetails(flight: number, day: Date): string {
         return `Details for flight ${flight} on ${day}.`;
     }
 }
