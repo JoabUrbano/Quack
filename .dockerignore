@@ -1,6 +1,7 @@
-node_modules
+**/node_modules
+**/dist
+**/prisma/generated
 npm-debug.log
-dist
 .git
 .gitignore
 README.md
