@@ -15,6 +15,7 @@ services:
       - ./:/app
       - /app/node_modules
       - /app/apps/imdtravel/node_modules
+      - /app/apps/imdtravel/prisma/generated
       - ./scripts/init-imdtravel.sh:/app/init-imdtravel.sh
     depends_on:
       postgres:
@@ -39,6 +40,7 @@ services:
       - ./:/app
       - /app/node_modules
       - /app/apps/airlineshub/node_modules
+      - /app/apps/airlineshub/prisma/generated
       - ./scripts/init-airlineshub.sh:/app/init-airlineshub.sh
 
     depends_on:
