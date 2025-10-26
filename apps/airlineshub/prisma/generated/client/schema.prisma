@@ -1,0 +1,47 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated/client"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("AIRLINESHUB_DATABASE_URL")
+}
+
+model Airline {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  country String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  flights   Flight[]
+}
+
+enum FlightStatus {
+  SCHEDULED
+  DEPARTED
+  ARRIVED
+  DELAYED
+  CANCELLED
+}
+
+model Flight {
+  id                Int      @id @default(autoincrement())
+  flightNumber      Int      @unique
+  expectedDeparture DateTime
+  expectedArrival   DateTime
+  duration          Int
+
+  terminal String
+  gate     String
+
+  airlineId Int
+  airline   Airline @relation(fields: [airlineId], references: [id])
+
+  status FlightStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

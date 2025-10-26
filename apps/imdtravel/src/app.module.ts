@@ -12,8 +12,7 @@ import { TicketModule } from './ticket/ticket.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        DATABASE_URL: Joi.string().uri().required(),
-        PORT: Joi.number().default(8080),
+        AIRLINESHUB_DATABASE_URL: Joi.string().uri().required(),
       }),
     }),
     TicketModule,

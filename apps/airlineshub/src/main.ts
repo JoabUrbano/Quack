@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
 import { AppModule } from '@airlineshub/app.module';
+import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,11 +10,17 @@ async function bootstrap() {
 
   const port = configService.get<number>('PORT', 3001);
 
+  
+
   app.enableCors();
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
 
   await app.listen(port);
 }
-void bootstrap().catch((error: unknown) => {
-  console.error('Application failed to start:', error);
-  process.exit(1);
-});
+
+bootstrap();

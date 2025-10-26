@@ -159,16 +159,17 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
+        "fromEnvVar": "IMDTRAVEL_DATABASE_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"debian-openssl-1.1.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  firstName String\n  lastName  String\n  dateBirth DateTime\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "7b88e26328145d1e0757055adc62e5840fa2c186380920d24b230207f7133836",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"debian-openssl-1.1.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"IMDTRAVEL_DATABASE_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  firstName String\n  lastName  String\n  dateBirth DateTime\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "6a2f7bf57900c5b2ed348aea2b68a28386d1693d2b4ddfdbc90a552634af9ae1",
   "copyEngine": true
 }
 config.dirname = '/'
@@ -180,7 +181,7 @@ config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
   parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+    IMDTRAVEL_DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['IMDTRAVEL_DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.IMDTRAVEL_DATABASE_URL || undefined
   }
 })
 
