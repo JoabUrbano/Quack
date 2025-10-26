@@ -6,7 +6,7 @@ import {
   FlightsRepository,
   IFindManyFilter,
 } from '@airlineshub/domains/repositories/tickets.repository';
-import { PrismaService } from '@airlineshub/prisma.service';
+import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 
 import { Injectable } from '@nestjs/common';
 
@@ -17,9 +17,9 @@ export class PrismaFlightsRepository implements FlightsRepository {
   async findMany(input: IFindManyFilter): Promise<FlightEntity[]> {
     const { page, limit } = input;
 
-    let pagination = {}
+    let pagination = {};
 
-    if(page && limit) {
+    if (page && limit) {
       pagination = (page - 1) * limit;
     }
 

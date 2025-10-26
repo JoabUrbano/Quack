@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Query } from '@nestjs/common';
 import { FlightService } from './flight.service';
 import { GetFlightDto } from './dtos/getFlight.sto';
-import { FindManyFlightsUseCase } from '@airlineshub/usecases/findManyFlights.usecase';
+import { FindManyFlightsUseCase } from '@airlineshub/modules/flight/usecases/findManyFlights.usecase';
 
-import { FindManyFlightsDto } from '@airlineshub/flight/dtos/findManyFlights.dto';
+import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFlights.dto';
 
 @Controller('flights')
 export class FlightController {

@@ -1,6 +1,6 @@
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { Injectable } from '@nestjs/common';
-import { FindManyAirlinesDto } from '@airlineshub/airlines/dtos/findManyAirlines.dto';
+import { FindManyAirlinesDto } from '@airlineshub/modules/airlines/dtos/findManyAirlines.dto';
 
 @Injectable()
 export class FindManydAirlinesUseCase {

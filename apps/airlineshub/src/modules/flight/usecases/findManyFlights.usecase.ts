@@ -1,5 +1,5 @@
 import { FlightsRepository } from '@airlineshub/domains/repositories/tickets.repository';
-import { FindManyFlightsDto } from '@airlineshub/flight/dtos/findManyFlights.dto';
+import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFlights.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

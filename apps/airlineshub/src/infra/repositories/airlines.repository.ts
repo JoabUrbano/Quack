@@ -3,9 +3,9 @@ import {
   AirlinesRepository,
   IFindManyFilter,
 } from '@airlineshub/domains/repositories/airlines.repository';
-import { PrismaService } from '@airlineshub/prisma.service';
 
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 
 @Injectable()
 export class PrismaAirlinesRepository implements AirlinesRepository {

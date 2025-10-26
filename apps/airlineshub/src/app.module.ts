@@ -4,10 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
 import { AppController } from '@airlineshub/app.controller';
-import { FlightModule } from '@airlineshub/flight/flight.module';
-import { PrismaService } from '@airlineshub/prisma.service';
+import { FlightModule } from '@airlineshub/modules/flight/flight.module';
+import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 import { AppService } from '@airlineshub/app.service';
-import { AirlinesModule } from '@airlineshub/airlines/airlines.module';
+import { AirlinesModule } from '@airlineshub/modules/airlines/airlines.module';
 
 @Module({
   imports: [
