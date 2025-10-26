@@ -17,10 +17,11 @@ services:
       - /app/node_modules
       - /app/apps/imdtravel/node_modules
       - /app/apps/airlineshub/node_modules
+      - ./scripts/init-imdtravel.sh:/app/init-imdtravel.sh
     depends_on:
       postgres:
         condition: service_healthy
-    command: yarn start:dev imdtravel
+    command: bash /app/init-imdtravel.sh
 
     # AirlinesHub Microservice
   airlineshub:
