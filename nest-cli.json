@@ -18,6 +18,24 @@
         "tsConfigPath": "apps/airlineshub/tsconfig.app.json"
       }
     },
+    "exchange": {
+      "type": "application",
+      "root": "apps/exchange",
+      "entryFile": "main",
+      "sourceRoot": "apps/exchange/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/exchange/tsconfig.app.json"
+      }
+    },
+    "fidelity": {
+      "type": "application",
+      "root": "apps/fidelity",
+      "entryFile": "main",
+      "sourceRoot": "apps/fidelity/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/fidelity/tsconfig.app.json"
+      }
+    },
     "imdtravel": {
       "type": "application",
       "root": "apps/imdtravel",

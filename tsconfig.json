@@ -9,9 +9,15 @@
     "target": "es2017",
     "sourceMap": true,
     "paths": {
-      "@apps/*": ["./apps/*"],
-      "@airlineshub/*": ["./apps/airlineshub/src/*"],
-      "@imdtravel/*": ["./apps/imdtravel/src/*"],
+      "@airlineshub/*": [
+        "./apps/airlineshub/src/*"
+      ],
+      "@apps/*": [
+        "./apps/*"
+      ],
+      "@imdtravel/*": [
+        "./apps/imdtravel/src/*"
+      ]
     },
     "outDir": "./dist",
     "resolveJsonModule": true,
