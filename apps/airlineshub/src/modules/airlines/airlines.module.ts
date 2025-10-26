@@ -4,10 +4,12 @@ import { CreateAirlineUseCase } from '@airlineshub/modules/airlines/usecases/cre
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { PrismaAirlinesRepository } from '@airlineshub/infra/repositories/airlines.repository';
 import { PrismaService } from '@airlineshub/infra/database/prisma.service';
-import { FindManydAirlinesUseCase } from '@airlineshub/modules/flight/usecases/findManyAirlines.usecase';
+import { FindManydAirlinesUseCase } from '@airlineshub/modules/airlines/usecases/findManyAirlines.usecase';
+import { FlightModule } from '@airlineshub/modules/flight/flight.module';
 
 @Module({
   controllers: [AirlinesController],
+  imports: [FlightModule],
   providers: [
     PrismaService,
     CreateAirlineUseCase,

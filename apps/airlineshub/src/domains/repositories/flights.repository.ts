@@ -9,4 +9,6 @@ export interface IFindManyFilter extends IPaginationFilter {}
 
 export abstract class FlightsRepository {
   abstract findMany(input: IFindManyFilter): Promise<FlightEntity[]>;
+
+  abstract save(flight: FlightEntity): Promise<FlightEntity>;
 }

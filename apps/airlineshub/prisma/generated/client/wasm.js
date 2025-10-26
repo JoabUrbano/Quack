@@ -178,7 +178,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -187,8 +186,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"debian-openssl-1.1.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"AIRLINESHUB_DATABASE_URL\")\n}\n\nmodel Airline {\n  id      String @id @default(uuid())\n  name    String @unique\n  country String\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  flights   Flight[]\n}\n\nenum FlightStatus {\n  SCHEDULED\n  DEPARTED\n  ARRIVED\n  DELAYED\n  CANCELLED\n}\n\nmodel Flight {\n  id                String   @id @default(uuid())\n  flightNumber      Int      @unique\n  expectedDeparture DateTime\n  expectedArrival   DateTime\n  duration          Int\n\n  terminal String\n  gate     String\n\n  airlineId String\n  airline   Airline @relation(fields: [airlineId], references: [id])\n\n  status FlightStatus @default(SCHEDULED)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "68fc7347fe94f6d55e2ef7b667407e573f532d28cc2c05006be057ed297e56fb",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"debian-openssl-1.1.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"AIRLINESHUB_DATABASE_URL\")\n}\n\nmodel Airline {\n  id      String @id @default(uuid())\n  name    String @unique\n  country String\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  flights   Flight[]\n}\n\nenum FlightStatus {\n  SCHEDULED\n  DEPARTED\n  ARRIVED\n  DELAYED\n  CANCELLED\n}\n\nmodel Flight {\n  id                String   @id @default(uuid())\n  flightNumber      Int      @default(autoincrement())\n  expectedDeparture DateTime\n  expectedArrival   DateTime\n  duration          Int\n\n  terminal String\n  gate     String\n\n  airlineId String\n  airline   Airline @relation(fields: [airlineId], references: [id])\n\n  status FlightStatus @default(SCHEDULED)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "b9196d89e8a085346f5ef72c951670454168a30370c4084c408d8c05d2cd0498",
   "copyEngine": true
 }
 config.dirname = '/'

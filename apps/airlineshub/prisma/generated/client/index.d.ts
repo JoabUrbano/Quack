@@ -3472,10 +3472,10 @@ export namespace Prisma {
 
   export type FlightWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    flightNumber?: number
     AND?: FlightWhereInput | FlightWhereInput[]
     OR?: FlightWhereInput[]
     NOT?: FlightWhereInput | FlightWhereInput[]
+    flightNumber?: IntFilter<"Flight"> | number
     expectedDeparture?: DateTimeFilter<"Flight"> | Date | string
     expectedArrival?: DateTimeFilter<"Flight"> | Date | string
     duration?: IntFilter<"Flight"> | number
@@ -3486,7 +3486,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Flight"> | Date | string
     updatedAt?: DateTimeFilter<"Flight"> | Date | string
     airline?: XOR<AirlineScalarRelationFilter, AirlineWhereInput>
-  }, "id" | "flightNumber">
+  }, "id">
 
   export type FlightOrderByWithAggregationInput = {
     id?: SortOrder
@@ -3586,7 +3586,7 @@ export namespace Prisma {
 
   export type FlightCreateInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
@@ -3600,7 +3600,7 @@ export namespace Prisma {
 
   export type FlightUncheckedCreateInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
@@ -3642,7 +3642,7 @@ export namespace Prisma {
 
   export type FlightCreateManyInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
@@ -4063,7 +4063,7 @@ export namespace Prisma {
 
   export type FlightCreateWithoutAirlineInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
@@ -4076,7 +4076,7 @@ export namespace Prisma {
 
   export type FlightUncheckedCreateWithoutAirlineInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number
@@ -4180,7 +4180,7 @@ export namespace Prisma {
 
   export type FlightCreateManyAirlineInput = {
     id?: string
-    flightNumber: number
+    flightNumber?: number
     expectedDeparture: Date | string
     expectedArrival: Date | string
     duration: number

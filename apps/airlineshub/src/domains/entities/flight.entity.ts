@@ -7,16 +7,16 @@ export class FlightStatus {
     this.value = value;
   }
 
-  private static SCHEDULE = new FlightStatus('SCHEDULE');
-  private static DEPARTED = new FlightStatus('DEPARTED');
-  private static ARRIVED = new FlightStatus('ARRIVED');
-  private static DELAYED = new FlightStatus('DELAYED');
-  private static CANCELED = new FlightStatus('CANCELED');
+  public static SCHEDULED = new FlightStatus('SCHEDULED');
+  public static DEPARTED = new FlightStatus('DEPARTED');
+  public static ARRIVED = new FlightStatus('ARRIVED');
+  public static DELAYED = new FlightStatus('DELAYED');
+  public static CANCELED = new FlightStatus('CANCELED');
 
   static fromValue(value: string): FlightStatus {
     switch (value) {
-      case 'SCHEDULE':
-        return FlightStatus.SCHEDULE;
+      case 'SCHEDULED':
+        return FlightStatus.SCHEDULED;
       case 'DEPARTED':
         return FlightStatus.DEPARTED;
       case 'ARRIVED':
@@ -41,7 +41,7 @@ export class FlightStatus {
 
 export interface IFlightProps {
   id: string;
-  flightNumber: number;
+  flightNumber?: number;
   expectedDeparture: Date;
   expectedArrival;
   duration: number;
@@ -53,7 +53,7 @@ export interface IFlightProps {
 
 export class FlightEntity {
   public id: string;
-  public flightNumber: number;
+  public flightNumber?: number;
   public expectedDeparture: Date;
   public expectedArrival;
   public duration: number;
@@ -74,8 +74,8 @@ export class FlightEntity {
     this.status = props.status;
   }
 
-  static create(props: IFlightProps) {
-    const id = props.id ?? uuidv4();
+  static create(props: Omit<IFlightProps, 'id' | 'flightNumber'>) {
+    const id = uuidv4();
 
     return new FlightEntity({
       ...props,
