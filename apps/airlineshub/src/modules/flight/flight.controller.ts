@@ -1,18 +1,17 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { FlightService } from './flight.service';
-import { GetFlightDto } from './dtos/getFlight.sto';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { FindManyFlightsUseCase } from '@airlineshub/modules/flight/usecases/findManyFlights.usecase';
 import { CreateFlightUseCase } from '@airlineshub/modules/flight/usecases/createFlight.usecase';
 
 import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFlights.dto';
 import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.dto';
+import { FindFlightByNumberUseCase } from './usecases/getFlightByNumber.usecase';
 
 @Controller('flights')
 export class FlightController {
   constructor(
-    private readonly flightService: FlightService,
     private readonly createFlightUseCase: CreateFlightUseCase,
     private readonly findManyFlightsUseCase: FindManyFlightsUseCase,
+    private readonly findFlightByNumberUseCase: FindFlightByNumberUseCase,
   ) {}
 
   @Post()
@@ -28,8 +27,8 @@ export class FlightController {
     });
   }
 
-  @Get(':id')
-  getFlight(@Body() body: GetFlightDto): string {
-    return this.flightService.getFlightDetails(body.flight, body.day);
+  @Get(':flight')
+  getFlight(@Param('flight') flight: number, @Query('day') day: Date): any {
+    return this.findFlightByNumberUseCase.execute({ flight: flight, day } );
   }
 }

@@ -6,7 +6,6 @@ import { PrismaAirlinesRepository } from '@airlineshub/infra/repositories/airlin
 import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 import { FindManydAirlinesUseCase } from '@airlineshub/modules/airlines/usecases/findManyAirlines.usecase';
 import { FlightModule } from '@airlineshub/modules/flight/flight.module';
-import { FindFlightByIdUseCase } from './usecases/findFlightById.usecase';
 
 @Module({
   controllers: [AirlinesController],
@@ -21,7 +20,6 @@ import { FindFlightByIdUseCase } from './usecases/findFlightById.usecase';
       provide: AirlinesRepository,
       useClass: PrismaAirlinesRepository,
     },
-    FindFlightByIdUseCase,
   ],
 })
 export class AirlinesModule {}
