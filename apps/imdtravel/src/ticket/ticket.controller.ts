@@ -7,7 +7,7 @@ export class TicketController {
     constructor(private readonly ticketService: TicketService) {}
 
     @Post('buyTicket')
-    buyTicket(@Body() buyTicketDto: BuyTicketDto): string {
+    buyTicket(@Body() buyTicketDto: BuyTicketDto): any {
         return this.ticketService.buyTicket(buyTicketDto);
     }
 }

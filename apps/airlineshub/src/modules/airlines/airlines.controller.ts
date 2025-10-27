@@ -3,12 +3,14 @@ import { CreateAirlineDto } from '@airlineshub/modules/airlines/dtos/createAirli
 import { CreateAirlineUseCase } from '@airlineshub/modules/airlines/usecases/creteAirline.usecase';
 import { FindManyAirlinesDto } from '@airlineshub/modules/airlines/dtos/findManyAirlines.dto';
 import { FindManydAirlinesUseCase } from '@airlineshub/modules/airlines/usecases/findManyAirlines.usecase';
+import { FindFlightByIdUseCase } from './usecases/findFlightById.usecase';
 
 @Controller('airlines')
 export class AirlinesController {
   constructor(
     private readonly createAirlineUseCase: CreateAirlineUseCase,
     private readonly findManyAirlinesUseCase: FindManydAirlinesUseCase,
+    private readonly findFlightByIdUseCase: FindFlightByIdUseCase,
   ) {}
 
   @Post()
@@ -21,8 +23,8 @@ export class AirlinesController {
     return this.findManyAirlinesUseCase.execute(findManyAirlinesDto);
   }
 
-    @Get('flight/:flightId')
-    findFlight(@Param('flightId') flightId: number, @Query('day') day: Date) {
-      return { flightId: flightId, day: day, value: 1000 };
-    }
+  @Get('flight/:flightId')
+  findFlight(@Param('flightId') flightId: number, @Query('day') day: Date) {
+    return this.findFlightByIdUseCase.execute(flightId, day);
   }
+}

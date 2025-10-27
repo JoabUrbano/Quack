@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsDateString, IsIn, IsInt, IsUUID } from 'class-validator';
+import { IsDate, IsInt } from 'class-validator';
 
 export class BuyTicketDto {
   @IsInt()
