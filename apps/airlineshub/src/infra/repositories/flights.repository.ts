@@ -95,4 +95,38 @@ export class PrismaFlightsRepository implements FlightsRepository {
         }),
     );
   }
+
+  async findByFlightNumber(number: number): Promise<FlightEntity | null> {
+    const flight = await this.prismaService.flight.findUnique({
+      where: { flightNumber: number},
+      select: {
+        id: true,
+        flightNumber: true,
+        expectedDeparture: true,
+        expectedArrival: true,
+        duration: true,
+        terminal: true,
+        gate: true,
+        airlineId: true,
+        status: true,
+      },
+      
+    });
+
+    if (!flight) {
+      return null
+    }
+
+    return new FlightEntity({
+      id: flight.id,
+      flightNumber: flight.flightNumber,
+      expectedDeparture: flight.expectedDeparture,
+      expectedArrival: flight.expectedArrival,
+      duration: flight.duration,
+      terminal: flight.terminal,
+      gate: flight.gate,
+      airlineId: flight.airlineId,
+      status: FlightStatus.fromValue(flight.status),
+    });
+  }
 }

@@ -29,7 +29,7 @@ enum FlightStatus {
 
 model Flight {
   id                String   @id @default(uuid())
-  flightNumber      Int      @default(autoincrement())
+  flightNumber      Int      @default(autoincrement()) @unique
   expectedDeparture DateTime
   expectedArrival   DateTime
   duration          Int

@@ -11,4 +11,6 @@ export abstract class FlightsRepository {
   abstract findMany(input: IFindManyFilter): Promise<FlightEntity[]>;
 
   abstract save(flight: FlightEntity): Promise<FlightEntity>;
+
+  abstract findByFlightNumber(number: number): Promise<FlightEntity | null>
 }
