@@ -9,7 +9,9 @@ import { FlightModule } from '@airlineshub/modules/flight/flight.module';
 
 @Module({
   controllers: [AirlinesController],
-  imports: [FlightModule],
+  imports: [
+    FlightModule,
+  ],
   providers: [
     PrismaService,
     CreateAirlineUseCase,

@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { SharedService } from './shared.service';
+import { AirlineHubGateway } from './airlineshub.gateway';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  providers: [SharedService],
-  exports: [SharedService],
+  imports: [HttpModule],
+  providers: [AirlineHubGateway],
+  exports: [AirlineHubGateway],
 })
 export class SharedModule {}

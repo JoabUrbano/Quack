@@ -1,11 +1,11 @@
-import { SharedService } from '@app/shared/shared.service';
+import { AirlineHubGateway } from '@app/shared/airlineshub.gateway';
 import { Injectable } from '@nestjs/common';
   
 @Injectable()
 export class AppService {
-  constructor(private readonly sharedService: SharedService) {}
+  constructor(private readonly airlineHubGateway: AirlineHubGateway) {}
 
   async getHello(): Promise<string> {
-    return this.sharedService.getHello();
+    return this.airlineHubGateway.getHello();
   }
 }

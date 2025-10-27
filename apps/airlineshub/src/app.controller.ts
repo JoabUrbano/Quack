@@ -6,9 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    this.appService.getHello();
-
-    return 'Welcome to AirlinesHub API!';
+  getHello(): any {
+    return this.appService.getHello();
   }
 }
