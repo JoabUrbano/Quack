@@ -5,6 +5,8 @@ import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.r
 import { PrismaAirlinesRepository } from '@airlineshub/infra/repositories/airlines.repository';
 import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 import { FindManydAirlinesUseCase } from '@airlineshub/modules/airlines/usecases/findManyAirlines.usecase';
+import { FindOneAirlineUseCase } from '@airlineshub/modules/airlines/usecases/findOneAirline.usecase';
+import { DeleteOneAirlineUseCase } from '@airlineshub/modules/airlines/usecases/deleteOneAirline.usecase';
 import { FlightModule } from '@airlineshub/modules/flight/flight.module';
 
 @Module({
@@ -16,6 +18,8 @@ import { FlightModule } from '@airlineshub/modules/flight/flight.module';
     PrismaService,
     CreateAirlineUseCase,
     FindManydAirlinesUseCase,
+    FindOneAirlineUseCase,
+    DeleteOneAirlineUseCase,
     {
       provide: AirlinesRepository,
       useClass: PrismaAirlinesRepository,
