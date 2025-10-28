@@ -30,7 +30,38 @@ export class PrismaAirlinesRepository implements AirlinesRepository {
       name: airline.name,
     });
   }
+  
+  async update(id: string, data: Partial<AirlineEntity>): Promise<AirlineEntity>{
+  	const oldAirline = await this.findById(id);
+  	if(!oldAirline){
+  	    throw null;
+  	    
+  	}
+  	
+    const newAirline = await this.prismaService.airline.update({
+      where: { id },
+      data: {
+      	name: data.name ?? oldAirline.name,
+      	country : data.country ?? oldAirline.country,
+      },
+      select: {
+        id: true,
+        country: true,
+        name: true,
+      },
+    });
+    
+    return new AirlineEntity(newAirline);
 
+  }
+  
+
+  async delete(id: string): Promise<void> {
+  	await this.prismaService.airline.delete({	
+  		where: { id },
+  	});
+  }
+  
   async save(airline: AirlineEntity): Promise<void> {
     await this.prismaService.airline.upsert({
       where: { id: airline.id },
