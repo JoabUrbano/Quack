@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AirlineHubGateway {
@@ -10,7 +10,8 @@ export class AirlineHubGateway {
         return 'Hello from AirlineHub Gateway!';
     }
     async getFlight(flight: number, day: Date): Promise<any> {
-        const response = this.httpService.get(`http://localhost:3001/flights/${flight}?day=${day}`);
+        console.log(process.env.AIRLINESHUB_URL)
+        const response = this.httpService.get(`${process.env.AIRLINESHUB_URL}/flights/${flight}?day=${day}`);
         const res = await lastValueFrom(response);
         return res.data;
     }
