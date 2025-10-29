@@ -8,14 +8,12 @@ RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 
 # Copy the monorepo files into the container
 COPY package.json yarn.lock ./
-COPY apps ./apps
 COPY tsconfig.json nest-cli.json ./
 
 # Install dependencies for all workspaces
 RUN yarn install --no-frozen-lockfile
 
-# Back to root
-WORKDIR /app
+COPY apps ./apps
 
 # Expose ports for both microservices
 EXPOSE 3000 3001
