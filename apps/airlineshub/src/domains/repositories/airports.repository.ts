@@ -1,11 +1,13 @@
 import { AirportEntity } from '@airlineshub/domains/entities/airport.entity';
 
 export interface IPaginationFilter {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
-export interface IFindManyFilter extends IPaginationFilter {}
+export interface IFindManyFilter extends IPaginationFilter {
+  ids?: string[];
+}
 
 export abstract class AirportsRepository {
   abstract findMany(input: IFindManyFilter): Promise<AirportEntity[]>;
@@ -13,8 +15,8 @@ export abstract class AirportsRepository {
   abstract findOneById(id: string): Promise<AirportEntity | null>;
 
   abstract findOneByIata(iata: string): Promise<AirportEntity | null>;
-  
+
   abstract delete(id: string): Promise<void>;
-  
+
   abstract save(airport: AirportEntity): Promise<void>;
 }

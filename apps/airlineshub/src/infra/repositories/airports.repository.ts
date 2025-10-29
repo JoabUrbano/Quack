@@ -98,8 +98,21 @@ export class PrismaAirportsRepository implements AirportsRepository {
       };
     }
 
+    let filter = {};
+
+    if (input.ids) {
+      filter = {
+        id: {
+          in: input.ids,
+        },
+      };
+    }
+
     const airports = await this.prismaService.aiport.findMany({
       ...pagination,
+      where: {
+        ...filter,
+      },
       select: {
         id: true,
         name: true,

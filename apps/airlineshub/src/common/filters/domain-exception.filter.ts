@@ -10,6 +10,7 @@ import {
   DomainValidationException,
 } from '@airlineshub/domains/exceptions';
 
+// TODO: Colocar na lib shared
 @Catch(BaseDomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
   catch(exception: BaseDomainException, host: ArgumentsHost) {
