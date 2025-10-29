@@ -30,7 +30,13 @@ export class PrismaAirlinesRepository implements AirlinesRepository {
       name: airline.name,
     });
   }
-
+  
+  async delete(id: string): Promise<void> {
+  	await this.prismaService.airline.delete({	
+  		where: { id },
+  	});
+  }
+  
   async save(airline: AirlineEntity): Promise<void> {
     await this.prismaService.airline.upsert({
       where: { id: airline.id },
