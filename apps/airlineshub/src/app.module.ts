@@ -8,6 +8,7 @@ import { FlightModule } from '@airlineshub/modules/flight/flight.module';
 import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 import { AppService } from '@airlineshub/app.service';
 import { AirlinesModule } from '@airlineshub/modules/airlines/airlines.module';
+import { AirplanesModule } from '@airlineshub/modules/airplanes/airplanes.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { SharedModule } from '@app/shared/shared.module';
     }),
     FlightModule,
     AirlinesModule,
+    AirplanesModule,
     SharedModule,
   ],
   controllers: [AppController],

@@ -10,7 +10,7 @@ import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 @Injectable()
 export class PrismaAirlinesRepository implements AirlinesRepository {
   constructor(private readonly prismaService: PrismaService) {}
-  async findById(id: string): Promise<AirlineEntity | null> {
+  async findOneById(id: string): Promise<AirlineEntity | null> {
     const airline = await this.prismaService.airline.findUnique({
       where: { id },
       select: {

@@ -1,7 +1,16 @@
-import { IsString, IsNumber, IsDate, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsDate,
+  IsOptional,
+  IsUUID,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateFlightDto {
+  @IsUUID()
+  airplaneId: string;
+
   @IsDate()
   @Type(() => Date)
   expectedDeparture: Date;
@@ -19,7 +28,7 @@ export class CreateFlightDto {
   @IsString()
   gate: string;
 
-  @IsString()
+  @IsUUID()
   airlineId: string;
 
   @IsOptional()

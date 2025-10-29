@@ -41,9 +41,10 @@ export class FlightStatus {
 
 export interface IFlightProps {
   id: string;
+  airplaneId: string;
   flightNumber?: number;
   expectedDeparture: Date;
-  expectedArrival;
+  expectedArrival: Date;
   duration: number;
   terminal: string;
   gate: string;
@@ -53,6 +54,7 @@ export interface IFlightProps {
 
 export class FlightEntity {
   public id: string;
+  public airplaneId: string;
   public flightNumber?: number;
   public expectedDeparture: Date;
   public expectedArrival;
@@ -64,6 +66,7 @@ export class FlightEntity {
 
   constructor(props: IFlightProps) {
     this.id = props.id;
+    this.airplaneId = props.airplaneId;
     this.flightNumber = props.flightNumber;
     this.expectedDeparture = props.expectedDeparture;
     this.expectedArrival = props.expectedArrival;
@@ -98,6 +101,7 @@ export class FlightEntity {
   raw() {
     return {
       id: this.id,
+      airplaneId: this.airplaneId,
       flightNumber: this.flightNumber,
       expectedDeparture: this.expectedDeparture,
       expectedArrival: this.expectedArrival,
@@ -107,5 +111,19 @@ export class FlightEntity {
       airlineId: this.airlineId,
       status: this.status.value,
     };
+  }
+
+  static dummy() {
+    return new FlightEntity({
+      id: 'dummy-id',
+      airplaneId: 'dummy-airplane-id',
+      expectedDeparture: new Date(),
+      expectedArrival: new Date(),
+      duration: 120,
+      terminal: 'A',
+      gate: '1',
+      airlineId: 'dummy-airline-id',
+      status: FlightStatus.SCHEDULED,
+    });
   }
 }
