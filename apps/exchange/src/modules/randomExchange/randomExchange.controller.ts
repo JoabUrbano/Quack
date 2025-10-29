@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Query } from '@nestjs/common';
 import { GetRandomNumberExchange } from './usecases/getRandomNumberExchange.usecase';
 import { RandomNumbersDto } from './dtos/randomNumbers.dto';
 
@@ -8,8 +8,8 @@ export class RandomExchangeController {
     private readonly getRandomNumberExchange: GetRandomNumberExchange,
   ) {}
 
-  @Get('exchange')
-  getRandomExchangeDolar(@Body() numbersDto: RandomNumbersDto) {
+  @Get('convert')
+  getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
     const number = this.getRandomNumberExchange.execute(
       +numbersDto.min,
       +numbersDto.max,
