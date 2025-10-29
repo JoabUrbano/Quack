@@ -7,7 +7,7 @@ export class UpdateOneAirlineUseCase {
   constructor(private readonly airlinesRepository: AirlinesRepository) {}
 
   async execute(id: string, inputAirline: UpdateOneAirlineDto) {
-    const airline = await this.airlinesRepository.findById(id);
+    const airline = await this.airlinesRepository.findOneById(id);
 
     if (!airline) {
       throw new NotFoundException('Airline not found');

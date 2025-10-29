@@ -1,4 +1,5 @@
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
+
 import { CreateAirlineDto } from '@airlineshub/modules/airlines/dtos/createAirline.dto';
 import { Injectable } from '@nestjs/common';
 import { AirlineEntity } from '@airlineshub/domains/entities/airline.entity';
@@ -12,6 +13,7 @@ export class CreateAirlineUseCase {
       name: input.name,
       country: input.country,
     });
+
 
     await this.airlinesRepository.save(airline);
 

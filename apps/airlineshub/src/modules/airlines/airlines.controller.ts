@@ -9,10 +9,10 @@ import {
   Patch,
 } from '@nestjs/common';
 import { CreateAirlineDto } from '@airlineshub/modules/airlines/dtos/createAirline.dto';
-import { CreateAirlineUseCase } from '@airlineshub/modules/airlines/usecases/creteAirline.usecase';
+import { CreateAirlineUseCase } from '@airlineshub/modules/airlines/usecases/createAirline.usecase';
 import { FindManyAirlinesDto } from '@airlineshub/modules/airlines/dtos/findManyAirlines.dto';
 import { FindManydAirlinesUseCase } from '@airlineshub/modules/airlines/usecases/findManyAirlines.usecase';
-import { FindOneAirlineUseCase } from '@airlineshub/modules/airlines/usecases/findOneAirline.usecase';
+import { FindOneAirlineByIdUseCase } from '@airlineshub/modules/airlines/usecases/findOneAirlineById.usecase';
 import { DeleteOneAirlineUseCase } from '@airlineshub/modules/airlines/usecases/deleteOneAirline.usecase';
 import { UpdateOneAirlineUseCase } from '@airlineshub/modules/airlines/usecases/updateOneAirline.usecase';
 import { UpdateOneAirlineDto } from '@airlineshub/modules/airlines/dtos/updateOneAirline.dto';
@@ -23,7 +23,7 @@ export class AirlinesController {
   constructor(
     private readonly createAirlineUseCase: CreateAirlineUseCase,
     private readonly findManyAirlinesUseCase: FindManydAirlinesUseCase,
-    private readonly findOneAirlineUseCase: FindOneAirlineUseCase,
+    private readonly FindOneAirlineByIdUseCase: FindOneAirlineByIdUseCase,
     private readonly deleteOneAirlineUseCase: DeleteOneAirlineUseCase,
     private readonly updateOneAirlineUseCase: UpdateOneAirlineUseCase,
   ) {}
@@ -39,7 +39,7 @@ export class AirlinesController {
   }
   @Get(':id')
   findOneAirline(@Param('id') id: string) {
-    return this.findOneAirlineUseCase.execute(id);
+    return this.FindOneAirlineByIdUseCase.execute(id);
   }
   @Delete(':id')
   deleteAirline(@Param('id') id: string) {

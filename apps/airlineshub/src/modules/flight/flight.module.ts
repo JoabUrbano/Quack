@@ -8,6 +8,8 @@ import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { PrismaAirlinesRepository } from '@airlineshub/infra/repositories/airlines.repository';
 import { FindFlightByNumberUseCase } from './usecases/getFlightByNumber.usecase';
+import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes.repository';
+import { PrismaAirplanesRepository } from '@airlineshub/infra/repositories/airplanes.repository';
 
 @Module({
   imports: [],
@@ -24,6 +26,10 @@ import { FindFlightByNumberUseCase } from './usecases/getFlightByNumber.usecase'
     {
       provide: AirlinesRepository,
       useClass: PrismaAirlinesRepository,
+    },
+    {
+      provide: AirplanesRepository,
+      useClass: PrismaAirplanesRepository,
     },
   ],
 })

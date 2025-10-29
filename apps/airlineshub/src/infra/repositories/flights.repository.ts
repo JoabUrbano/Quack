@@ -19,6 +19,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       where: { id: flight.id },
       update: {
         flightNumber: flight.flightNumber,
+        airplaneId: flight.airplaneId,
         expectedDeparture: flight.expectedDeparture,
         expectedArrival: flight.expectedArrival,
         duration: flight.duration,
@@ -29,6 +30,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       },
       create: {
         id: flight.id,
+        airplaneId: flight.airplaneId,
         flightNumber: flight.flightNumber,
         expectedDeparture: flight.expectedDeparture,
         expectedArrival: flight.expectedArrival,
@@ -42,6 +44,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
 
     return new FlightEntity({
       id: savedFlight.id,
+      airplaneId: savedFlight.airplaneId,
       flightNumber: savedFlight.flightNumber,
       expectedDeparture: savedFlight.expectedDeparture,
       expectedArrival: savedFlight.expectedArrival,
@@ -69,6 +72,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       ...pagination,
       select: {
         id: true,
+        airplaneId: true,
         flightNumber: true,
         expectedDeparture: true,
         expectedArrival: true,
@@ -84,6 +88,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       (flight) =>
         new FlightEntity({
           id: flight.id,
+          airplaneId: flight.airplaneId,
           flightNumber: flight.flightNumber,
           expectedDeparture: flight.expectedDeparture,
           expectedArrival: flight.expectedArrival,
@@ -98,9 +103,10 @@ export class PrismaFlightsRepository implements FlightsRepository {
 
   async findByFlightNumber(number: number): Promise<FlightEntity | null> {
     const flight = await this.prismaService.flight.findUnique({
-      where: { flightNumber: number},
+      where: { flightNumber: number },
       select: {
         id: true,
+        airplaneId: true,
         flightNumber: true,
         expectedDeparture: true,
         expectedArrival: true,
@@ -110,15 +116,15 @@ export class PrismaFlightsRepository implements FlightsRepository {
         airlineId: true,
         status: true,
       },
-      
     });
 
     if (!flight) {
-      return null
+      return null;
     }
 
     return new FlightEntity({
       id: flight.id,
+      airplaneId: flight.airplaneId,
       flightNumber: flight.flightNumber,
       expectedDeparture: flight.expectedDeparture,
       expectedArrival: flight.expectedArrival,
