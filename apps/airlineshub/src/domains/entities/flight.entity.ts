@@ -47,6 +47,8 @@ export interface IFlightProps {
   expectedDeparture: Date;
   expectedArrival: Date;
   duration: number;
+  departureAirportId: string;
+  arrivalAirportId: string;
   terminal: string;
   gate: string;
   airlineId: string;
@@ -59,6 +61,8 @@ export class FlightEntity extends Entity {
   public expectedDeparture: Date;
   public expectedArrival: Date;
   public duration: number;
+  public departureAirportId: string;
+  public arrivalAirportId: string;
   public terminal: string;
   public gate: string;
   public airlineId: string;
@@ -72,6 +76,8 @@ export class FlightEntity extends Entity {
     this.expectedDeparture = props.expectedDeparture;
     this.expectedArrival = props.expectedArrival;
     this.duration = props.duration;
+    this.departureAirportId = props.departureAirportId;
+    this.arrivalAirportId = props.arrivalAirportId;
     this.terminal = props.terminal;
     this.gate = props.gate;
     this.airlineId = props.airlineId;
@@ -95,6 +101,8 @@ export class FlightEntity extends Entity {
       expectedDeparture: this.expectedDeparture,
       expectedArrival: this.expectedArrival,
       duration: this.duration,
+      departureAirportId: this.departureAirportId,
+      arrivalAirportId: this.arrivalAirportId,
       terminal: this.terminal,
       gate: this.gate,
       airlineId: this.airlineId,
@@ -109,6 +117,8 @@ export class FlightEntity extends Entity {
       expectedDeparture: new Date(),
       expectedArrival: new Date(),
       duration: 120,
+      departureAirportId: 'dummy-departure-airport-id',
+      arrivalAirportId: 'dummy-arrival-airport-id',
       terminal: 'A',
       gate: '1',
       airlineId: 'dummy-airline-id',

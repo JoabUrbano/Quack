@@ -7,6 +7,7 @@ import {
 } from '@airlineshub/domains/entities/flight.entity';
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes.repository';
+import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
 
 @Injectable()
 export class CreateFlightUseCase {
@@ -14,6 +15,7 @@ export class CreateFlightUseCase {
     private readonly flightsRepository: FlightsRepository,
     private readonly airlinesRepository: AirlinesRepository,
     private readonly airplanesRepository: AirplanesRepository,
+    private readonly airportsRepository: AirportsRepository,
   ) {}
 
   async execute(input: CreateFlightDto) {
@@ -31,11 +33,29 @@ export class CreateFlightUseCase {
       throw new NotFoundException('Airplane not found');
     }
 
+    const departureAirport = await this.airportsRepository.findOneById(
+      input.departureAirportId,
+    );
+
+    if (!departureAirport) {
+      throw new NotFoundException('Departure airport not found');
+    }
+
+    const arrivalAirport = await this.airportsRepository.findOneById(
+      input.arrivalAirportId,
+    );
+
+    if (!arrivalAirport) {
+      throw new NotFoundException('Arrival airport not found');
+    }
+
     const flight = FlightEntity.create({
       airplaneId: airplane.id,
       expectedDeparture: input.expectedDeparture,
       expectedArrival: input.expectedArrival,
       duration: input.duration,
+      departureAirportId: input.departureAirportId,
+      arrivalAirportId: input.arrivalAirportId,
       terminal: input.terminal,
       gate: input.gate,
       airlineId: input.airlineId,

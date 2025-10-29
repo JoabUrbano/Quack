@@ -22,6 +22,12 @@ export class CreateFlightDto {
   @IsNumber()
   duration: number;
 
+  @IsUUID()
+  departureAirportId: string;
+
+  @IsUUID()
+  arrivalAirportId: string;
+
   @IsString()
   terminal: string;
 

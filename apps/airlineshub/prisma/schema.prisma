@@ -27,6 +27,20 @@ enum FlightStatus {
   CANCELLED
 }
 
+model Aiport {
+  id      String @id @default(uuid())
+  name    String
+  city    String
+  country String
+  iata    String @unique
+
+  departureFlights Flight[] @relation("DepartureAirport")
+  arrivalFlights   Flight[] @relation("ArrivalAirport")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Airplane {
   id       String @id @default(uuid())
   model    String
@@ -46,6 +60,12 @@ model Flight {
   expectedDeparture DateTime
   expectedArrival   DateTime
   duration          Int
+
+  departureAirportId String
+  departureAirport   Aiport @relation("DepartureAirport", fields: [departureAirportId], references: [id])
+
+  arrivalAirportId String
+  arrivalAirport   Aiport @relation("ArrivalAirport", fields: [arrivalAirportId], references: [id])
 
   terminal String
   gate     String
