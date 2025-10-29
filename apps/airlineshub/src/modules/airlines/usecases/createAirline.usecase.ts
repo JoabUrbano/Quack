@@ -14,6 +14,7 @@ export class CreateAirlineUseCase {
       country: input.country,
     });
 
+
     await this.airlinesRepository.save(airline);
 
     return airline.raw();

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Entity } from '@airlineshub/domains/entities/entity';
 
 export interface IAirplaneProps {
   id: string;
@@ -6,16 +7,17 @@ export interface IAirplaneProps {
   capacity: number;
 }
 
-export class AirplaneEntity {
+export class AirplaneEntity extends Entity {
+  public model: string;
+  public capacity: number;
+
   constructor(props: IAirplaneProps) {
-    this.id = props.id;
+    super();
+
+    this._id = props.id;
     this.model = props.model;
     this.capacity = props.capacity;
   }
-
-  public id: string;
-  public model: string;
-  public capacity: number;
 
   static create(props: Omit<IAirplaneProps, 'id'>) {
     const id = uuidv4();
@@ -26,23 +28,19 @@ export class AirplaneEntity {
     });
   }
 
-  equals(other: unknown): boolean {
-    if (!(other instanceof AirplaneEntity)) {
-      return false;
-    }
-
-    if (other === this) {
-      return true;
-    }
-
-    return this.id === other.id;
-  }
-
   raw() {
     return {
       id: this.id,
       model: this.model,
       capacity: this.capacity,
     };
+  }
+
+  static dummy() {
+    return new AirplaneEntity({
+      id: 'dummy-id',
+      model: 'Dummy Model',
+      capacity: 100,
+    });
   }
 }

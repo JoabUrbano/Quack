@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Entity } from '@airlineshub/domains/entities/entity';
 
 export class FlightStatus {
   public value: string;
@@ -52,20 +53,20 @@ export interface IFlightProps {
   status: FlightStatus;
 }
 
-export class FlightEntity {
-  public id: string;
-  public airplaneId: string;
-  public flightNumber?: number;
-  public expectedDeparture: Date;
-  public expectedArrival;
-  public duration: number;
-  public terminal: string;
-  public gate: string;
-  public airlineId: string;
-  public status: FlightStatus;
+export class FlightEntity extends Entity {
+  private airplaneId: string;
+  private flightNumber?: number;
+  private expectedDeparture: Date;
+  private expectedArrival: Date;
+  private duration: number;
+  private terminal: string;
+  private gate: string;
+  private airlineId: string;
+  private status: FlightStatus;
 
   constructor(props: IFlightProps) {
-    this.id = props.id;
+    super();
+    this._id = props.id;
     this.airplaneId = props.airplaneId;
     this.flightNumber = props.flightNumber;
     this.expectedDeparture = props.expectedDeparture;
@@ -84,18 +85,6 @@ export class FlightEntity {
       ...props,
       id,
     });
-  }
-
-  equals(other: unknown): boolean {
-    if (!(other instanceof FlightEntity)) {
-      return false;
-    }
-
-    if (other === this) {
-      return true;
-    }
-
-    return this.id === other.id;
   }
 
   raw() {
