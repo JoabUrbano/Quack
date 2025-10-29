@@ -102,6 +102,9 @@ export class PrismaFlightsRepository implements FlightsRepository {
   }
 
   async findByFlightNumber(number: number): Promise<FlightEntity | null> {
+    console.log('--------------------------------------------------')
+    console.log(number)
+    console.log('--------------------------------------------------')
     const flight = await this.prismaService.flight.findUnique({
       where: { flightNumber: number },
       select: {

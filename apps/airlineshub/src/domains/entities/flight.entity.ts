@@ -54,15 +54,15 @@ export interface IFlightProps {
 }
 
 export class FlightEntity extends Entity {
-  private airplaneId: string;
-  private flightNumber?: number;
-  private expectedDeparture: Date;
-  private expectedArrival: Date;
-  private duration: number;
-  private terminal: string;
-  private gate: string;
-  private airlineId: string;
-  private status: FlightStatus;
+  public airplaneId: string;
+  public flightNumber?: number;
+  public expectedDeparture: Date;
+  public expectedArrival: Date;
+  public duration: number;
+  public terminal: string;
+  public gate: string;
+  public airlineId: string;
+  public status: FlightStatus;
 
   constructor(props: IFlightProps) {
     super();

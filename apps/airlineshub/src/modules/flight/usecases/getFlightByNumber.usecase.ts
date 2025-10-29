@@ -5,9 +5,10 @@ import { FlightsRepository } from "@airlineshub/domains/repositories/flights.rep
 @Injectable()
 export class FindFlightByNumberUseCase {
   constructor( private readonly flightRepository: FlightsRepository ) {}
-  execute(params: GetFlightDto): any {
+  
+  async execute(params: GetFlightDto) {
     const { flight, day } = params;
-    const response = this.flightRepository.findByFlightNumber(flight)
-    return response;
+    const flightReturn = await this.flightRepository.findByFlightNumber(flight)
+    return flightReturn.raw();
   }
 }

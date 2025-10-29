@@ -27,8 +27,8 @@ export class FlightController {
     });
   }
 
-  @Get(':flight')
-  getFlight(@Param('flight') flight: number, @Query('day') day: Date): any {
+  @Get('flight')
+  getFlight(@Query('flight') flight: number, @Query('day') day: Date): any {
     return this.findFlightByNumberUseCase.execute({ flight: +flight, day: day } );
   }
 }
