@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { FindManyFlightsUseCase } from '@airlineshub/modules/flight/usecases/findManyFlights.usecase';
 import { CreateFlightUseCase } from '@airlineshub/modules/flight/usecases/createFlight.usecase';
 
@@ -6,6 +7,7 @@ import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFli
 import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.dto';
 import { FindFlightByNumberUseCase } from './usecases/getFlightByNumber.usecase';
 
+@ApiTags('Flights')
 @Controller('flights')
 export class FlightController {
   constructor(
@@ -14,11 +16,15 @@ export class FlightController {
     private readonly findFlightByNumberUseCase: FindFlightByNumberUseCase,
   ) {}
 
+  @ApiOperation({ summary: 'Create a new flight' })
+  @ApiResponse({ status: 201, description: 'Flight created successfully' })
   @Post()
   createFlight(@Body() createFlightDto: CreateFlightDto) {
     return this.createFlightUseCase.execute(createFlightDto);
   }
 
+  @ApiOperation({ summary: 'Get all flights' })
+  @ApiResponse({ status: 200, description: 'List of flights returned' })
   @Get()
   findManyFlights(@Query() findManyFlightsDto: FindManyFlightsDto) {
     return this.findManyFlightsUseCase.execute({
@@ -27,6 +33,9 @@ export class FlightController {
     });
   }
 
+  @ApiOperation({ summary: 'Get flight by number and day' })
+  @ApiResponse({ status: 200, description: 'Flight found' })
+  @ApiResponse({ status: 404, description: 'Flight not found' })
   @Get('flight')
   getFlight(@Query('flight') flight: number, @Query('day') day: Date) {
     return this.findFlightByNumberUseCase.execute({

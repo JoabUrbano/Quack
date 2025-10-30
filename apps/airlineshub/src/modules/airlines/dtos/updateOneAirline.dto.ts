@@ -1,5 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { CreateAirlineDto } from './createAirline.dto';
-import { IsString } from 'class-validator';
 
-export class UpdateOneAirlineDto extends PartialType(CreateAirlineDto){}
+export class UpdateOneAirlineDto extends PartialType(CreateAirlineDto) {}
