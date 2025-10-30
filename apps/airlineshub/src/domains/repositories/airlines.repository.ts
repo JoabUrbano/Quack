@@ -13,6 +13,8 @@ export abstract class AirlinesRepository {
   abstract findMany(input: IFindManyFilter): Promise<AirlineEntity[]>;
 
   abstract findOneById(id: string): Promise<AirlineEntity | null>;
+
+  abstract findOneByName(name: string): Promise<AirlineEntity | null>;
   
   abstract delete(id: string): Promise<void>;
   
