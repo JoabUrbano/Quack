@@ -1,20 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { GetFlightDto } from '../dtos/getFlight.dto';
+import { FlightDto, GetFlightDto } from '@airlineshub/modules/flight/dtos';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes.repository';
 import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
+import { FlightDetailMapper } from '@airlineshub/modules/flight/usecases/mappers';
 
 @Injectable()
 export class FindFlightByNumberUseCase {
   constructor(
     private flightRepository: FlightsRepository,
-    private airplaneRepository: AirplanesRepository,
-    private airportRepository: AirportsRepository,
-    private airlineRepository: AirlinesRepository,
+    private airplanesRepository: AirplanesRepository,
+    private airportsRepository: AirportsRepository,
+    private airlinesRepository: AirlinesRepository,
   ) {}
 
-  async execute(params: GetFlightDto) {
+  async execute(params: GetFlightDto): Promise<FlightDto> {
     const { flight: flightNumber, day } = params;
 
     const flight = await this.flightRepository.findByFlightNumber(flightNumber);
@@ -23,10 +24,10 @@ export class FindFlightByNumberUseCase {
       throw new NotFoundException('Flight not found');
     }
 
-    const [airplane, airline, airports] = await Promise.all([
-      this.airlineRepository.findOneById(flight.airlineId),
-      this.airplaneRepository.findOneById(flight.airplaneId),
-      this.airportRepository.findMany({
+    const [airline, airplane, airports] = await Promise.all([
+      this.airlinesRepository.findOneById(flight.airlineId),
+      this.airplanesRepository.findOneById(flight.airplaneId),
+      this.airportsRepository.findMany({
         ids: [flight.departureAirportId, flight.arrivalAirportId],
       }),
     ]);
@@ -39,18 +40,12 @@ export class FindFlightByNumberUseCase {
       (airport) => airport.id === flight.arrivalAirportId,
     );
 
-    return {
-      airplane: airplane.raw(),
-      flightNumber: flight.flightNumber,
-      expectedDeparture: flight.expectedDeparture,
-      expectedArrival: flight.expectedArrival,
-      duration: flight.duration,
-      departureAirportId: departureAirport && departureAirport.raw(),
-      arrivalAirportId: arrivalAirport && arrivalAirport.raw(),
-      terminal: flight.terminal,
-      gate: flight.gate,
-      airline: airline.raw(),
-      status: flight.status,
-    };
+    return FlightDetailMapper.toPresentationDTO({
+      flight,
+      airplane,
+      departureAirport,
+      arrivalAirport,
+      airline,
+    });
   }
 }

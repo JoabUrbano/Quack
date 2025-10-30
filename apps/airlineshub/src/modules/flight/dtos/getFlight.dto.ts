@@ -1,12 +1,12 @@
-import { Transform, Type } from "class-transformer";
-import { IsDate, IsNumber } from "class-validator";
+import { Transform, Type } from 'class-transformer';
+import { IsDate, IsNumber } from 'class-validator';
 
 export class GetFlightDto {
+  @IsNumber()
+  flight: number;
 
-    @IsNumber()
-    flight: number;
-
-    @IsDate()
-    @Type(() => Date)
-    day: Date;
+  @IsDate()
+  @Type(() => Date)
+  day: Date;
 }
+

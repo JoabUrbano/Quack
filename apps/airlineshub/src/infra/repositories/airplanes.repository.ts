@@ -10,7 +10,7 @@ import { PrismaService } from '@airlineshub/infra/database/prisma.service';
 @Injectable()
 export class PrismaAirplanesRepository implements AirplanesRepository {
   constructor(private readonly prismaService: PrismaService) {}
-  
+
   async findOneById(id: string): Promise<AirplaneEntity | null> {
     const airplane = await this.prismaService.airplane.findUnique({
       where: { id },
@@ -31,13 +31,13 @@ export class PrismaAirplanesRepository implements AirplanesRepository {
       capacity: airplane.capacity,
     });
   }
-  
+
   async delete(id: string): Promise<void> {
     await this.prismaService.airplane.delete({
       where: { id },
     });
   }
-  
+
   async save(airplane: AirplaneEntity): Promise<void> {
     await this.prismaService.airplane.upsert({
       where: { id: airplane.id },
@@ -65,8 +65,18 @@ export class PrismaAirplanesRepository implements AirplanesRepository {
       };
     }
 
+    let filter = {};
+
+    if (input.ids && input.ids.length > 0) {
+      filter = {
+        ...filter,
+        id: { in: input.ids },
+      };
+    }
+
     const airplanes = await this.prismaService.airplane.findMany({
       ...pagination,
+      where: filter,
       select: {
         id: true,
         model: true,

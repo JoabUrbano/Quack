@@ -1,11 +1,13 @@
 import { AirplaneEntity } from '@airlineshub/domains/entities/airplane.entity';
 
 export interface IPaginationFilter {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
-export interface IFindManyFilter extends IPaginationFilter {}
+export interface IFindManyFilter extends IPaginationFilter {
+  ids?: string[];
+}
 
 export abstract class AirplanesRepository {
   abstract findMany(input: IFindManyFilter): Promise<AirplaneEntity[]>;
