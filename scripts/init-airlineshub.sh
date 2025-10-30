@@ -13,6 +13,10 @@ npx prisma migrate deploy
 
 npx prisma generate
 
+# Executar seed
+echo "Alimentando banco de dados com dados iniciais..."
+npx prisma db seed
+
 # Voltar para o diretório raiz
 cd /app
 

@@ -1,0 +1,208 @@
+import { PrismaClient } from './generated/client';
+import { v4 as uuidv4 } from 'uuid';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  console.log('\n🌱 Iniciando seed do banco de dados airlineshub...\n');
+
+  // await prisma.flight.deleteMany();
+  // await prisma.airplane.deleteMany();
+  // await prisma.aiport.deleteMany();
+  // await prisma.airline.deleteMany();
+  // console.log('🗑️ Dados existentes foram removidos');
+
+  // Criar Airlines
+  console.log('📍 Criando airlines...');
+  const airlines = [
+    {
+      name: 'TAP Air Portugal',
+      country: 'Portugal',
+    },
+    {
+      name: 'LATAM Airlines',
+      country: 'Brasil',
+    },
+    {
+      name: 'Lufthansa',
+      country: 'Alemanha',
+    },
+  ];
+
+  const createdAirlines = [];
+  for (const airline of airlines) {
+    const created = await prisma.airline.upsert({
+      where: { name: airline.name },
+      update: {},
+      create: {
+        id: uuidv4(),
+        name: airline.name,
+        country: airline.country,
+      },
+    });
+    createdAirlines.push(created);
+  }
+
+  // Criar Airports
+  console.log('✈️ Criando aeroportos...');
+  const airports = [
+    {
+      iata: 'LIS',
+      name: 'Humberto Delgado Lisbon Airport',
+      city: 'Lisboa',
+      country: 'Portugal',
+    },
+    {
+      iata: 'GIG',
+      name: 'Rio de Janeiro International Airport',
+      city: 'Rio de Janeiro',
+      country: 'Brasil',
+    },
+    {
+      iata: 'CGH',
+      name: 'Congonhas Airport',
+      city: 'São Paulo',
+      country: 'Brasil',
+    },
+    {
+      iata: 'FRA',
+      name: 'Frankfurt Airport',
+      city: 'Frankfurt',
+      country: 'Alemanha',
+    },
+  ];
+
+  const createdAirports = [];
+  for (const airport of airports) {
+    const created = await prisma.aiport.upsert({
+      where: { iata: airport.iata },
+      update: {},
+      create: {
+        id: uuidv4(),
+        name: airport.name,
+        city: airport.city,
+        country: airport.country,
+        iata: airport.iata,
+      },
+    });
+    createdAirports.push(created);
+  }
+
+  // Criar Airplanes
+  console.log('🛫 Criando aviões...');
+  const airplaneModels = [
+    {
+      model: 'Boeing 787 Dreamliner',
+      capacity: 242,
+    },
+    {
+      model: 'Airbus A320',
+      capacity: 194,
+    },
+    {
+      model: 'Airbus A380',
+      capacity: 555,
+    },
+  ];
+
+  const createdAirplanes = [];
+  for (const model of airplaneModels) {
+    const created = await prisma.airplane.create({
+      data: {
+        id: uuidv4(),
+        model: model.model,
+        capacity: model.capacity,
+      },
+    });
+    createdAirplanes.push(created);
+  }
+
+  if ((await prisma.flight.count()) === 0) {
+    // Criar Flights
+    console.log('✈️ Criando voos...');
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const flights = [
+      {
+        airline: createdAirlines[0],
+        airplane: createdAirplanes[0],
+        departure: createdAirports[0],
+        arrival: createdAirports[1],
+        departureTime: { hour: 8, minute: 0 },
+        arrivalTime: { hour: 14, minute: 0 },
+        terminal: '1',
+        gate: 'A1',
+      },
+      {
+        airline: createdAirlines[1],
+        airplane: createdAirplanes[1],
+        departure: createdAirports[2],
+        arrival: createdAirports[0],
+        departureTime: { hour: 10, minute: 30 },
+        arrivalTime: { hour: 13, minute: 30 },
+        terminal: '2',
+        gate: 'B5',
+      },
+      {
+        airline: createdAirlines[2],
+        airplane: createdAirplanes[2],
+        departure: createdAirports[3],
+        arrival: createdAirports[1],
+        departureTime: { hour: 14, minute: 0 },
+        arrivalTime: { hour: 22, minute: 0 },
+        terminal: '1',
+        gate: 'C3',
+      },
+    ];
+
+    for (const flight of flights) {
+      const departureTime = new Date(tomorrow);
+      departureTime.setHours(
+        flight.departureTime.hour,
+        flight.departureTime.minute,
+        0,
+      );
+
+      const arrivalTime = new Date(tomorrow);
+      arrivalTime.setHours(
+        flight.arrivalTime.hour,
+        flight.arrivalTime.minute,
+        0,
+      );
+
+      const durationMinutes = Math.round(
+        (arrivalTime.getTime() - departureTime.getTime()) / (1000 * 60),
+      );
+
+      await prisma.flight.create({
+        data: {
+          id: uuidv4(),
+          airlineId: flight.airline.id,
+          airplaneId: flight.airplane.id,
+          departureAirportId: flight.departure.id,
+          arrivalAirportId: flight.arrival.id,
+          expectedDeparture: departureTime,
+          expectedArrival: arrivalTime,
+          duration: durationMinutes,
+          terminal: flight.terminal,
+          gate: flight.gate,
+          status: 'SCHEDULED',
+        },
+      });
+    }
+  }
+
+  // Exibir resumo final
+  console.log('\n✅ Seed concluído com sucesso!\n');
+}
+
+main()
+  .catch((e) => {
+    console.error('❌ Erro ao executar seed:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

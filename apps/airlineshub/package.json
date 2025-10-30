@@ -1,0 +1,9 @@
+{
+  "name": "@quack/airlineshub",
+  "version": "0.0.1",
+  "description": "AirlinesHub microservice",
+  "private": true,
+  "prisma": {
+    "seed": "ts-node --project tsconfig.app.json prisma/seed.ts"
+  }
+}
