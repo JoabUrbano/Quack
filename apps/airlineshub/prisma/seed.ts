@@ -134,6 +134,7 @@ async function main() {
         arrivalTime: { hour: 14, minute: 0 },
         terminal: '1',
         gate: 'A1',
+        value: 125000, // 1250,00
       },
       {
         airline: createdAirlines[1],
@@ -144,6 +145,7 @@ async function main() {
         arrivalTime: { hour: 13, minute: 30 },
         terminal: '2',
         gate: 'B5',
+        value: 89500, // 895,00
       },
       {
         airline: createdAirlines[2],
@@ -154,6 +156,7 @@ async function main() {
         arrivalTime: { hour: 22, minute: 0 },
         terminal: '1',
         gate: 'C3',
+        value: 250000, // 2500,00
       },
     ];
 
@@ -188,6 +191,7 @@ async function main() {
           duration: durationMinutes,
           terminal: flight.terminal,
           gate: flight.gate,
+          value: flight.value,
           status: 'SCHEDULED',
         },
       });

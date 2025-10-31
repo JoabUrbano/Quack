@@ -16,10 +16,7 @@ export class TicketService {
 
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day);
 
-    const exchange = await this.exchangeGateway.getRandomNumberExchange({
-      min: 1,
-      max: 100,
-    });
+    const exchange = await this.exchangeGateway.getRandomNumberExchange();
 
     return flight;
   }

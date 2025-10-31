@@ -10,10 +10,7 @@ export class RandomExchangeController {
 
   @Get('convert')
   getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
-    const number = this.getRandomNumberExchange.execute(
-      +numbersDto.min,
-      +numbersDto.max,
-    );
+    const number = this.getRandomNumberExchange.execute();
     return number;
   }
 }

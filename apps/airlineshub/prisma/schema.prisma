@@ -73,6 +73,8 @@ model Flight {
   airlineId String
   airline   Airline @relation(fields: [airlineId], references: [id])
 
+  value Int
+
   status FlightStatus @default(SCHEDULED)
 
   createdAt DateTime @default(now())

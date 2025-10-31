@@ -52,6 +52,7 @@ export interface IFlightProps {
   terminal: string;
   gate: string;
   airlineId: string;
+  value: number;
   status: FlightStatus;
 }
 
@@ -66,6 +67,7 @@ export class FlightEntity extends Entity {
   public terminal: string;
   public gate: string;
   public airlineId: string;
+  public value: number;
   public status: FlightStatus;
 
   constructor(props: IFlightProps) {
@@ -81,6 +83,7 @@ export class FlightEntity extends Entity {
     this.terminal = props.terminal;
     this.gate = props.gate;
     this.airlineId = props.airlineId;
+    this.value = props.value;
     this.status = props.status;
   }
 
@@ -106,12 +109,14 @@ export class FlightEntity extends Entity {
       terminal: this.terminal,
       gate: this.gate,
       airlineId: this.airlineId,
+      value: this.value,
       status: this.status.value,
     };
   }
 
   static dummy() {
     return new FlightEntity({
+      value: 10000,
       id: 'dummy-id',
       airplaneId: 'dummy-airplane-id',
       expectedDeparture: new Date(),

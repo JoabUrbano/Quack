@@ -2,9 +2,12 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class GetRandomNumberExchange{
+    private readonly min = 5
+    private readonly max = 6
+
     
-    execute(min: number, max: number): number {
-        const number = Math.floor(Math.random() * (max - min + 1)) + min
+    execute(): number {
+        const number = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min
         return number
     }
 }

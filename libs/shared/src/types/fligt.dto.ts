@@ -75,6 +75,12 @@ export class FlightDto {
   id: string;
 
   @ApiProperty({
+    description: 'Flight value in cents',
+    example: 10000,
+  })
+  value: number;
+
+  @ApiProperty({
     description: 'Flight number',
     example: 123,
     required: false,

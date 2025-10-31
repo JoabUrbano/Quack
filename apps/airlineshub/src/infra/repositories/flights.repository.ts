@@ -19,6 +19,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       where: { id: flight.id },
       update: {
         flightNumber: flight.flightNumber,
+        value: flight.value,
         airplaneId: flight.airplaneId,
         expectedDeparture: flight.expectedDeparture,
         expectedArrival: flight.expectedArrival,
@@ -32,6 +33,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       },
       create: {
         id: flight.id,
+        value: flight.value,
         airplaneId: flight.airplaneId,
         flightNumber: flight.flightNumber,
         expectedDeparture: flight.expectedDeparture,
@@ -48,6 +50,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
 
     return new FlightEntity({
       id: savedFlight.id,
+      value: savedFlight.value,
       airplaneId: savedFlight.airplaneId,
       flightNumber: savedFlight.flightNumber,
       expectedDeparture: savedFlight.expectedDeparture,
@@ -78,6 +81,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       ...pagination,
       select: {
         id: true,
+        value: true,
         airplaneId: true,
         flightNumber: true,
         expectedDeparture: true,
@@ -96,6 +100,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       (flight) =>
         new FlightEntity({
           id: flight.id,
+          value: flight.value,
           airplaneId: flight.airplaneId,
           flightNumber: flight.flightNumber,
           expectedDeparture: flight.expectedDeparture,
@@ -116,6 +121,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
       where: { flightNumber: number },
       select: {
         id: true,
+        value: true,
         airplaneId: true,
         flightNumber: true,
         expectedDeparture: true,
@@ -136,6 +142,7 @@ export class PrismaFlightsRepository implements FlightsRepository {
 
     return new FlightEntity({
       id: flight.id,
+      value: flight.value,
       airplaneId: flight.airplaneId,
       flightNumber: flight.flightNumber,
       expectedDeparture: flight.expectedDeparture,
