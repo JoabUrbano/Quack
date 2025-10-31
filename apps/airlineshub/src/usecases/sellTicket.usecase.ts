@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SellTicketDto } from '@airlineshub/usecases/dtos/sellTicket.dto';
+import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
+
 import { AirTicketsRepository } from '@airlineshub/domains/repositories/airTickets.repository';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { AirTicket } from '@airlineshub/domains/entities/airTicket.entity';
@@ -12,7 +13,7 @@ export class SellTicketUseCase {
     private readonly flightsRepository: FlightsRepository,
   ) {}
 
-  async execute(input: SellTicketDto): Promise<AirTicketDto> {
+async execute(input: SellTicketDto): Promise<AirTicketDto> {
     const { userId, day, flight: flightNumber, finalValue } = input;
 
     const flight =

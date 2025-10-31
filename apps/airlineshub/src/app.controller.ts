@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AppService } from '@airlineshub/app.service';
-import { SellTicketDto } from '@airlineshub/usecases/dtos/sellTicket.dto';
+import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 
 @ApiTags('Health')
