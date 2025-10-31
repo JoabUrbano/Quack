@@ -117,6 +117,57 @@ async function main() {
     createdAirplanes.push(created);
   }
 
+  // Criar Users
+  console.log('👥 Criando usuários...');
+  // TODO: Em produção seria um hash de senha
+  const users = [
+    {
+      name: 'João Silva',
+      email: 'joao.silva@email.com',
+      password: '123123',
+    },
+    {
+      name: 'Maria Santos',
+      email: 'maria.santos@email.com',
+      password: '123123',
+    },
+    {
+      name: 'Pedro Oliveira',
+      email: 'pedro.oliveira@email.com',
+      password: '123123',
+    },
+    {
+      name: 'Ana Costa',
+      email: 'ana.costa@email.com',
+      password: '123123',
+    },
+    {
+      name: 'Luiz Gustavo',
+      email: 'luizgustavooumbelino@email.com',
+      password: '123123',
+    },
+    {
+      name: 'Gibeon Aquino',
+      email: 'gibeon.aquino@email.com',
+      password: '123123',
+    },
+  ];
+
+  const createdUsers = [];
+  for (const user of users) {
+    const created = await prisma.user.upsert({
+      where: { email: user.email },
+      update: {},
+      create: {
+        id: uuidv4(),
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+    });
+    createdUsers.push(created);
+  }
+
   if ((await prisma.flight.count()) === 0) {
     // Criar Flights
     console.log('✈️ Criando voos...');
@@ -195,6 +246,28 @@ async function main() {
           status: 'SCHEDULED',
         },
       });
+    }
+
+    // Criar AirTickets
+    console.log('🎫 Criando passagens aéreas...');
+    const allFlights = await prisma.flight.findMany();
+
+    for (let i = 0; i < allFlights.length; i++) {
+      const flight = allFlights[i];
+      const seatsToCreate = Math.min(3, createdUsers.length);
+
+      for (let j = 0; j < seatsToCreate; j++) {
+        await prisma.airTicket.create({
+          data: {
+            id: uuidv4(),
+            seatNumber: j + 1,
+            flightId: flight.id,
+            userId: createdUsers[j].id,
+            purchaseDate: new Date(),
+            finalValue: flight.value,
+          },
+        });
+      }
     }
   }
 

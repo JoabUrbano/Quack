@@ -51,6 +51,7 @@ export class CreateFlightUseCase {
 
     const flight = FlightEntity.create({
       airplaneId: airplane.id,
+      value: input.value,
       expectedDeparture: input.expectedDeparture,
       expectedArrival: input.expectedArrival,
       duration: input.duration,

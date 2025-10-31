@@ -11,8 +11,15 @@ import { AppService } from '@airlineshub/app.service';
 import { AirlinesModule } from '@airlineshub/modules/airlines/airlines.module';
 import { AirplanesModule } from '@airlineshub/modules/airplanes/airplanes.module';
 import { AirportsModule } from '@airlineshub/modules/airports/airports.module';
+import { AirTicketsModule } from '@airlineshub/modules/airtickets/airtickets.module';
+import { UsersModule } from '@airlineshub/modules/users/users.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { DomainExceptionFilter } from '@airlineshub/common/filters';
+import { AirTicketsRepository } from '@airlineshub/domains/repositories/airTickets.repository';
+import { PrismaAirTicketsRepository } from '@airlineshub/infra/repositories/prismaAirTickets.repository';
+import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
+import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
+import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights.repository';
 
 @Module({
   imports: [
@@ -26,6 +33,8 @@ import { DomainExceptionFilter } from '@airlineshub/common/filters';
     AirlinesModule,
     AirplanesModule,
     AirportsModule,
+    AirTicketsModule,
+    UsersModule,
     SharedModule,
   ],
   controllers: [AppController],
@@ -35,6 +44,15 @@ import { DomainExceptionFilter } from '@airlineshub/common/filters';
     {
       provide: APP_FILTER,
       useClass: DomainExceptionFilter,
+    },
+    SellTicketUseCase,
+    {
+      provide: FlightsRepository,
+      useClass: PrismaFlightsRepository,
+    },
+    {
+      provide: AirTicketsRepository,
+      useClass: PrismaAirTicketsRepository,
     },
   ],
 })

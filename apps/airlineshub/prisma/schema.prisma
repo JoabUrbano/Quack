@@ -52,6 +52,32 @@ model Airplane {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  tickets AirTicket[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AirTicket {
+  id           String   @id @default(uuid())
+  seatNumber   Int
+  flightId     String
+  flight       Flight   @relation(fields: [flightId], references: [id])
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  purchaseDate DateTime @default(now())
+  finalValue   Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Flight {
   id                String   @id @default(uuid())
   airplaneId        String
@@ -76,6 +102,8 @@ model Flight {
   value Int
 
   status FlightStatus @default(SCHEDULED)
+
+  tickets AirTicket[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -17,6 +17,13 @@ export class CreateFlightDto {
   airplaneId: string;
 
   @ApiProperty({
+    description: 'Flight value in cents',
+    example: 150000,
+  })
+  @IsNumber()
+  value: number;
+
+  @ApiProperty({
     description: 'Expected departure date and time',
     example: '2025-11-15T14:30:00Z',
   })
