@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { AirlineDto } from 'libs/shared/src/types/fligt.dto';
+import { FlightDto } from 'libs/shared/src/types/fligt.dto';
 
 @Injectable()
 export class AirlineHubGateway {
@@ -11,9 +11,9 @@ export class AirlineHubGateway {
     return 'Hello from AirlineHub Gateway!';
   }
 
-  async getFlight(flight: number, day: Date): Promise<AirlineDto> {
+  async getFlight(flight: number, day: Date): Promise<FlightDto> {
     try {
-      const response = this.httpService.get<AirlineDto>(
+      const response = this.httpService.get<FlightDto>(
         `${process.env.AIRLINESHUB_URL}/flights/flight/`,
         {
           params: {
@@ -28,7 +28,7 @@ export class AirlineHubGateway {
       return res.data;
     } catch (error) {
       console.log(error);
-      console.log(error.message);
+
       throw new Error('Opps, something went wrong with the AirlineHub API!');
     }
   }
