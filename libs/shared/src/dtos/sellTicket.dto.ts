@@ -14,7 +14,7 @@ export class SellTicketDto {
   })
   @IsDate()
   @Type(() => Date)
-  day: string;
+  day: Date;
 
   @ApiProperty({ description: 'Ticket final value' })
   @IsNumber()

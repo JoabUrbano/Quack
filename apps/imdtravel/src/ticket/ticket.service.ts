@@ -18,6 +18,15 @@ export class TicketService {
 
     const exchange = await this.exchangeGateway.getRandomNumberExchange();
 
+    const airticket = await this.airlineHubGateway.sellTicket({
+      day,
+      flight: flightNumber,
+      finalValue: flight.value,
+      userId: input.userId,
+    });
+
+    console.log('Airticket criado => ', airticket);
+
     const realToDolar = Math.round(flight.value / exchange);
 
     return {

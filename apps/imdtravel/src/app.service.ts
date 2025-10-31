@@ -8,8 +8,6 @@ export class AppService {
   async getHello(): Promise<string> {
     const users = await this.prismaService.user.findMany();
 
-    console.log('users => ', users);
-
     return 'Welcome to IMDTravel API!';
   }
 }

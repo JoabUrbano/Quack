@@ -13,7 +13,7 @@ export class SellTicketUseCase {
     private readonly flightsRepository: FlightsRepository,
   ) {}
 
-async execute(input: SellTicketDto): Promise<AirTicketDto> {
+  async execute(input: SellTicketDto): Promise<AirTicketDto> {
     const { userId, day, flight: flightNumber, finalValue } = input;
 
     const flight =
@@ -26,6 +26,16 @@ async execute(input: SellTicketDto): Promise<AirTicketDto> {
     if (!userId) {
       throw new NotFoundException('User not found');
     }
+
+    console.log('testando');
+
+    console.log({
+      userId: userId,
+      flightId: flight.id,
+      seatNumber: 2, // TODO: Pegar assento no params
+      finalValue,
+      purchaseDate: new Date(),
+    });
 
     const airTicket = AirTicket.create({
       userId: userId,
