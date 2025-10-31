@@ -8,9 +8,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env
-    environment:
-      - IMDTRAVEL_DATABASE_URL=postgresql://quack:quack@postgres:5432/imdtravel?schema=public
+      - .env.docker
     volumes:
       - ./:/app
       - /app/node_modules
@@ -23,7 +21,7 @@ services:
       - duck-network
     command: bash /app/scripts/init-imdtravel.sh
 
-    # AirlinesHub Microservice
+  # AirlinesHub Microservice
   airlineshub:
     build:
       context: .
@@ -32,21 +30,54 @@ services:
     ports:
       - "3001:3001"
     env_file:
-      - .env
-    environment:
-      - AIRLINESHUB_DATABASE_URL=postgresql://quack:quack@postgres:5432/airlineshub?schema=public
+      - .env.docker
     volumes:
       - ./:/app
       - /app/node_modules
       - /app/apps/airlineshub/node_modules
       - /app/apps/airlineshub/prisma/generated
-
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - duck-network
     command: bash /app/scripts/init-airlineshub.sh
+
+  # Exchange Microservice
+  exchange:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: exchange-service
+    ports:
+      - "3002:3002"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/apps/exchange/node_modules
+    networks:
+      - duck-network
+    command: bash /app/scripts/init-exchange.sh
+
+  # Fidelity Microservice
+  fidelity:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: fidelity-service
+    ports:
+      - "3003:3003"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/apps/fidelity/node_modules
+    networks:
+      - duck-network
+    command: bash /app/scripts/init-fidelity.sh
 
   # PostgreSQL Database
   postgres:

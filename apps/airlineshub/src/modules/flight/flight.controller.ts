@@ -5,7 +5,7 @@ import { CreateFlightUseCase } from '@airlineshub/modules/flight/usecases/create
 
 import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFlights.dto';
 import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.dto';
-import { FindFlightByNumberUseCase } from './usecases/getFlightByNumber.usecase';
+import { FindFlightByNumberUseCase } from '@airlineshub/modules/flight/usecases/getFlightByNumber.usecase';
 
 @ApiTags('Flights')
 @Controller('flights')

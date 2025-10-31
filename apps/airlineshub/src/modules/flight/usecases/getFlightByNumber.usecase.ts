@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FlightDto, GetFlightDto } from '@airlineshub/modules/flight/dtos';
+import { GetFlightDto } from '@airlineshub/modules/flight/dtos';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes.repository';
 import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { FlightDetailMapper } from '@airlineshub/modules/flight/usecases/mappers';
+import { FlightDto } from '@app/shared/types/fligt.dto';
 
 @Injectable()
 export class FindFlightByNumberUseCase {

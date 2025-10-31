@@ -61,12 +61,6 @@ export class AirlineDto {
   name: string;
 
   @ApiProperty({
-    description: 'IATA code of the airline',
-    example: 'GUA',
-  })
-  iata: string;
-
-  @ApiProperty({
     description: 'Country of the airline',
     example: 'Brazil',
   })

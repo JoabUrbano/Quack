@@ -2,7 +2,7 @@ import { FlightEntity } from '@airlineshub/domains/entities/flight.entity';
 import { AirplaneEntity } from '@airlineshub/domains/entities/airplane.entity';
 import { AirlineEntity } from '@airlineshub/domains/entities/airline.entity';
 import { AirportEntity } from '@airlineshub/domains/entities/airport.entity';
-import { FlightDto } from '@airlineshub/modules/flight/dtos';
+import { FlightDto } from '@app/shared/types/fligt.dto';
 
 interface FlightDetailMapperDeps {
   flight: FlightEntity;

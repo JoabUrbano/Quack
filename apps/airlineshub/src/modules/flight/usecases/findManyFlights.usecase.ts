@@ -4,10 +4,8 @@ import { AirportsRepository } from '@airlineshub/domains/repositories/airports.r
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { Injectable } from '@nestjs/common';
 import { FlightDetailMapper } from '@airlineshub/modules/flight/usecases/mappers';
-import {
-  FlightDto,
-  FindManyFlightsDto,
-} from '@airlineshub/modules/flight/dtos';
+import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos';
+import { FlightDto } from '@app/shared/types/fligt.dto';
 
 @Injectable()
 export class FindManyFlightsUseCase {
