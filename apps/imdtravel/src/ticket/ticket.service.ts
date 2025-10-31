@@ -11,12 +11,13 @@ export class TicketService {
     private exchangeGateway: ExchangeGateway,
   ) {}
 
-  async buyTicket(input: BuyTicketDto): Promise<FlightDto> {
+  // TODO: Definir o retorno correto do método
+  async buyTicket(input: BuyTicketDto): Promise<any> {
     const { flight: flightNumber, day } = input;
 
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day);
 
-    const exchange = await this.exchangeGateway.getRandomNumberExchange();
+    const conversionRate = await this.exchangeGateway.conversionRate();
 
     const airticket = await this.airlineHubGateway.sellTicket({
       day,
@@ -25,13 +26,12 @@ export class TicketService {
       userId: input.userId,
     });
 
-    console.log('Airticket criado => ', airticket);
-
-    const realToDolar = Math.round(flight.value / exchange);
+    const valueInDolar = Math.round(flight.value / conversionRate);
 
     return {
-      ...flight,
-      valueInDolar: realToDolar,
+      flight,
+      airticket,
+      valueInDolar,
     };
   }
 }

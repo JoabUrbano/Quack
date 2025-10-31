@@ -27,16 +27,6 @@ export class SellTicketUseCase {
       throw new NotFoundException('User not found');
     }
 
-    console.log('testando');
-
-    console.log({
-      userId: userId,
-      flightId: flight.id,
-      seatNumber: 2, // TODO: Pegar assento no params
-      finalValue,
-      purchaseDate: new Date(),
-    });
-
     const airTicket = AirTicket.create({
       userId: userId,
       flightId: flight.id,
