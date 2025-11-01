@@ -1,10 +1,7 @@
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  FlightEntity,
-  FlightStatus,
-} from '@airlineshub/domains/entities/flight.entity';
+import { FlightEntity } from '@airlineshub/domains/entities/flight.entity';
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes.repository';
 import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
@@ -51,18 +48,12 @@ export class CreateFlightUseCase {
 
     const flight = FlightEntity.create({
       airplaneId: airplane.id,
-      value: input.value,
-      expectedDeparture: input.expectedDeparture,
-      expectedArrival: input.expectedArrival,
       duration: input.duration,
       departureAirportId: input.departureAirportId,
       arrivalAirportId: input.arrivalAirportId,
       terminal: input.terminal,
       gate: input.gate,
       airlineId: input.airlineId,
-      status: input.status
-        ? FlightStatus.fromValue(input.status)
-        : FlightStatus.SCHEDULED,
     });
 
     const savedFlight = await this.flightsRepository.save(flight);

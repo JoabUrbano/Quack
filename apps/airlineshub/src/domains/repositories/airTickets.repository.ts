@@ -6,7 +6,7 @@ export interface IPaginationFilter {
 }
 
 export interface IFindManyFilter extends IPaginationFilter {
-  flightId?: string;
+  flightScheduleId?: string;
   userId?: string;
 }
 
@@ -17,7 +17,7 @@ export abstract class AirTicketsRepository {
 
   abstract findOneById(id: string): Promise<AirTicket | null>;
 
-  abstract findOneByFlightAndSeat(flightId: string, seatNumber: number): Promise<AirTicket | null>;
+  abstract findOneByFlightScheduleAndSeat(flightScheduleId: string, seatNumber: number): Promise<AirTicket | null>;
 
   abstract delete(id: string): Promise<void>;
 

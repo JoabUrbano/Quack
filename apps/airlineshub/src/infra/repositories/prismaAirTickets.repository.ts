@@ -17,7 +17,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
       where: { id: airTicket.id },
       update: {
         purchaseDate: airTicket.purchaseDate,
-        flightId: airTicket.flightId,
+        flightScheduleId: airTicket.flightScheduleId,
         finalValue: airTicket.finalValue,
         userId: airTicket.userId,
         seatNumber: airTicket.seatNumber,
@@ -26,7 +26,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
         id: airTicket.id,
         seatNumber: airTicket.seatNumber,
         purchaseDate: airTicket.purchaseDate,
-        flightId: airTicket.flightId,
+        flightScheduleId: airTicket.flightScheduleId,
         finalValue: airTicket.finalValue,
         userId: airTicket.userId,
       },
@@ -40,7 +40,9 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
 
     const tickets = await this.prismaService.airTicket.findMany({
       where: {
-        ...(input.flightId && { flightId: input.flightId }),
+        ...(input.flightScheduleId && {
+          flightScheduleId: input.flightScheduleId,
+        }),
         ...(input.userId && { userId: input.userId }),
       },
       skip,
@@ -48,7 +50,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
       select: {
         id: true,
         seatNumber: true,
-        flightId: true,
+        flightScheduleId: true,
         userId: true,
         finalValue: true,
         purchaseDate: true,
@@ -60,7 +62,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
         new AirTicket({
           id: ticket.id,
           seatNumber: ticket.seatNumber,
-          flightId: ticket.flightId,
+          flightScheduleId: ticket.flightScheduleId,
           userId: ticket.userId,
           finalValue: ticket.finalValue,
           purchaseDate: ticket.purchaseDate,
@@ -74,7 +76,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
       select: {
         id: true,
         seatNumber: true,
-        flightId: true,
+        flightScheduleId: true,
         userId: true,
         finalValue: true,
         purchaseDate: true,
@@ -88,26 +90,26 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
     return new AirTicket({
       id: ticket.id,
       seatNumber: ticket.seatNumber,
-      flightId: ticket.flightId,
+      flightScheduleId: ticket.flightScheduleId,
       userId: ticket.userId,
       finalValue: ticket.finalValue,
       purchaseDate: ticket.purchaseDate,
     });
   }
 
-  async findOneByFlightAndSeat(
-    flightId: string,
+  async findOneByFlightScheduleAndSeat(
+    flightScheduleId: string,
     seatNumber: number,
   ): Promise<AirTicket | null> {
     const ticket = await this.prismaService.airTicket.findFirst({
       where: {
-        flightId,
+        flightScheduleId,
         seatNumber,
       },
       select: {
         id: true,
         seatNumber: true,
-        flightId: true,
+        flightScheduleId: true,
         userId: true,
         finalValue: true,
         purchaseDate: true,
@@ -121,7 +123,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
     return new AirTicket({
       id: ticket.id,
       seatNumber: ticket.seatNumber,
-      flightId: ticket.flightId,
+      flightScheduleId: ticket.flightScheduleId,
       userId: ticket.userId,
       finalValue: ticket.finalValue,
       purchaseDate: ticket.purchaseDate,

@@ -4,7 +4,7 @@ import { Entity } from '@airlineshub/domains/entities/entity';
 export interface IAirlineProps {
   id: string;
   seatNumber: number;
-  flightId: string;
+  flightScheduleId: string;
   purchaseDate: Date;
   finalValue: number;
   userId: string;
@@ -12,7 +12,7 @@ export interface IAirlineProps {
 
 export class AirTicket extends Entity {
   public seatNumber: number;
-  public flightId: string;
+  public flightScheduleId: string;
   public purchaseDate: Date;
   public finalValue: number;
   public userId: string;
@@ -20,8 +20,8 @@ export class AirTicket extends Entity {
   constructor(props: IAirlineProps) {
     super();
 
-    this._id = props.flightId;
-    this.flightId = props.flightId;
+    this._id = props.flightScheduleId;
+    this.flightScheduleId = props.flightScheduleId;
     this.seatNumber = props.seatNumber;
     this.purchaseDate = props.purchaseDate;
     this.finalValue = props.finalValue;
@@ -41,7 +41,7 @@ export class AirTicket extends Entity {
     return {
       id: this.id,
       seatNumber: this.seatNumber,
-      flightId: this.flightId,
+      flightScheduleId: this.flightScheduleId,
       purchaseDate: this.purchaseDate,
       finalValue: this.finalValue,
       userId: this.userId,
@@ -54,7 +54,7 @@ export class AirTicket extends Entity {
       seatNumber: 1,
       purchaseDate: new Date(),
       finalValue: 10000,
-      flightId: 'dummy-flight-id',
+      flightScheduleId: 'dummy-flight-id',
       userId: 'dummy-user-id',
     });
   }

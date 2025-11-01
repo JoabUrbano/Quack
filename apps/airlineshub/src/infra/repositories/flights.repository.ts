@@ -1,7 +1,4 @@
-import {
-  FlightEntity,
-  FlightStatus,
-} from '@airlineshub/domains/entities/flight.entity';
+import { FlightEntity } from '@airlineshub/domains/entities/flight.entity';
 import {
   FlightsRepository,
   IFindManyFilter,
@@ -18,50 +15,38 @@ export class PrismaFlightsRepository implements FlightsRepository {
     const savedFlight = await this.prismaService.flight.upsert({
       where: { id: flight.id },
       update: {
-        flightNumber: flight.flightNumber,
-        value: flight.value,
         airplaneId: flight.airplaneId,
-        expectedDeparture: flight.expectedDeparture,
-        expectedArrival: flight.expectedArrival,
+        flightNumber: flight.flightNumber,
         duration: flight.duration,
         departureAirportId: flight.departureAirportId,
         arrivalAirportId: flight.arrivalAirportId,
         terminal: flight.terminal,
         gate: flight.gate,
         airlineId: flight.airlineId,
-        status: flight.status.value as any,
       },
       create: {
         id: flight.id,
-        value: flight.value,
         airplaneId: flight.airplaneId,
         flightNumber: flight.flightNumber,
-        expectedDeparture: flight.expectedDeparture,
-        expectedArrival: flight.expectedArrival,
         duration: flight.duration,
         departureAirportId: flight.departureAirportId,
         arrivalAirportId: flight.arrivalAirportId,
         terminal: flight.terminal,
         gate: flight.gate,
         airlineId: flight.airlineId,
-        status: flight.status.value as any,
       },
     });
 
     return new FlightEntity({
       id: savedFlight.id,
-      value: savedFlight.value,
       airplaneId: savedFlight.airplaneId,
       flightNumber: savedFlight.flightNumber,
-      expectedDeparture: savedFlight.expectedDeparture,
-      expectedArrival: savedFlight.expectedArrival,
       duration: savedFlight.duration,
       departureAirportId: savedFlight.departureAirportId,
       arrivalAirportId: savedFlight.arrivalAirportId,
       terminal: savedFlight.terminal,
       gate: savedFlight.gate,
       airlineId: savedFlight.airlineId,
-      status: FlightStatus.fromValue(savedFlight.status),
     });
   }
 
@@ -81,18 +66,14 @@ export class PrismaFlightsRepository implements FlightsRepository {
       ...pagination,
       select: {
         id: true,
-        value: true,
         airplaneId: true,
         flightNumber: true,
-        expectedDeparture: true,
-        expectedArrival: true,
         duration: true,
         departureAirportId: true,
         arrivalAirportId: true,
         terminal: true,
         gate: true,
         airlineId: true,
-        status: true,
       },
     });
 
@@ -100,18 +81,14 @@ export class PrismaFlightsRepository implements FlightsRepository {
       (flight) =>
         new FlightEntity({
           id: flight.id,
-          value: flight.value,
           airplaneId: flight.airplaneId,
           flightNumber: flight.flightNumber,
-          expectedDeparture: flight.expectedDeparture,
-          expectedArrival: flight.expectedArrival,
           duration: flight.duration,
           departureAirportId: flight.departureAirportId,
           arrivalAirportId: flight.arrivalAirportId,
           terminal: flight.terminal,
           gate: flight.gate,
           airlineId: flight.airlineId,
-          status: FlightStatus.fromValue(flight.status),
         }),
     );
   }
@@ -121,18 +98,14 @@ export class PrismaFlightsRepository implements FlightsRepository {
       where: { flightNumber: number },
       select: {
         id: true,
-        value: true,
         airplaneId: true,
         flightNumber: true,
-        expectedDeparture: true,
-        expectedArrival: true,
         duration: true,
         departureAirportId: true,
         arrivalAirportId: true,
         terminal: true,
         gate: true,
         airlineId: true,
-        status: true,
       },
     });
 
@@ -142,18 +115,14 @@ export class PrismaFlightsRepository implements FlightsRepository {
 
     return new FlightEntity({
       id: flight.id,
-      value: flight.value,
       airplaneId: flight.airplaneId,
       flightNumber: flight.flightNumber,
-      expectedDeparture: flight.expectedDeparture,
-      expectedArrival: flight.expectedArrival,
       duration: flight.duration,
       departureAirportId: flight.departureAirportId,
       arrivalAirportId: flight.arrivalAirportId,
       terminal: flight.terminal,
       gate: flight.gate,
       airlineId: flight.airlineId,
-      status: FlightStatus.fromValue(flight.status),
     });
   }
 }

@@ -211,6 +211,8 @@ async function main() {
       },
     ];
 
+    const createdFlights = [];
+
     for (const flight of flights) {
       const departureTime = new Date(tomorrow);
       departureTime.setHours(
@@ -230,30 +232,50 @@ async function main() {
         (arrivalTime.getTime() - departureTime.getTime()) / (1000 * 60),
       );
 
-      await prisma.flight.create({
+      const createdFlight = await prisma.flight.create({
         data: {
           id: uuidv4(),
           airlineId: flight.airline.id,
           airplaneId: flight.airplane.id,
           departureAirportId: flight.departure.id,
           arrivalAirportId: flight.arrival.id,
-          expectedDeparture: departureTime,
-          expectedArrival: arrivalTime,
           duration: durationMinutes,
           terminal: flight.terminal,
           gate: flight.gate,
-          value: flight.value,
+        },
+      });
+
+      createdFlights.push({
+        flight: createdFlight,
+        departureDate: new Date(departureTime),
+        arrivalDate: new Date(arrivalTime),
+        value: flight.value,
+      });
+    }
+
+    // Criar FlightSchedules
+    console.log('📅 Criando agendamentos de voos...');
+    const createdFlightSchedules = [];
+
+    for (const flightData of createdFlights) {
+      const schedule = await prisma.flightSchedule.create({
+        data: {
+          id: uuidv4(),
+          flightId: flightData.flight.id,
+          expectedDeparture: flightData.departureDate,
+          expectedArrival: flightData.arrivalDate,
+          value: flightData.value,
           status: 'SCHEDULED',
         },
       });
+      createdFlightSchedules.push(schedule);
     }
 
     // Criar AirTickets
     console.log('🎫 Criando passagens aéreas...');
-    const allFlights = await prisma.flight.findMany();
 
-    for (let i = 0; i < allFlights.length; i++) {
-      const flight = allFlights[i];
+    for (let i = 0; i < createdFlightSchedules.length; i++) {
+      const flightSchedule = createdFlightSchedules[i];
       const seatsToCreate = Math.min(3, createdUsers.length);
 
       for (let j = 0; j < seatsToCreate; j++) {
@@ -261,10 +283,9 @@ async function main() {
           data: {
             id: uuidv4(),
             seatNumber: j + 1,
-            flightId: flight.id,
+            flightScheduleId: flightSchedule.id,
             userId: createdUsers[j].id,
-            purchaseDate: new Date(),
-            finalValue: flight.value,
+            finalValue: flightSchedule.value,
           },
         });
       }

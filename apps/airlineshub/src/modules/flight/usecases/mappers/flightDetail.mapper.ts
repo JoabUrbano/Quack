@@ -22,14 +22,10 @@ export class FlightDetailMapper {
   }: FlightDetailMapperDeps): FlightDto {
     return {
       id: flight.id,
-      value: flight.value,
       flightNumber: flight.flightNumber,
-      expectedDeparture: flight.expectedDeparture,
-      expectedArrival: flight.expectedArrival,
       duration: flight.duration,
       terminal: flight.terminal,
       gate: flight.gate,
-      status: flight.status.value,
       airplane: airplane ? airplane.raw() : null,
       departureAirport: departureAirport ? departureAirport.raw() : null,
       arrivalAirport: arrivalAirport ? arrivalAirport.raw() : null,

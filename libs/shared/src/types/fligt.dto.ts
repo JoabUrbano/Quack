@@ -75,10 +75,9 @@ export class FlightDto {
   id: string;
 
   @ApiProperty({
-    description: 'Flight value in cents',
-    example: 10000,
+    description: 'Airplane details',
   })
-  value: number;
+  airplane: AirplaneDto;
 
   @ApiProperty({
     description: 'Flight number',
@@ -88,45 +87,10 @@ export class FlightDto {
   flightNumber?: number;
 
   @ApiProperty({
-    description: 'Expected departure time',
-    example: '2025-11-15T14:30:00Z',
-  })
-  expectedDeparture: Date;
-
-  @ApiProperty({
-    description: 'Expected arrival time',
-    example: '2025-11-15T18:30:00Z',
-  })
-  expectedArrival: Date;
-
-  @ApiProperty({
     description: 'Flight duration in minutes',
     example: 240,
   })
   duration: number;
-
-  @ApiProperty({
-    description: 'Terminal identifier',
-    example: '1',
-  })
-  terminal: string;
-
-  @ApiProperty({
-    description: 'Gate identifier',
-    example: 'A12',
-  })
-  gate: string;
-
-  @ApiProperty({
-    description: 'Current flight status',
-    example: 'scheduled',
-  })
-  status: string;
-
-  @ApiProperty({
-    description: 'Airplane details',
-  })
-  airplane: AirplaneDto;
 
   @ApiProperty({
     description: 'Departure airport details',
@@ -139,6 +103,18 @@ export class FlightDto {
     nullable: true,
   })
   arrivalAirport: AirportDto | null;
+
+  @ApiProperty({
+    description: 'Terminal identifier',
+    example: '1',
+  })
+  terminal: string;
+
+  @ApiProperty({
+    description: 'Gate identifier',
+    example: 'A12',
+  })
+  gate: string;
 
   @ApiProperty({
     description: 'Operating airline details',

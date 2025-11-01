@@ -58,36 +58,32 @@ model User {
   email    String @unique
   password String
 
-  tickets AirTicket[]
+  airTickets AirTicket[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model AirTicket {
-  id           String   @id @default(uuid())
-  seatNumber   Int
-  flightId     String
-  flight       Flight   @relation(fields: [flightId], references: [id])
-  userId       String
-  user         User     @relation(fields: [userId], references: [id])
-  purchaseDate DateTime @default(now())
-  finalValue   Int
+  id               String         @id @default(uuid())
+  seatNumber       Int
+  flightScheduleId String
+  flightSchedule   FlightSchedule @relation(fields: [flightScheduleId], references: [id])
+  userId           String
+  user             User           @relation(fields: [userId], references: [id])
+  purchaseDate     DateTime       @default(now())
+  finalValue       Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Flight {
-  id                String   @id @default(uuid())
-  airplaneId        String
-  airplane          Airplane @relation(fields: [airplaneId], references: [id])
-  flightNumber      Int      @unique @default(autoincrement())
-  // expectedDeparture DateTime
-  // expectedArrival   DateTime
-  expectedDeparture DateTime @db.Date
-  expectedArrival   DateTime @db.Date
-  duration          Int
+  id           String   @id @default(uuid())
+  airplaneId   String
+  airplane     Airplane @relation(fields: [airplaneId], references: [id])
+  flightNumber Int      @unique @default(autoincrement())
+  duration     Int
 
   departureAirportId String
   departureAirport   Aiport @relation("DepartureAirport", fields: [departureAirportId], references: [id])
@@ -101,8 +97,20 @@ model Flight {
   airlineId String
   airline   Airline @relation(fields: [airlineId], references: [id])
 
-  value Int
+  flightSchedules FlightSchedule[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FlightSchedule {
+  id                String   @id @default(uuid())
+  expectedDeparture DateTime @db.Date
+  expectedArrival   DateTime @db.Date
+  flightId          String
+  flight            Flight   @relation(fields: [flightId], references: [id])
+
+  value  Int
   status FlightStatus @default(SCHEDULED)
 
   tickets AirTicket[]

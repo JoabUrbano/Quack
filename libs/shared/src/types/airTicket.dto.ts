@@ -20,15 +20,17 @@ export class AirTicketDto {
   seatNumber: number;
 
   @ApiProperty({
-    description: 'Identifier of the flight associated with the ticket',
+    description: 'Identifier of the flight schedule associated with the ticket',
     example: '550e8400-e29b-41d4-a716-446655440000',
   })
-  flightId: string;
+  flightScheduleId: string;
+
   @ApiProperty({
     description: 'Identifier of the user who purchased the ticket',
     example: '550e8400-e29b-41d4-a716-446655440000',
   })
   userId: string;
+
   @ApiProperty({
     description: 'Date when the ticket was purchased',
     example: '2023-10-01T12:00:00Z',

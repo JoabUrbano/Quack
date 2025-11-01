@@ -29,7 +29,7 @@ export class SellTicketUseCase {
 
     const airTicket = AirTicket.create({
       userId: userId,
-      flightId: flight.id,
+      flightScheduleId: flight.id,
       seatNumber: 2, // TODO: Pegar assento no params
       finalValue,
       purchaseDate: new Date(),
