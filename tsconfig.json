@@ -12,6 +12,12 @@
       "@airlineshub/*": [
         "./apps/airlineshub/src/*"
       ],
+      "@exchange/*": [
+        "./apps/exchanges/src/*"
+      ],
+      "@fidelity/*": [
+        "./apps/fidelity/src/*"
+      ],
       "@app/shared": [
         "libs/shared/src"
       ],
@@ -35,5 +41,5 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
 }
