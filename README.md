@@ -36,6 +36,8 @@ docker compose up -d
 Para testar o fluxo principal, use uma feerramenta como o Postman rodando a rota:
 http://imdtravel:3000/tickets/buyTicket
 
+Há um arquivo seed que vai popular oss dados do banco quando subir o docker compose.
+
 
 ## :dart: Project Status
 Backend: In Progress  
