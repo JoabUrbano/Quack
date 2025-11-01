@@ -83,8 +83,10 @@ model Flight {
   airplaneId        String
   airplane          Airplane @relation(fields: [airplaneId], references: [id])
   flightNumber      Int      @unique @default(autoincrement())
-  expectedDeparture DateTime
-  expectedArrival   DateTime
+  // expectedDeparture DateTime
+  // expectedArrival   DateTime
+  expectedDeparture DateTime @db.Date
+  expectedArrival   DateTime @db.Date
   duration          Int
 
   departureAirportId String

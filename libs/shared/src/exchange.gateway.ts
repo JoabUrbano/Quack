@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 export class ExchangeGateway {
   constructor(private httpservice: HttpService) {}
 
-  async getRandomNumberExchange(): Promise<number> {
+  async conversionRate(): Promise<number> {
     const response = this.httpservice.get(
       `${process.env.EXCHANGE_URL}/random/exchange/convert`,
     );

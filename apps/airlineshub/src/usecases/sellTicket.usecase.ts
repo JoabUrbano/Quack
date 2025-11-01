@@ -13,7 +13,7 @@ export class SellTicketUseCase {
     private readonly flightsRepository: FlightsRepository,
   ) {}
 
-async execute(input: SellTicketDto): Promise<AirTicketDto> {
+  async execute(input: SellTicketDto): Promise<AirTicketDto> {
     const { userId, day, flight: flightNumber, finalValue } = input;
 
     const flight =

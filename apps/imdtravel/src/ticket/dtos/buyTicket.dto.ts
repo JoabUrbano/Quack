@@ -18,5 +18,5 @@ export class BuyTicketDto {
 
   @ApiProperty({ description: 'User ID' })
   @IsUUID()
-  userId: number;
+  userId: string;
 }

@@ -21,6 +21,7 @@ export class AirTicket extends Entity {
     super();
 
     this._id = props.flightId;
+    this.flightId = props.flightId;
     this.seatNumber = props.seatNumber;
     this.purchaseDate = props.purchaseDate;
     this.finalValue = props.finalValue;
