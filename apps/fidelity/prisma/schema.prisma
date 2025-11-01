@@ -1,0 +1,18 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated/client"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("FIDELITY_DATABASE_URL")
+}
+
+model Bonus {
+  id        String   @id @default(uuid())
+  value     Int   
+  user      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
