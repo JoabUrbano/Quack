@@ -1,3 +1,5 @@
+import { CreateBonusDto } from "@fidelity/modules/bonus/dtos/createBonusDtos";
+
 export abstract class BonusRepository {
-    abstract createBonus(): Promise<any>
+    abstract createBonus(body: CreateBonusDto): Promise<any>
 }

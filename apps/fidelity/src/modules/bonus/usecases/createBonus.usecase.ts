@@ -8,6 +8,6 @@ export class CreateBonusUsecase {
     }
     
     async execute(body: CreateBonusDto): Promise<string> {
-        return await this.bonusRepository.createBonus();
+        return await this.bonusRepository.createBonus(body);
     }
 }
