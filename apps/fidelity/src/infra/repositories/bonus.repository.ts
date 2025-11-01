@@ -7,7 +7,7 @@ import { Injectable } from "@nestjs/common";
 export class PrismaBonusRepository implements BonusRepository {
     constructor(private readonly prismaService: PrismaService) {}
 
-    async createBonus(body: CreateBonusDto): Promise<any> {
+    async createBonus(body: CreateBonusDto): Promise<string> {
         try {
             const res = await this.prismaService.bonus.create({
                 data: {
