@@ -1,7 +1,8 @@
 # QuackHub
 
 ## 📑 About the Project
-O Quack é uma plataforma criada para gerenciar microserviços de sistemas de passagens aerias, programas de cambio e fidelidade.
+Quack is a platform created to manage microservices for airline ticketing systems, currency exchange programs, and loyalty programs.
+This project is being developed for the subjects of WEB 2 development and fault tolerance. For fault tolerance, the focus is on building an architecture with microservices, while for WEB 2 development the focus is on CRUD functionalities.
 
 # 🔧 Technologies Used
 [![Technologies](https://skillicons.dev/icons?i=docker,ts,nest,postgres,prisma)]()
@@ -43,3 +44,7 @@ Backend: In Progress
 # Authors
 <a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
 <a href="https://github.com/JoabUrbano">Joab Urbano</a><br>
+
+# Endpoints for the web development subject 2
+<a href="https://github.com/Viniciusfqmedeiros">Vinicius</a><br>
+
