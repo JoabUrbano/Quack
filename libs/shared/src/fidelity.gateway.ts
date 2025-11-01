@@ -6,13 +6,13 @@ import { lastValueFrom } from 'rxjs';
 export class FidelityGateway {
   constructor(private httpservice: HttpService) {}
 
-  async createBonus(param: {user: string, value: number}): Promise<string> {
-    const response = this.httpservice.post(
+  async createBonus(param: { user: string; value: number }): Promise<string> {
+    const response = this.httpservice.post<string>(
       `${process.env.FIDELITY_URL}/bonus`,
-        {
-            user: param.user,
-            value: param.value
-        },
+      {
+        user: param.user,
+        bonus: param.value,
+      },
     );
 
     const res = await lastValueFrom(response);

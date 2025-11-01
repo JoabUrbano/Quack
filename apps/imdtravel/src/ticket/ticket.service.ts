@@ -10,7 +10,7 @@ export class TicketService {
   constructor(
     private airlineHubGateway: AirlineHubGateway,
     private exchangeGateway: ExchangeGateway,
-    private fidelityGateway: FidelityGateway
+    private fidelityGateway: FidelityGateway,
   ) {}
 
   async buyTicket(input: BuyTicketDto): Promise<FlightDto> {
@@ -21,10 +21,12 @@ export class TicketService {
     const exchange = await this.exchangeGateway.getRandomNumberExchange();
 
     const realToDolar = Math.round(flight.value / exchange);
+
     const bonusParams = {
-      value: flight.value*1/10,
-      user: userId
-    }
+      value: Math.round((flight.value * 1) / 10),
+      user: userId,
+    };
+
     const bonus = await this.fidelityGateway.createBonus(bonusParams);
     console.log(bonus);
 
