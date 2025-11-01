@@ -23,6 +23,7 @@ export class FindManyFlightsUseCase {
 
     const flights = await this.flightsRepository.findMany({ page, limit });
 
+
     const [airlines, airplanes, airports, flightSchedules] = await Promise.all([
       this.airlinesRepository.findMany({
         ids: flights.map((flight) => flight.airlineId),

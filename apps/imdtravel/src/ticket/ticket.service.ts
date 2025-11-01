@@ -44,7 +44,7 @@ export class TicketService {
     const valueInDolar = Math.round(flightSchedule.value / conversionRate);
 
     const bonusParams = {
-      value: Math.round((flight.value * 1) / 10),
+      value: Math.round((flightSchedule.value * 1) / 10),
       user: userId,
     };
 

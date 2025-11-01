@@ -17,7 +17,7 @@ export class UpdateAirTicketUseCase {
     const updatedTicket = new AirTicket({
       id: existingTicket.id,
       seatNumber: input.seatNumber ?? existingTicket.seatNumber,
-      flightId: existingTicket.flightId,
+      flightScheduleId: existingTicket.flightScheduleId,
       userId: existingTicket.userId,
       finalValue: input.finalValue ?? existingTicket.finalValue,
       purchaseDate: existingTicket.purchaseDate,

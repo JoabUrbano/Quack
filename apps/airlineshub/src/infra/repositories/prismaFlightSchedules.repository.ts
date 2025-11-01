@@ -63,10 +63,8 @@ export class PrismaFlightSchedulesRepository
     }
 
     if (flightIds) {
-      where = { flightIds: { in: flightIds } };
+      where = { flightId: { in: flightIds } };
     }
-
-    console.log('where => ', where);
 
     const flightSchedules = await this.prismaService.flightSchedule.findMany({
       ...pagination,
