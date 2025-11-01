@@ -36,11 +36,14 @@ export class TicketService {
 
     const bonus = await this.fidelityGateway.createBonus(bonusParams);
 
+    // return {
+    //   flight,
+    //   airticket,
+    //   valueInDolar,
+    //   bonus,
+    // };
     return {
-      flight,
-      airticket,
-      valueInDolar,
-      bonus,
+      transactionId: airticket.id,
     };
   }
 }
