@@ -2,34 +2,38 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
 
 import { AirTicketsRepository } from '@airlineshub/domains/repositories/airTickets.repository';
-import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { AirTicket } from '@airlineshub/domains/entities/airTicket.entity';
 import { AirTicketDto } from '@app/shared/types/airTicket.dto';
+import { FlightSchedulesRepository } from '@airlineshub/domains/repositories/flightSchedules.repository';
+import { UsersRepository } from '@airlineshub/domains/repositories/users.repository';
 
 @Injectable()
 export class SellTicketUseCase {
   constructor(
     private readonly airTicketsRepository: AirTicketsRepository,
-    private readonly flightsRepository: FlightsRepository,
+    private readonly flightSchedulesRepository: FlightSchedulesRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(input: SellTicketDto): Promise<AirTicketDto> {
-    const { userId, day, flight: flightNumber, finalValue } = input;
+    const { userId, finalValue, flightScheduleId } = input;
 
-    const flight =
-      await this.flightsRepository.findByFlightNumber(flightNumber);
+    const flightSchedule =
+      await this.flightSchedulesRepository.findById(flightScheduleId);
 
-    if (!flight) {
-      throw new NotFoundException('Flight not found');
+    if (!flightSchedule) {
+      throw new NotFoundException('flightSchedule not found');
     }
 
-    if (!userId) {
+    const user = await this.usersRepository.findOneById(userId);
+
+    if (!user) {
       throw new NotFoundException('User not found');
     }
 
     const airTicket = AirTicket.create({
       userId: userId,
-      flightScheduleId: flight.id,
+      flightScheduleId: flightSchedule.id,
       seatNumber: 2, // TODO: Pegar assento no params
       finalValue,
       purchaseDate: new Date(),

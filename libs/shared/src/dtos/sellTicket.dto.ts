@@ -3,18 +3,9 @@ import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsUUID } from 'class-validator';
 
 export class SellTicketDto {
-  @ApiProperty({ description: 'Flight number' })
-  @IsNumber()
-  flight: number;
-
-  @ApiProperty({
-    description: 'Day of the flight',
-    type: String,
-    format: 'date',
-  })
-  @IsDate()
-  @Type(() => Date)
-  day: Date;
+  @ApiProperty({ description: 'Flight schedule ID' })
+  @IsUUID()
+  flightScheduleId: string;
 
   @ApiProperty({ description: 'Ticket final value' })
   @IsNumber()

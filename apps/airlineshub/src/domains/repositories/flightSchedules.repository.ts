@@ -7,7 +7,7 @@ export interface IPaginationFilter {
 
 export interface IFindManyFilter extends IPaginationFilter {
   ids?: string[];
-  flightId?: string;
+  flightIds?: string[];
 }
 
 export abstract class FlightSchedulesRepository {

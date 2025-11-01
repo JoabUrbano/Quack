@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { FlightDetailMapper } from '@airlineshub/modules/flight/usecases/mappers';
 import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos';
 import { FlightDto } from '@app/shared/types/fligt.dto';
+import { FlightSchedulesRepository } from '@airlineshub/domains/repositories/flightSchedules.repository';
 
 @Injectable()
 export class FindManyFlightsUseCase {
@@ -14,6 +15,7 @@ export class FindManyFlightsUseCase {
     private airplanesRepository: AirplanesRepository,
     private airportsRepository: AirportsRepository,
     private airlinesRepository: AirlinesRepository,
+    private flightSchedulesRepository: FlightSchedulesRepository,
   ) {}
 
   async execute(input: FindManyFlightsDto): Promise<FlightDto[]> {
@@ -21,7 +23,7 @@ export class FindManyFlightsUseCase {
 
     const flights = await this.flightsRepository.findMany({ page, limit });
 
-    const [airlines, airplanes, airports] = await Promise.all([
+    const [airlines, airplanes, airports, flightSchedules] = await Promise.all([
       this.airlinesRepository.findMany({
         ids: flights.map((flight) => flight.airlineId),
       }),
@@ -35,6 +37,9 @@ export class FindManyFlightsUseCase {
             flight.arrivalAirportId,
           ]),
         ],
+      }),
+      this.flightSchedulesRepository.findMany({
+        flightIds: flights.map((flight) => flight.id),
       }),
     ]);
 
@@ -55,12 +60,17 @@ export class FindManyFlightsUseCase {
         (airport) => airport.id === flight.arrivalAirportId,
       );
 
+      const flightSchedulesFiltered = flightSchedules.filter(
+        (schedule) => schedule.flightId === flight.id,
+      );
+
       return FlightDetailMapper.toPresentationDTO({
         flight,
         airplane,
         departureAirport,
         arrivalAirport,
         airline,
+        flightSchedules: flightSchedulesFiltered,
       });
     });
   }

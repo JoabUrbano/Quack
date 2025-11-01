@@ -8,10 +8,11 @@ export class CreateAirTicketUseCase {
   constructor(private readonly airTicketsRepository: AirTicketsRepository) {}
 
   async execute(input: CreateAirTicketDto) {
-    const existingTicket = await this.airTicketsRepository.findOneByFlightAndSeat(
-      input.flightId,
-      input.seatNumber,
-    );
+    const existingTicket =
+      await this.airTicketsRepository.findOneByFlightScheduleAndSeat(
+        input.flightScheduleId,
+        input.seatNumber,
+      );
 
     if (existingTicket) {
       throw new ConflictException(
@@ -21,7 +22,7 @@ export class CreateAirTicketUseCase {
 
     const airTicket = AirTicket.create({
       seatNumber: input.seatNumber,
-      flightId: input.flightId,
+      flightScheduleId: input.flightScheduleId,
       userId: input.userId,
       finalValue: input.finalValue,
       purchaseDate: new Date(),

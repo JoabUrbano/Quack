@@ -12,6 +12,8 @@ import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes
 import { PrismaAirplanesRepository } from '@airlineshub/infra/repositories/airplanes.repository';
 import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
 import { PrismaAirportsRepository } from '@airlineshub/infra/repositories/airports.repository';
+import { FlightSchedulesRepository } from '@airlineshub/domains/repositories/flightSchedules.repository';
+import { PrismaFlightSchedulesRepository } from '@airlineshub/infra/repositories/prismaFlightSchedules.repository';
 
 @Module({
   imports: [],
@@ -36,6 +38,10 @@ import { PrismaAirportsRepository } from '@airlineshub/infra/repositories/airpor
     {
       provide: AirportsRepository,
       useClass: PrismaAirportsRepository,
+    },
+    {
+      provide: FlightSchedulesRepository,
+      useClass: PrismaFlightSchedulesRepository,
     },
   ],
 })

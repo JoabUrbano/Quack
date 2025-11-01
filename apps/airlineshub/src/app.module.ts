@@ -20,6 +20,8 @@ import { PrismaAirTicketsRepository } from '@airlineshub/infra/repositories/pris
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights.repository';
+import { FlightSchedulesRepository } from '@airlineshub/domains/repositories/flightSchedules.repository';
+import { PrismaFlightSchedulesRepository } from '@airlineshub/infra/repositories/prismaFlightSchedules.repository';
 
 @Module({
   imports: [
@@ -53,6 +55,10 @@ import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights
     {
       provide: AirTicketsRepository,
       useClass: PrismaAirTicketsRepository,
+    },
+    {
+      provide: FlightSchedulesRepository,
+      useClass: PrismaFlightSchedulesRepository,
     },
   ],
 })

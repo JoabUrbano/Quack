@@ -1,3 +1,4 @@
+import { FlightScheduleStatus } from '@airlineshub/domains/entities/flightSchedule.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AirplaneDto {
@@ -67,6 +68,44 @@ export class AirlineDto {
   country: string;
 }
 
+export class FlightScheduleDto {
+  @ApiProperty({
+    description: 'Unique identifier for the flight schedule',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  id: string;
+
+  @ApiProperty({
+    description: 'Identifier of the associated flight',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  flightId: string;
+
+  @ApiProperty({
+    description: 'Expected departure time',
+    example: '2024-12-01T10:00:00Z',
+  })
+  expectedDeparture: Date;
+
+  @ApiProperty({
+    description: 'Expected arrival time',
+    example: '2024-12-01T14:00:00Z',
+  })
+  expectedArrival: Date;
+
+  @ApiProperty({
+    description: 'Ticket price for the flight schedule',
+    example: 250000,
+  })
+  value: number;
+
+  @ApiProperty({
+    description: 'Current status of the flight schedule',
+    example: 'DEPARTED',
+  })
+  status: FlightScheduleStatus;
+}
+
 export class FlightDto {
   @ApiProperty({
     description: 'Unique identifier for the flight',
@@ -121,4 +160,11 @@ export class FlightDto {
     nullable: true,
   })
   airline: AirlineDto | null;
+
+  @ApiProperty({
+    description: 'List of flight schedules associated with the flight',
+    isArray: true,
+    nullable: true,
+  })
+  flightSchedules: FlightScheduleDto[];
 }

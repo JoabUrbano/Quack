@@ -46,7 +46,7 @@ export class PrismaFlightSchedulesRepository
   }
 
   async findMany(input: IFindManyFilter): Promise<FlightScheduleEntity[]> {
-    const { page, limit, ids, flightId } = input;
+    const { page, limit, ids, flightIds } = input;
 
     let pagination = {};
     let where = {};
@@ -60,9 +60,13 @@ export class PrismaFlightSchedulesRepository
 
     if (ids && ids.length > 0) {
       where = { id: { in: ids } };
-    } else if (flightId) {
-      where = { flightId };
     }
+
+    if (flightIds) {
+      where = { flightIds: { in: flightIds } };
+    }
+
+    console.log('where => ', where);
 
     const flightSchedules = await this.prismaService.flightSchedule.findMany({
       ...pagination,

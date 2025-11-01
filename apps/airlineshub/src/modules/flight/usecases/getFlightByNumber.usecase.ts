@@ -6,6 +6,7 @@ import { AirportsRepository } from '@airlineshub/domains/repositories/airports.r
 import { AirlinesRepository } from '@airlineshub/domains/repositories/airlines.repository';
 import { FlightDetailMapper } from '@airlineshub/modules/flight/usecases/mappers';
 import { FlightDto } from '@app/shared/types/fligt.dto';
+import { FlightSchedulesRepository } from '@airlineshub/domains/repositories/flightSchedules.repository';
 
 @Injectable()
 export class FindFlightByNumberUseCase {
@@ -14,6 +15,7 @@ export class FindFlightByNumberUseCase {
     private airplanesRepository: AirplanesRepository,
     private airportsRepository: AirportsRepository,
     private airlinesRepository: AirlinesRepository,
+    private flightSchedulesRepository: FlightSchedulesRepository,
   ) {}
 
   async execute(params: GetFlightDto): Promise<FlightDto> {
@@ -41,12 +43,17 @@ export class FindFlightByNumberUseCase {
       (airport) => airport.id === flight.arrivalAirportId,
     );
 
+    const flightSchedules = await this.flightSchedulesRepository.findByFlightId(
+      flight.id,
+    );
+
     return FlightDetailMapper.toPresentationDTO({
       flight,
       airplane,
       departureAirport,
       arrivalAirport,
       airline,
+      flightSchedules,
     });
   }
 }
