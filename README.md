@@ -17,6 +17,8 @@ O Quack é uma plataforma criada para gerenciar microserviços de sistemas de pa
 ## 📣 Running the Project
 Prerequisites: npm / yarn and Docker installed
 
+<h2>Rodando no Docker</h2>
+
 ```bash
 # clone the repository
 git clone https://github.com/JoabUrbano/Quack.git
@@ -24,20 +26,11 @@ git clone https://github.com/JoabUrbano/Quack.git
 # navigate to the project directory
 cd quack
 
-yarn 
-
-cd apps/imdtravel
-npx prisma generate
-
-cd ../airlineshub
-npx prisma generate
-
-cd ../fidelity
-npx prisma generate
-cd ../..
+yarn install
 
 docker compose up -d
 ```
+
 
 Para testar o fluxo principal, use uma feerramenta como o Postman rodando a rota:
 http://imdtravel:3000/tickets/buyTicket
