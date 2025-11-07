@@ -6,7 +6,7 @@ export class FailStateRequest01 {
   constructor() {}
 
   probability() {
-    const event = probabilityEvent(90);
+    const event = probabilityEvent(20);
 
     if (event) {
       this.request01State = true;
