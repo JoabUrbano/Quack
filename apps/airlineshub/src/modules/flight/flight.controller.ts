@@ -16,7 +16,7 @@ export class FlightController {
     private readonly createFlightUseCase: CreateFlightUseCase,
     private readonly findManyFlightsUseCase: FindManyFlightsUseCase,
     private readonly findFlightByNumberUseCase: FindFlightByNumberUseCase,
-    private failState: FailStateRequest01
+    private failState: FailStateRequest01,
   ) {}
 
   @ApiOperation({ summary: 'Create a new flight' })
@@ -40,17 +40,16 @@ export class FlightController {
   @ApiResponse({ status: 200, description: 'Flight found' })
   @ApiResponse({ status: 404, description: 'Flight not found' })
   @Get('flight')
-  getFlight(@Query('flight') flight: number, @Query('day') day: Date) {
-    this.failState.probability()
+  async getFlight(@Query('flight') flight: number, @Query('day') day: Date) {
+    this.failState.probability();
 
-    if(this.failState.request01State == true) {
-      let a = 5
+    if (this.failState.request01State == true) {
+      await new Promise(() => {});
     }
-    else {
-      return this.findFlightByNumberUseCase.execute({
+
+    return this.findFlightByNumberUseCase.execute({
       flight: +flight,
       day: day,
     });
-    }
   }
 }

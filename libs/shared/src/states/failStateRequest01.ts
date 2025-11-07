@@ -1,18 +1,17 @@
-import { Injectable } from "@nestjs/common";
-
+import { Injectable } from '@nestjs/common';
+import { probabilityEvent } from '@app/shared/utils/probability';
 @Injectable()
-export class FailStateRequest01{
-    public request01State: Boolean = false;
-    constructor() {}
+export class FailStateRequest01 {
+  public request01State: Boolean = false;
+  constructor() {}
 
-    probability() {
-        const probability = Math.floor(Math.random() * (10 - 5) + 5);
-        console.log(probability)
-        if(probability == 5) {
-            this.request01State = true
-        }
-        else {
-            this.request01State = false
-        }
+  probability() {
+    const event = probabilityEvent(90);
+
+    if (event) {
+      this.request01State = true;
+    } else {
+      this.request01State = false;
     }
+  }
 }
