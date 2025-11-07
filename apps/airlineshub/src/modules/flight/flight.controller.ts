@@ -7,6 +7,8 @@ import { FindManyFlightsDto } from '@airlineshub/modules/flight/dtos/findManyFli
 import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.dto';
 import { FindFlightByNumberUseCase } from '@airlineshub/modules/flight/usecases/getFlightByNumber.usecase';
 
+import { FailStateRequest01 } from '@app/shared/states/failStateRequest01';
+
 @ApiTags('Flights')
 @Controller('flights')
 export class FlightController {
@@ -14,6 +16,7 @@ export class FlightController {
     private readonly createFlightUseCase: CreateFlightUseCase,
     private readonly findManyFlightsUseCase: FindManyFlightsUseCase,
     private readonly findFlightByNumberUseCase: FindFlightByNumberUseCase,
+    private failState: FailStateRequest01
   ) {}
 
   @ApiOperation({ summary: 'Create a new flight' })
@@ -38,9 +41,16 @@ export class FlightController {
   @ApiResponse({ status: 404, description: 'Flight not found' })
   @Get('flight')
   getFlight(@Query('flight') flight: number, @Query('day') day: Date) {
-    return this.findFlightByNumberUseCase.execute({
+    this.failState.probability()
+
+    if(this.failState.request01State == true) {
+      let a = 5
+    }
+    else {
+      return this.findFlightByNumberUseCase.execute({
       flight: +flight,
       day: day,
     });
+    }
   }
 }

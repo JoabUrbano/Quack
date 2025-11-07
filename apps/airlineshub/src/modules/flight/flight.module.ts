@@ -12,9 +12,10 @@ import { AirplanesRepository } from '@airlineshub/domains/repositories/airplanes
 import { PrismaAirplanesRepository } from '@airlineshub/infra/repositories/airplanes.repository';
 import { AirportsRepository } from '@airlineshub/domains/repositories/airports.repository';
 import { PrismaAirportsRepository } from '@airlineshub/infra/repositories/airports.repository';
+import { SharedModule } from '@app/shared';
 
 @Module({
-  imports: [],
+  imports: [SharedModule],
   controllers: [FlightController],
   providers: [
     PrismaService,
