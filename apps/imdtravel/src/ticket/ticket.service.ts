@@ -14,7 +14,7 @@ export class TicketService {
 
   // TODO: Definir o retorno correto do método
   async buyTicket(input: BuyTicketDto): Promise<any> {
-    const { flight: flightNumber, day, userId } = input;
+    const { flight: flightNumber, day, userId, ft } = input;
 
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day);
 
