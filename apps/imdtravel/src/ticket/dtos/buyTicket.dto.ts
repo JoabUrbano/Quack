@@ -19,4 +19,10 @@ export class BuyTicketDto {
   @ApiProperty({ description: 'User ID' })
   @IsUUID()
   userId: string;
+
+  @ApiProperty({
+    description: 'Fault Tolerant?',
+    type: Boolean
+  })
+  ft: boolean;
 }

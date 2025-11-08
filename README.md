@@ -46,6 +46,7 @@ Backend: In Progress
 # Authors
 <a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
 <a href="https://github.com/JoabUrbano">Joab Urbano</a><br>
+<a href="https://github.com/Gaplima">Gabriel Alves Pinheiro Lima</a><br>
 
 # Endpoints for the web development subject 2
 <a href="https://github.com/Viniciusfqmedeiros">Vinicius</a><br>
