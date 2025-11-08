@@ -4,9 +4,10 @@ import { CreateBonusUsecase } from '@fidelity/modules/bonus/usecases/createBonus
 import { PrismaBonusRepository } from '@fidelity/infra/repositories/bonus.repository';
 import { BonusRepository } from '@fidelity/domains/repositories/bonus.repository';
 import { PrismaService } from '@fidelity/infra/database/prisma.service';
+import { SharedModule } from '@app/shared';
 
 @Module({
-    imports: [],
+    imports: [SharedModule],
     controllers: [BonusController],
     providers: [
         CreateBonusUsecase,

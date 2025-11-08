@@ -4,6 +4,7 @@ import { BonusModule } from '@fidelity/modules/bonus/bonus.module';
 import { PrismaService } from '@fidelity/infra/database/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { SharedModule } from '@app/shared';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import * as Joi from 'joi';
       }),
     }),
     BonusModule,
+    SharedModule
   ],
   controllers: [FidelityController],
   providers: [PrismaService],
