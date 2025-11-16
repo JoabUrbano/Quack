@@ -16,8 +16,6 @@ export class FaultInterceptor implements NestInterceptor {
             return next.handle();
         }
 
-        console.log('reflector:', this.reflector);
-
         const fault = this.reflector.get(FaultSimulation, context.getHandler());
 
         if (!fault) {

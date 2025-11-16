@@ -23,6 +23,7 @@ export class GetFlightDto {
     description: 'Fault Tolerant',
     type: Boolean
   })
+  @Transform(({ value }) => value === 'true')
   @IsBoolean()
   ft: boolean;
 }

@@ -44,9 +44,7 @@ export class FlightController {
   async getFlight(
     @Query() getFlightDto: GetFlightDto,
   ) {
-    console.log('[getFlight]:', getFlightDto);
-
-    const { flight, day } = getFlightDto;
+    const { flight, day, ft } = getFlightDto;
 
 
     if (ft) {

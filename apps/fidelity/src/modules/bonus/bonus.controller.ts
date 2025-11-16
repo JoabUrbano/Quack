@@ -13,7 +13,6 @@ export class BonusController {
   @Post()
   async getBonus(@Body() body: CreateBonusDto) {
     this.failStateRequest04.probability()
-    console.log(this.failStateRequest04.request04State)
     
     if (this.failStateRequest04.request04State == true) {
       while (1) {

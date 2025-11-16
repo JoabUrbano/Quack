@@ -13,8 +13,6 @@ export class TicketController {
     @Post('buyTicket')
     // @FaultSimulation(new TimeoutFault({ durationMs: 5000, probability: 20 }))
     buyTicket(@Body() buyTicketDto: BuyTicketDto): any {
-        console.log('[buyTicketDto]:', buyTicketDto);
-
         return this.ticketService.buyTicket(buyTicketDto);
     }
 }
