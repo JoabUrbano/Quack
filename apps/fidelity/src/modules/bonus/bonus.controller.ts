@@ -8,14 +8,14 @@ export class BonusController {
   constructor(
     private readonly createBonusUsecase: CreateBonusUsecase,
     public failStateRequest04: FailStateRequest04
-  ) {}
+  ) { }
 
   @Post()
   async getBonus(@Body() body: CreateBonusDto) {
     this.failStateRequest04.probability()
-    console.log(this.failStateRequest04.request04State)
-    if(this.failStateRequest04.request04State == true) {
-      while(1) {
+    
+    if (this.failStateRequest04.request04State == true) {
+      while (1) {
         let a = 5
       }
     }

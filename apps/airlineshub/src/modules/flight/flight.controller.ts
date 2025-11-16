@@ -44,7 +44,8 @@ export class FlightController {
   async getFlight(
     @Query() getFlightDto: GetFlightDto,
   ) {
-    const { ft, flight, day } = getFlightDto;
+    const { flight, day, ft } = getFlightDto;
+
 
     if (ft) {
       this.failState.probability();

@@ -1,24 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { Transform } from "class-transformer";
+import { IsBoolean, IsNumber, IsOptional } from "class-validator";
 
 export class RandomNumbersDto {
-    @ApiProperty({
-        description: 'Minimum number',
-        example: 1,
-    })
-    @IsNumber()
-    min: number
-
-    @ApiProperty({
-        description: 'Maximum number',
-        example: 6,
-    })
-    @IsNumber()
-    max: number
-
     @ApiProperty({
         description: 'Fault Tolerant',
         type: Boolean
     })
-    ft: boolean;
+    @Transform(({ value }) => {
+        if (typeof value === 'boolean') return value; // Se já for boolean
+        if (typeof value === 'string') return value.toLowerCase() === 'true'; // Se for string
+        return Boolean(value); // Converte qualquer outro tipo
+    })
+    @IsOptional()
+    @IsBoolean()
+    ft?: boolean;
 }

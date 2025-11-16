@@ -24,8 +24,8 @@ export class TicketService {
     const { flight: flightNumber, day, userId, ft } = input;
 
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft);
-
-    const conversionRate = await this.exchangeGateway.conversionRate();
+      
+    const conversionRate = await this.exchangeGateway.conversionRate(ft);
 
     const airticket = await this.airlineHubGateway.sellTicket({
       day,

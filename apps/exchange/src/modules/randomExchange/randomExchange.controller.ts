@@ -12,14 +12,18 @@ export class RandomExchangeController {
 
   @Get('convert')
   getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
-    if (numbersDto.ft) {
+    const { ft } = numbersDto;
+
+    if (ft) {
       this.failStateRequest02.probability()
+
       if (this.failStateRequest02.request02State) {
-        return -1
+        return -1;
       }
     }
 
     const number = this.getRandomNumberExchange.execute();
+
     return number;
   }
 }
