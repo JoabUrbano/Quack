@@ -23,6 +23,8 @@ export class AppController {
 
   @Post('sell')
   async sell(@Body() body: SellTicketDto) {
+    console.log('Received sell ticket request:', body);
+    
     if (body.ft) {
       this.failStateRequest03.probability()
       if (this.failStateRequest03.request03State) {

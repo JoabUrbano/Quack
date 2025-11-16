@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IsDate, IsNumber } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetFlightDto {
@@ -23,6 +23,7 @@ export class GetFlightDto {
     description: 'Fault Tolerant',
     type: Boolean
   })
+  @IsBoolean()
   ft: boolean;
 }
 

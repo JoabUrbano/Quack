@@ -1,50 +1,40 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { createClient } from 'redis';
 import { ExchangeValueIsValid } from './utils/exchangeValueIsValid';
+import { RedisClient } from '@app/shared/infra/redis/redis';
 
 @Injectable()
 export class ExchangeGateway {
-  constructor(private httpservice: HttpService) { }
+  constructor(private httpservice: HttpService, private readonly redisClient: RedisClient) { }
 
   async conversionRate(ft: boolean): Promise<number> {
     try {
-      const client = createClient({
-        socket: {
-        host: process.env.REDIS_HOST,
-        port: Number(process.env.REDIS_PORT),
-      },
-      password: process.env.REDIS_PASSWORD,
-      });
-
-      client.on('error', err => console.log('Redis Client Error', err));
-
-      await client.connect();
-
       const response = this.httpservice.get(
         `${process.env.EXCHANGE_URL}/random/exchange/convert`,
         {
-          params: {ft}
+          params: { ft }
         }
       );
       const res = await lastValueFrom(response);
 
-      if(!ExchangeValueIsValid(res.data)) {
-        const lastValuesExchange = await client.lRange('exchangeHistory', -10, -1);
-        let average = 0;
-        let count = 0;
-        for(let value of lastValuesExchange) {
-          count ++;
-          average += parseFloat(value.toString());
-        }
-        return  average/count
-      } else {
-        await client.rPush('exchangeHistory', String(res.data));
-        await client.lTrim('exchangeHistory', -10, -1);
+      const conversionRate = res.data;
+
+
+      if (!ExchangeValueIsValid(conversionRate)) {
+        const lastValuesExchange = await this.redisClient.getList('exchange:history', -5, -1);
+        console.log('Using cached exchange values from Redis:', lastValuesExchange);
+
+
+        const average = lastValuesExchange.reduce((sum, val) => sum + parseFloat(val.toString()), 0) / lastValuesExchange.length;
+
+        return average
       }
 
-      return res.data;
+      await this.redisClient.rpush('exchange:history', conversionRate);
+      await this.redisClient.lTrim('exchange:history', -5, -1);
+
+      return conversionRate;
     } catch (error) {
       console.error('Error fetching conversion rate from Exchange API:', error);
       throw new Error('Ocorreu um erro ao buscar a cotação na API de Exchange');
