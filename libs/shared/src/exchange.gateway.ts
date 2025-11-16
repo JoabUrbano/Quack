@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
+import { createClient } from 'redis';
 
 @Injectable()
 export class ExchangeGateway {
@@ -8,6 +9,12 @@ export class ExchangeGateway {
 
   async conversionRate(): Promise<number> {
     try {
+      const client = createClient();
+
+      client.on('error', err => console.log('Redis Client Error', err));
+
+      await client.connect();
+
       const response = this.httpservice.get(
         `${process.env.EXCHANGE_URL}/random/exchange/convert`,
       );

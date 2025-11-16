@@ -8,8 +8,7 @@ import { boolean } from 'joi';
 export class RandomExchangeController {
   constructor(
     private readonly getRandomNumberExchange: GetRandomNumberExchange,
-    public readonly failStateRequest02: FailStateRequest02,
-    private readonly lastTenNumbers: number[] = []
+    public readonly failStateRequest02: FailStateRequest02
   ) { }
 
   @Get('convert')
@@ -18,17 +17,11 @@ export class RandomExchangeController {
       this.failStateRequest02.probability()
 
       if (this.failStateRequest02.request02State) {
-        //var id é um placeholder para teste, será substituído pela boolean ft, de buyticket.dto
         return -1;
       }
     }
 
     const number = this.getRandomNumberExchange.execute();
-
-    this.lastTenNumbers.push(number);
-    if (this.lastTenNumbers.length > 10) {
-      this.lastTenNumbers.shift();
-    }
 
     return number;
   }
