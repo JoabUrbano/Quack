@@ -22,7 +22,7 @@ export class ExchangeGateway {
 
 
       if (!ExchangeValueIsValid(conversionRate)) {
-        const lastValuesExchange = await this.redisClient.getList('exchange:history', -5, -1);
+        const lastValuesExchange = await this.redisClient.getList('exchange:history', -10, -1);
         console.log('Using cached exchange values from Redis:', lastValuesExchange);
 
 
@@ -32,7 +32,7 @@ export class ExchangeGateway {
       }
 
       await this.redisClient.rpush('exchange:history', conversionRate);
-      await this.redisClient.lTrim('exchange:history', -5, -1);
+      await this.redisClient.lTrim('exchange:history', -10, -1);
 
       return conversionRate;
     } catch (error) {
