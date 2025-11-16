@@ -15,6 +15,8 @@ services:
       - /app/apps/imdtravel/node_modules
       - /app/apps/imdtravel/prisma/generated
     depends_on:
+      rabbitmq:
+        condition: service_healthy
       postgres:
         condition: service_healthy
     networks:
@@ -117,12 +119,31 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     networks:
       - duck-network
+  rabbitmq:
+    # image: rabbitmq:3-management
+    build:
+      context: .
+      dockerfile: docker/rabbitmq/Dockerfile
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - duck-network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 networks:
   duck-network:
     driver: bridge
 
 volumes:
+  rabbitmq_data:
   postgres-data:
   pgadmin-data:
 

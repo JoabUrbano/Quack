@@ -21,7 +21,7 @@ export class BuyTicketDto {
   userId: string;
   
   @ApiProperty({
-    description: 'Fault Tolerant?',
+    description: 'Fault Tolerant',
     type: Boolean
   })
   ft: boolean;

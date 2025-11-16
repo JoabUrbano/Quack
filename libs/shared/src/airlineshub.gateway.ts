@@ -7,27 +7,34 @@ import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
 
 @Injectable()
 export class AirlineHubGateway {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) { }
 
   getHello(): string {
     return 'Hello from AirlineHub Gateway!';
   }
 
-  async getFlight(flight: number, day: Date): Promise<FlightDto> {
+  async getFlight(flight: number, day: Date, ft: boolean): Promise<FlightDto> {
     try {
-      const response = this.httpService.get<FlightDto>(
-        `${process.env.AIRLINESHUB_URL}/flights/flight/`,
-        {
-          params: {
-            flight,
-            day,
+      try {
+
+        const response = this.httpService.get<FlightDto>(
+          `${process.env.AIRLINESHUB_URL}/flights/flight/`,
+          {
+            params: {
+              flight,
+              day,
+              ft
+            },
           },
-        },
-      );
+        );
 
-      const res = await lastValueFrom(response);
+        const res = await lastValueFrom(response);
 
-      return res.data;
+        return res.data;
+      } catch (error) {
+        console.error('Error fetching flight from AirlinesHub API:', error);
+        throw new Error('Ocorreu um erro ao buscar o voo na API do AirlinesHub');
+      }
     } catch (error) {
       console.log(error);
 
@@ -36,13 +43,19 @@ export class AirlineHubGateway {
   }
 
   async sellTicket(params: SellTicketDto): Promise<AirTicketDto> {
-    const response = this.httpService.post<AirTicketDto>(
-      `${process.env.AIRLINESHUB_URL}/sell`,
-      params,
-    );
+    try {
+      const response = this.httpService.post<AirTicketDto>(
+        `${process.env.AIRLINESHUB_URL}/sell`,
+        params,
+      );
 
-    const res = await lastValueFrom(response);
+      const res = await lastValueFrom(response);
 
-    return res.data;
+      return res.data;
+    } catch (error) {
+      console.error('Error selling ticket through AirlinesHub API:', error);
+      throw new Error('Ocorreu um erro ao vender o ticket na API do AirlinesHub');
+    }
+
   }
 }
