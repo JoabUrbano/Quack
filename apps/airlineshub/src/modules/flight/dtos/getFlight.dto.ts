@@ -7,6 +7,7 @@ export class GetFlightDto {
     description: 'Flight number',
     example: 123,
   })
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   flight: number;
 

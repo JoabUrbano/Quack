@@ -8,6 +8,7 @@ import { CreateFlightDto } from '@airlineshub/modules/flight/dtos/createFlight.d
 import { FindFlightByNumberUseCase } from '@airlineshub/modules/flight/usecases/getFlightByNumber.usecase';
 
 import { FailStateRequest01 } from '@app/shared/states/failStateRequest01';
+import { GetFlightDto } from '@airlineshub/modules/flight/dtos';
 
 @ApiTags('Flights')
 @Controller('flights')
@@ -41,15 +42,15 @@ export class FlightController {
   @ApiResponse({ status: 404, description: 'Flight not found' })
   @Get('flight')
   async getFlight(
-    @Query('flight') flight: number,
-    @Query('day') day: Date,
-    @Query('ft') ft: boolean
+    @Query() getFlightDto: GetFlightDto,
   ) {
-    if(ft){
+    const { ft, flight, day } = getFlightDto;
+
+    if (ft) {
       this.failState.probability();
 
       if (this.failState.request01State == true) {
-        await new Promise(() => {});
+        await new Promise(() => { });
       }
     }
 
