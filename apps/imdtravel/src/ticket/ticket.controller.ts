@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { TicketService } from "@imdtravel/ticket/ticket.service";
 import { BuyTicketDto } from "@imdtravel/ticket/dtos/buyTicket.dto";
 
