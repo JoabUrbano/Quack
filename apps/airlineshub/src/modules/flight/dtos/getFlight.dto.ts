@@ -17,5 +17,11 @@ export class GetFlightDto {
   @IsDate()
   @Type(() => Date)
   day: Date;
+
+  @ApiProperty({
+    description: 'Fault Tolerant',
+    type: Boolean
+  })
+  ft: boolean;
 }
 

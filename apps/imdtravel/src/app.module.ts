@@ -6,6 +6,8 @@ import * as Joi from 'joi';
 import { PrismaService } from '@imdtravel/prisma.service';
 
 import { TicketModule } from './ticket/ticket.module';
+import { TicketEventService } from '@imdtravel/rabbitmq/ticket-event.service';
+import { RabbitMQModule as IMDTravelRabbitMQModule } from '@imdtravel/rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
@@ -13,11 +15,13 @@ import { TicketModule } from './ticket/ticket.module';
       isGlobal: true,
       validationSchema: Joi.object({
         AIRLINESHUB_DATABASE_URL: Joi.string().uri().required(),
+        RABBITMQ_URL: Joi.string(),
       }),
     }),
+    IMDTravelRabbitMQModule,
     TicketModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService, PrismaService, TicketEventService],
 })
-export class AppModule {}
+export class AppModule { }

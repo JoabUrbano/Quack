@@ -8,13 +8,11 @@ import { AirlinesHubExceptionTimeoutError } from './exceptions/airlineshubGatewa
 
 @Injectable()
 export class AirlineHubGateway {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) { }
 
   getHello(): string {
     return 'Hello from AirlineHub Gateway!';
   }
-
- // function timeout()
 
   async getFlight(flight: number, day: Date, ft: boolean): Promise<FlightDto> {
     try {
@@ -36,7 +34,7 @@ export class AirlineHubGateway {
 
       return res.data;
     } catch (error) {
-      if(error instanceof AirlinesHubExceptionTimeoutError) {
+      if (error instanceof AirlinesHubExceptionTimeoutError) {
         throw new RequestTimeoutException("A requisição demorou mais do que deveria!")
       }
       console.log(error);
@@ -46,13 +44,19 @@ export class AirlineHubGateway {
   }
 
   async sellTicket(params: SellTicketDto): Promise<AirTicketDto> {
-    const response = this.httpService.post<AirTicketDto>(
-      `${process.env.AIRLINESHUB_URL}/sell`,
-      params,
-    );
+    try {
+      const response = this.httpService.post<AirTicketDto>(
+        `${process.env.AIRLINESHUB_URL}/sell`,
+        params,
+      );
 
-    const res = await lastValueFrom(response);
+      const res = await lastValueFrom(response);
 
-    return res.data;
+      return res.data;
+    } catch (error) {
+      console.error('Error selling ticket through AirlinesHub API:', error);
+      throw new Error('Ocorreu um erro ao vender o ticket na API do AirlinesHub');
+    }
+
   }
 }

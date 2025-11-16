@@ -12,7 +12,7 @@ export class AppController {
     private readonly appService: AppService,
     private readonly sellTicket: SellTicketUseCase,
     public failStateRequest03: FailStateRequest03
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: 'Health check endpoint' })
   @ApiResponse({ status: 200, description: 'Service is running' })
@@ -23,14 +23,17 @@ export class AppController {
 
   @Post('sell')
   async sell(@Body() body: SellTicketDto) {
-    this.failStateRequest03.probability()
-    if(this.failStateRequest03.request03State) {
-      await new Promise((res, rej) => {
-        setTimeout(() => {
-          res(null)
-        }, 5000)
-      })
+    if (body.ft) {
+      this.failStateRequest03.probability()
+      if (this.failStateRequest03.request03State) {
+        await new Promise((res, rej) => {
+          setTimeout(() => {
+            res(null)
+          }, 5000)
+        })
+      }
     }
+
     return this.sellTicket.execute(body);
   }
 }

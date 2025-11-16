@@ -8,14 +8,17 @@ export class RandomExchangeController {
   constructor(
     private readonly getRandomNumberExchange: GetRandomNumberExchange,
     public readonly failStateRequest02: FailStateRequest02
-  ) {}
+  ) { }
 
   @Get('convert')
   getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
-    this.failStateRequest02.probability()
-    if(this.failStateRequest02.request02State) {
-      return -1
+    if (numbersDto.ft) {
+      this.failStateRequest02.probability()
+      if (this.failStateRequest02.request02State) {
+        return -1
+      }
     }
+
     const number = this.getRandomNumberExchange.execute();
     return number;
   }

@@ -17,7 +17,7 @@ export class FlightController {
     private readonly findManyFlightsUseCase: FindManyFlightsUseCase,
     private readonly findFlightByNumberUseCase: FindFlightByNumberUseCase,
     private failState: FailStateRequest01,
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: 'Create a new flight' })
   @ApiResponse({ status: 201, description: 'Flight created successfully' })
@@ -53,9 +53,11 @@ export class FlightController {
       }
     }
 
+
     return this.findFlightByNumberUseCase.execute({
       flight: +flight,
       day: day,
+      ft
     });
   }
 }
