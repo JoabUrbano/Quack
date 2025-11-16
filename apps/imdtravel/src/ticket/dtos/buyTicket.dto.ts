@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDate, IsInt, IsUUID } from 'class-validator';
+import { IsBoolean, IsDate, IsInt, IsUUID } from 'class-validator';
 
 export class BuyTicketDto {
   @ApiProperty({ description: 'Flight number' })
@@ -24,5 +24,6 @@ export class BuyTicketDto {
     description: 'Fault Tolerant',
     type: Boolean
   })
+  @IsBoolean()
   ft: boolean;
 }
