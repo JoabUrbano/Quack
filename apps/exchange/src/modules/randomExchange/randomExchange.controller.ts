@@ -10,30 +10,23 @@ export class RandomExchangeController {
     private readonly getRandomNumberExchange: GetRandomNumberExchange,
     public readonly failStateRequest02: FailStateRequest02,
     private readonly lastTenNumbers: number[] = []
-  ) {}
+  ) { }
 
   @Get('convert')
   getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
-    this.failStateRequest02.probability()
-    if(this.failStateRequest02.request02State) {
-      //var id é um placeholder para teste, será substituído pela boolean ft, de buyticket.dto
-      var id = 0
-      if (id == 1){
-        if (this.lastTenNumbers.length === 0){
-          return { message: 'No previous values yet'};
-        }
-        const average = this.lastTenNumbers.reduce((sum, n) => sum + n, 0) / this.lastTenNumbers.length;
-        return {average};
-        
-      }
-      else{
+    if (numbersDto.ft) {
+      this.failStateRequest02.probability()
+
+      if (this.failStateRequest02.request02State) {
+        //var id é um placeholder para teste, será substituído pela boolean ft, de buyticket.dto
         return -1;
       }
     }
+
     const number = this.getRandomNumberExchange.execute();
 
     this.lastTenNumbers.push(number);
-    if(this.lastTenNumbers.length > 10){
+    if (this.lastTenNumbers.length > 10) {
       this.lastTenNumbers.shift();
     }
 

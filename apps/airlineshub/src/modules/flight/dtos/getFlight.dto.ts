@@ -7,6 +7,7 @@ export class GetFlightDto {
     description: 'Flight number',
     example: 123,
   })
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   flight: number;
 
@@ -17,5 +18,11 @@ export class GetFlightDto {
   @IsDate()
   @Type(() => Date)
   day: Date;
+
+  @ApiProperty({
+    description: 'Fault Tolerant',
+    type: Boolean
+  })
+  ft: boolean;
 }
 

@@ -23,4 +23,10 @@ export class SellTicketDto {
   @ApiProperty({ description: 'User ID' })
   @IsUUID()
   userId: string; // NOTE: Gibeon não especificou esse campo no documento, porém na minha cabeça faz sentido ter esse campo
+
+  @ApiProperty({
+    description: 'Fault Tolerant',
+    type: Boolean
+  })
+  ft: boolean;
 }
