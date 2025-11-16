@@ -40,12 +40,16 @@ export class FlightController {
   @ApiResponse({ status: 200, description: 'Flight found' })
   @ApiResponse({ status: 404, description: 'Flight not found' })
   @Get('flight')
-  async getFlight(@Query('flight') flight: number, @Query('day') day: Date, @Query('ft') ft: boolean) {
-    if (ft) {
+  async getFlight(
+    @Query('flight') flight: number,
+    @Query('day') day: Date,
+    @Query('ft') ft: boolean
+  ) {
+    if(ft){
       this.failState.probability();
 
       if (this.failState.request01State == true) {
-        await new Promise(() => { });
+        await new Promise(() => {});
       }
     }
 

@@ -5,6 +5,10 @@ import { ExchangeGateway } from '@app/shared/exchange.gateway';
 import { FidelityGateway } from '@app/shared/fidelity.gateway';
 import { TicketEventService } from '@imdtravel/rabbitmq/ticket-event.service';
 
+export type sellTicketReturn = {
+  transactionId: string
+}
+
 @Injectable()
 export class TicketService {
   private readonly logger = new Logger(TicketService.name);
@@ -16,8 +20,7 @@ export class TicketService {
     private ticketEventService: TicketEventService,
   ) { }
 
-  // TODO: Definir o retorno correto do método
-  async buyTicket(input: BuyTicketDto): Promise<any> {
+  async buyTicket(input: BuyTicketDto): Promise<sellTicketReturn> {
     const { flight: flightNumber, day, userId, ft } = input;
 
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft);
@@ -45,7 +48,7 @@ export class TicketService {
 
 
     return {
-      transactionId: airticket.id,
+      transactionId: airticket.id
     };
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { probabilityEvent } from '@app/shared/utils/probability';
+
 @Injectable()
 export class FailStateRequest01 {
   public request01State: Boolean = false;

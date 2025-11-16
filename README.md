@@ -32,15 +32,14 @@ yarn install
 docker compose up -d
 ```
 
-
 Para testar o fluxo principal, use uma feerramenta como o Postman rodando a rota:
 http://imdtravel:3000/tickets/buyTicket
 
-Há um arquivo seed que vai popular oss dados do banco quando subir o docker compose.
+Há um arquivo seed que vai popular os dados do banco quando subir o docker compose.
 
 
 ## :dart: Project Status
-Backend: In Progress  
+Backend: In Progress
 
 
 # Authors
@@ -50,4 +49,3 @@ Backend: In Progress
 
 # Endpoints for the web development subject 2
 <a href="https://github.com/Viniciusfqmedeiros">Vinicius</a><br>
-
