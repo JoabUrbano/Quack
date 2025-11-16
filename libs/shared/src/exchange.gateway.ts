@@ -2,14 +2,21 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { createClient } from 'redis';
+import { ExchangeValueIsValid } from './utils/exchangeValueIsValid';
 
 @Injectable()
 export class ExchangeGateway {
   constructor(private httpservice: HttpService) { }
 
-  async conversionRate(): Promise<number> {
+  async conversionRate(ft: boolean): Promise<number> {
     try {
-      const client = createClient();
+      const client = createClient({
+        socket: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+      },
+      password: process.env.REDIS_PASSWORD,
+      });
 
       client.on('error', err => console.log('Redis Client Error', err));
 
@@ -17,11 +24,25 @@ export class ExchangeGateway {
 
       const response = this.httpservice.get(
         `${process.env.EXCHANGE_URL}/random/exchange/convert`,
+        {
+          params: {ft}
+        }
       );
-
-      // TODO: Aplicar tolarencia a falha: pegar os ultimos 10 números e calcular a média
-
       const res = await lastValueFrom(response);
+
+      if(!ExchangeValueIsValid(res.data)) {
+        const lastValuesExchange = await client.lRange('exchangeHistory', -10, -1);
+        let average = 0;
+        let count = 0;
+        for(let value of lastValuesExchange) {
+          count ++;
+          average += parseFloat(value.toString());
+        }
+        return  average/count
+      } else {
+        await client.rPush('exchangeHistory', String(res.data));
+        await client.lTrim('exchangeHistory', -10, -1);
+      }
 
       return res.data;
     } catch (error) {

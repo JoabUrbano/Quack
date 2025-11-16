@@ -2,7 +2,6 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { GetRandomNumberExchange } from './usecases/getRandomNumberExchange.usecase';
 import { RandomNumbersDto } from './dtos/randomNumbers.dto';
 import { FailStateRequest02 } from '@app/shared/states/failStateRequest02';
-import { boolean } from 'joi';
 
 @Controller('random/exchange')
 export class RandomExchangeController {
