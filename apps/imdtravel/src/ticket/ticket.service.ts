@@ -4,6 +4,10 @@ import { AirlineHubGateway } from '@app/shared';
 import { ExchangeGateway } from '@app/shared/exchange.gateway';
 import { FidelityGateway } from '@app/shared/fidelity.gateway';
 
+export type sellTicketReturn = {
+  transactionId: string
+}
+
 @Injectable()
 export class TicketService {
   constructor(
@@ -12,11 +16,10 @@ export class TicketService {
     private fidelityGateway: FidelityGateway,
   ) {}
 
-  // TODO: Definir o retorno correto do método
-  async buyTicket(input: BuyTicketDto): Promise<any> {
+  async buyTicket(input: BuyTicketDto): Promise<sellTicketReturn> {
     const { flight: flightNumber, day, userId, ft } = input;
 
-    const flight = await this.airlineHubGateway.getFlight(flightNumber, day);
+    const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft);
 
     const conversionRate = await this.exchangeGateway.conversionRate();
 
@@ -43,7 +46,7 @@ export class TicketService {
     //   bonus,
     // };
     return {
-      transactionId: airticket.id,
+      transactionId: airticket.id
     };
   }
 }
