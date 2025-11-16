@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsNumber } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetFlightDto {
@@ -23,8 +23,13 @@ export class GetFlightDto {
     description: 'Fault Tolerant',
     type: Boolean
   })
-  @Transform(({ value }) => value === 'true')
+  @Transform(({ value }) => {
+    if (typeof value === 'boolean') return value; // Se já for boolean
+    if (typeof value === 'string') return value.toLowerCase() === 'true'; // Se for string
+    return Boolean(value); // Converte qualquer outro tipo
+  })
+  @IsOptional()
   @IsBoolean()
-  ft: boolean;
+  ft?: boolean;
 }
 

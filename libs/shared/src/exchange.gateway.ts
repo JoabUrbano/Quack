@@ -36,7 +36,7 @@ export class ExchangeGateway {
 
       return conversionRate;
     } catch (error) {
-      console.error('Error fetching conversion rate from Exchange API:', error);
+      // console.error('Error fetching conversion rate from Exchange API:', error);
       throw new Error('Ocorreu um erro ao buscar a cotação na API de Exchange');
     }
 
