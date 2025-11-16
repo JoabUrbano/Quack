@@ -34,15 +34,6 @@ export class TicketService {
 
     const valueInDolar = Math.round(flight.value / conversionRate);
 
-    const bonusParams = {
-      value: Math.round((flight.value * 1) / 10),
-      user: userId,
-      ft
-    };
-
-    // const bonus = await this.fidelityGateway.createBonus(bonusParams);
-
-    // Publicar evento de compra de ticket
     await this.ticketEventService.publishTicketPurchased({
       transactionId: airticket.id,
       userId: userId,

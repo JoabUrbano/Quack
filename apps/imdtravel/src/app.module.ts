@@ -7,7 +7,6 @@ import { PrismaService } from '@imdtravel/prisma.service';
 
 import { TicketModule } from './ticket/ticket.module';
 import { TicketEventService } from '@imdtravel/rabbitmq/ticket-event.service';
-import { TicketPurchasedConsumerService } from '@imdtravel/rabbitmq/ticket-purchased-consumer.service';
 import { RabbitMQModule as IMDTravelRabbitMQModule } from '@imdtravel/rabbitmq/rabbitmq.module';
 
 @Module({
@@ -23,6 +22,6 @@ import { RabbitMQModule as IMDTravelRabbitMQModule } from '@imdtravel/rabbitmq/r
     TicketModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, TicketEventService, TicketPurchasedConsumerService],
+  providers: [AppService, PrismaService, TicketEventService],
 })
 export class AppModule { }

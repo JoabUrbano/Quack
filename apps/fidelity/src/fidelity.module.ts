@@ -5,14 +5,18 @@ import { PrismaService } from '@fidelity/infra/database/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SharedModule } from '@app/shared';
+import { RabbitMQModule as FidelityRabbitMQModule } from '@fidelity/modules/rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
+    FidelityRabbitMQModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
         FIDELITY_DATABASE_URL: Joi.string().uri().required(),
+        RABBITMQ_URL: Joi.string(),
       }),
+
     }),
     BonusModule,
     SharedModule
@@ -20,4 +24,4 @@ import { SharedModule } from '@app/shared';
   controllers: [FidelityController],
   providers: [PrismaService],
 })
-export class FidelityModule {}
+export class FidelityModule { }

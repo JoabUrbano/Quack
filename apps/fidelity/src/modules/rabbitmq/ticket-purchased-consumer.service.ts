@@ -5,6 +5,8 @@ import {
     TICKET_EXCHANGE,
     TICKET_ROUTING_KEY,
 } from '@imdtravel/rabbitmq/ticket-event.service';
+import { TicketPurchasedEventDto } from '@app/shared/events/ticketPurchasedEventDto';
+import { CreateBonusUsecase } from '@fidelity/modules/bonus/usecases/createBonus.usecase';
 
 
 @Injectable()
@@ -12,7 +14,7 @@ export class TicketPurchasedConsumerService implements OnModuleInit {
     private readonly logger = new Logger(TicketPurchasedConsumerService.name);
     private readonly queueName = 'imdtravel_ticket_test_queue';
 
-    constructor(private rabbitmqService: RabbitMQService) { }
+    constructor(private readonly rabbitmqService: RabbitMQService, private readonly createBonusUsecase: CreateBonusUsecase) { }
 
     async onModuleInit() {
         try {
@@ -50,23 +52,18 @@ export class TicketPurchasedConsumerService implements OnModuleInit {
         }
     }
 
-    private async handleTicketPurchased(event: {
-        transactionId: string;
-        userId: string;
-        flightNumber: number;
-        day: Date | string;
-        value: number;
-        timestamp: Date;
-    }) {
+    private async handleTicketPurchased(event: TicketPurchasedEventDto) {
         try {
             this.logger.log(
                 `Ticket Purchased Event Received:`,
                 JSON.stringify(event, null, 2),
             );
 
-            this.logger.log(
-                `Event processed successfully for transaction: ${event.transactionId}`,
-            );
+            await this.createBonusUsecase.execute({
+                bonus: Math.round((event.value * 1) / 10),
+                user: event.userId,
+            });
+
         } catch (error) {
             this.logger.error('Error processing ticket purchased event:', error);
             throw error;
