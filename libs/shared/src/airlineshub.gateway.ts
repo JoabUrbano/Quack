@@ -48,13 +48,20 @@ export class AirlineHubGateway {
       const response = this.httpService.post<AirTicketDto>(
         `${process.env.AIRLINESHUB_URL}/sell`,
         params,
-      );
+      ).pipe(timeout({
+        first: 2000,
+        with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
+      }));
 
       const res = await lastValueFrom(response);
 
       return res.data;
     } catch (error) {
-      console.error('Error selling ticket through AirlinesHub API:', error);
+      if (error instanceof AirlinesHubExceptionTimeoutError) {
+        throw new RequestTimeoutException("A requisição demorou mais do que deveria!")
+      }
+      console.log(error);
+
       throw new Error('Ocorreu um erro ao vender o ticket na API do AirlinesHub');
     }
 
