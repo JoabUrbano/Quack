@@ -81,6 +81,28 @@ services:
       - duck-network
     command: bash /app/scripts/init-fidelity.sh
 
+  # Auth Microservice
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: auth-service
+    ports:
+      - "3004:3004"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/apps/auth/node_modules
+      - /app/apps/auth/prisma/generated
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - duck-network
+    command: bash /app/scripts/init-auth.sh
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
@@ -90,7 +112,7 @@ services:
     environment:
       POSTGRES_USER: quack
       POSTGRES_PASSWORD: quack
-      POSTGRES_MULTIPLE_DATABASES: "imdtravel,airlineshub,fidelity"
+      POSTGRES_MULTIPLE_DATABASES: "imdtravel,airlineshub,fidelity,auth"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./scripts/init-databases.sql:/docker-entrypoint-initdb.d/init.sql

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ExchangeController } from './exchange.controller';
-import { ExchangeService } from './exchange.service';
-import { RandomExchangeModule } from './modules/randomExchange/randomExchange.module';
+import { ExchangeController } from '@exchange/exchange.controller';
+import { ExchangeService } from '@exchange/exchange.service';
+import { RandomExchangeModule } from '@exchange/modules/randomExchange/randomExchange.module';
 import { SharedModule } from '@app/shared';
 
 @Module({
@@ -9,4 +9,4 @@ import { SharedModule } from '@app/shared';
   controllers: [ExchangeController],
   providers: [ExchangeService],
 })
-export class ExchangeModule {}
+export class ExchangeModule { }

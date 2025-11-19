@@ -9,6 +9,7 @@ import { FailStateRequest03 } from './states/failStateRequest03';
 import { FailStateRequest04 } from './states/failStateRequest04';
 import { RabbitMQModule } from '@app/shared/modules/rabbitmq/rabbitmq.module';
 import { RedisModule } from '@app/shared/infra/redis/redis.module';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Module({
   imports: [HttpModule, RedisModule, RabbitMQModule],
@@ -19,7 +20,8 @@ import { RedisModule } from '@app/shared/infra/redis/redis.module';
     FailStateRequest01,
     FailStateRequest02,
     FailStateRequest03,
-    FailStateRequest04
+    FailStateRequest04,
+    JwtAuthGuard,
   ],
   exports: [
     AirlineHubGateway,
@@ -30,7 +32,8 @@ import { RedisModule } from '@app/shared/infra/redis/redis.module';
     FailStateRequest03,
     FailStateRequest04,
     RedisModule,
-    RabbitMQModule
+    RabbitMQModule,
+    JwtAuthGuard,
   ],
 })
 export class SharedModule { }

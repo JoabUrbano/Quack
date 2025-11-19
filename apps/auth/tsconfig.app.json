@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/apps/exchange",
+    "outDir": "../../dist/apps/auth",
     "skipLibCheck": true,
   },
+  
+  "include": ["src/**/*", "generated"]
 }
