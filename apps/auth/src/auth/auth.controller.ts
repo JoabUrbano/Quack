@@ -9,9 +9,11 @@ import {
   Res,
 } from '@nestjs/common';
 import { AuthService } from '@auth/auth/auth.service';
-import { RegisterDTO, LoginDTO } from '@auth/auth/auth.service';
+import { RegisterDTO, LoginDTO } from '@auth/auth/dtos';
 import { JwtAuthGuard } from '@app/shared';
 import { Response } from 'express';
+import { RefreshToken } from '@auth/decorators/refresh-token.decorator';
+import { AccessToken } from '@auth/decorators/access-token.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -42,30 +44,31 @@ export class AuthController {
     return { message: 'Login successful' };
   }
 
-  // @Post('refresh')
-  // async refresh(@Body() body: { refreshToken: string }) {
-  //   if (!body.refreshToken) {
-  //     throw new UnauthorizedException('Refresh token is required');
-  //   }
-  //   return this.authService.refreshAccessToken(body.refreshToken);
-  // }
-
   @Post('refresh')
-  async refresh(@Body() body: { refreshToken: string }) {
-    if (!body.refreshToken) {
+  async refresh(@RefreshToken() refreshToken: string) {
+    if (!refreshToken) {
       throw new UnauthorizedException('Refresh token is required');
     }
-    return this.authService.refreshAccessToken(body.refreshToken);
+
+    return this.authService.refreshAccessToken(refreshToken);
   }
 
   @Post('logout')
-  async logout(@Request() req: any) {
-    const token = this.extractToken(req);
-    if (!token) {
+  async logout(@AccessToken() accessToken: string, @Res({
+    passthrough: true,
+  }) res: Response) {
+    if (!accessToken) {
       throw new UnauthorizedException('Token is required');
     }
-    const payload = this.authService.validateToken(token);
-    return this.authService.logout((await payload).sub);
+
+    const payload = await this.authService.validateToken(accessToken);
+
+    await this.authService.logout(payload.sub);
+
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    return { message: 'Logout successful' };
   }
 
   @Post('validate')
@@ -82,15 +85,4 @@ export class AuthController {
     return req.user;
   }
 
-  private extractToken(request: any): string | null {
-    const authHeader = request.headers?.authorization;
-    if (!authHeader) {
-      return null;
-    }
-    const parts = authHeader.split(' ');
-    if (parts.length !== 2 || parts[0] !== 'Bearer') {
-      return null;
-    }
-    return parts[1];
-  }
 }

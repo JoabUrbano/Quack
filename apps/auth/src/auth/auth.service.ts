@@ -4,31 +4,12 @@ import {
     ConflictException,
     UnauthorizedException,
 } from '@nestjs/common';
-import { IsEmail, IsString, MinLength } from 'class-validator';
 import { PrismaService } from '@auth/prisma.service';
 import { BcryptService } from '@auth/auth/services/bcrypt.service';
 import { JwtService } from '@auth/auth/services/jwt.service';
 import { TokenService } from '@auth/auth/services/token.service';
+import { RegisterDTO, LoginDTO } from '@auth/auth/dtos';
 
-export class RegisterDTO {
-    @IsString()
-    name: string;
-
-    @IsEmail()
-    email: string;
-
-    @IsString()
-    @MinLength(6)
-    password: string;
-}
-
-export class LoginDTO {
-    @IsEmail()
-    email: string;
-
-    @IsString()
-    password: string;
-}
 
 export interface AuthResponse {
     id: string;
@@ -54,7 +35,6 @@ export class AuthService {
     async register(registerDTO: RegisterDTO): Promise<RegisterResponse> {
         const { email, password } = registerDTO;
 
-        // Check if user already exists
         const existingUser = await this.prismaService.user.findUnique({
             where: { email },
         });
