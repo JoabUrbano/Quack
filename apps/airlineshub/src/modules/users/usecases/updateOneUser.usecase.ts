@@ -21,10 +21,6 @@ export class UpdateOneUserUseCase {
       user.email = inputUser.email;
     }
 
-    if (inputUser.password) {
-      user.password = inputUser.password;
-    }
-
     await this.usersRepository.save(user);
 
     return user.raw();

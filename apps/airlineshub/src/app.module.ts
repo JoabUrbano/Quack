@@ -20,6 +20,7 @@ import { PrismaAirTicketsRepository } from '@airlineshub/infra/repositories/pris
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights.repository';
+import { RabbitMQModule } from '@airlineshub/modules/rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights
     AirTicketsModule,
     UsersModule,
     SharedModule,
+    RabbitMQModule
   ],
   controllers: [AppController],
   providers: [

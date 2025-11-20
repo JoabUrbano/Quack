@@ -9,7 +9,6 @@ import {
   Patch,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateUserDto } from '@airlineshub/modules/users/dtos/createUser.dto';
 import { CreateUserUseCase } from '@airlineshub/modules/users/usecases/createUser.usecase';
 import { FindManyUsersDto } from '@airlineshub/modules/users/dtos/findManyUsers.dto';
 import { FindManyUsersUseCase } from '@airlineshub/modules/users/usecases/findManyUsers.usecase';
@@ -17,6 +16,7 @@ import { FindOneUserByIdUseCase } from '@airlineshub/modules/users/usecases/find
 import { DeleteOneUserUseCase } from '@airlineshub/modules/users/usecases/deleteOneUser.usecase';
 import { UpdateOneUserUseCase } from '@airlineshub/modules/users/usecases/updateOneUser.usecase';
 import { UpdateOneUserDto } from '@airlineshub/modules/users/dtos/updateOneUser.dto';
+import { UserCreatedEventDto } from '@app/shared/events';
 
 @ApiTags('Users')
 @Controller('users')
@@ -32,7 +32,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({ status: 201, description: 'User created successfully' })
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto) {
+  createUser(@Body() createUserDto: UserCreatedEventDto) {
     return this.createUserUseCase.execute(createUserDto);
   }
 

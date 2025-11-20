@@ -1,4 +1,4 @@
+import { UserCreatedEventDto } from '@app/shared/events';
 import { PartialType } from '@nestjs/swagger';
-import { CreateUserDto } from './createUser.dto';
 
-export class UpdateOneUserDto extends PartialType(CreateUserDto) {}
+export class UpdateOneUserDto extends PartialType(UserCreatedEventDto) {}
