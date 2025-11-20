@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -24,7 +25,23 @@ async function bootstrap() {
     }),
   );
 
+  // Swagger configuration
+  const config = new DocumentBuilder()
+    .setTitle('Auth Service API')
+    .setDescription('Authentication service for Quack microservices')
+    .setVersion('1.0')
+    .addCookieAuth('accessToken', {
+      type: 'apiKey',
+      in: 'cookie',
+      description: 'JWT access token',
+    })
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
   await app.listen(port);
   console.log(`Auth service running on port ${port}`);
+  console.log(`Swagger documentation available at http://localhost:${port}/api/docs`);
 }
 bootstrap();
