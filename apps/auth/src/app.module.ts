@@ -9,9 +9,11 @@ import { AuthService } from '@auth/auth/auth.service';
 import { JwtService as JwtTokenService } from '@auth/auth/services/jwt.service';
 import { BcryptService } from '@auth/auth/services/bcrypt.service';
 import { TokenService } from '@auth/auth/services/token.service';
+import { RabbitMQModule } from '@apps/auth/src/rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
+    RabbitMQModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -35,4 +37,4 @@ import { TokenService } from '@auth/auth/services/token.service';
   ],
   exports: [AuthService, JwtTokenService, BcryptService, TokenService],
 })
-export class AppModule {}
+export class AppModule { }

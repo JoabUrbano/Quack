@@ -9,6 +9,7 @@ import { BcryptService } from '@auth/auth/services/bcrypt.service';
 import { JwtService } from '@auth/auth/services/jwt.service';
 import { TokenService } from '@auth/auth/services/token.service';
 import { RegisterDTO, LoginDTO } from '@auth/auth/dtos';
+import { UserEventService } from '@auth/rabbitmq/user-event.service';
 
 
 export interface AuthResponse {
@@ -30,6 +31,7 @@ export class AuthService {
         private readonly bcryptService: BcryptService,
         private readonly jwtService: JwtService,
         private readonly tokenService: TokenService,
+        private readonly userEventService: UserEventService
     ) { }
 
     async register(registerDTO: RegisterDTO): Promise<RegisterResponse> {
@@ -53,6 +55,13 @@ export class AuthService {
             },
         });
 
+        await this.userEventService.publishUserCreated({
+            userId: user.id,
+            email: user.email,
+            name: user.name,
+            createdAt: user.createdAt,
+        });
+        
         return {
             id: user.id,
             email: user.email,
