@@ -1,0 +1,30 @@
+_format_version: "3.0"
+services:
+  - name: imdtravel-srv
+    url: http://imdtravel:3000
+    routes:
+      - name: imdtravel-route
+        paths:
+          - /imdtravel
+        strip_path: true
+        preserve_host: false
+      - name: imdtravel-swagger-route
+        paths:
+          - /imdtravel/docs
+        strip_path: true
+        preserve_host: false
+        
+  - name: airlineshub-srv
+    url: http://airlineshub:3001
+    routes:
+      - name: airlineshub-route
+        paths:
+          - /airlineshub
+        strip_path: true
+        preserve_host: false
+      - name: airlineshub-swagger-route
+        paths:
+          - /airlineshub/docs
+        strip_path: true
+        preserve_host: false
+    

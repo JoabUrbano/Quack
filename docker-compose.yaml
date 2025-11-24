@@ -1,5 +1,136 @@
+networks:
+  duck-network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+  postgres-data:
+  pgadmin-data:
+  kong-postgres:
+
+
 services:
   # IMDTravel Microservice
+  kong-database:
+    image: postgres:15-alpine
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - duck-network
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+      - POSTGRES_PASSWORD=kong
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U kong -d kong" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - kong-postgres:/var/lib/postgresql/data
+
+  ###
+  ### Kong Migrations
+  ### Container para executar as migrations do Kong API Gateway
+  ###
+  kong-migrations:
+    image: kong:latest
+    container_name: kong-migrations
+    depends_on:
+      kong-database:
+        condition: service_healthy
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_PG_DATABASE=kong
+    command: ["kong", "migrations", "bootstrap"]
+    networks:
+      - duck-network
+
+
+  ###
+  ### Kong API Gateway
+  ### Container com o runtime do Kong API Gateway
+  ###
+  kong:
+    build:
+      context: .
+      dockerfile: Dockerfile.kong
+    depends_on:
+      - kong-database
+      - kong-migrations
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_PG_DATABASE=kong
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+    ports:
+      - "8000:8000"  # proxy
+      - "8443:8443"  # proxy SSL
+      - "8001:8001"  # admin API
+      - "8444:8444"  # admin API SSL
+    networks:
+      - duck-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+  kong-configurator:
+    image: kong/deck:latest
+    depends_on:
+      - kong
+      - kong-database
+      - kong-migrations
+      - imdtravel
+      - airlineshub
+      - exchange
+      - fidelity
+      - auth
+    volumes:
+      - ./kong-config/kong-declarative-config.yml:/config/kong-declarative-config.yml:ro
+    command: gateway sync /config/kong-declarative-config.yml --kong-addr=http://kong:8001
+    networks:
+      - duck-network
+    restart: always
+    
+
+  ###
+  ### Konga
+  ### Administracao via interface web do Kong API Gateway
+  ###
+  konga:
+    image: pantsel/konga
+    networks:
+      - duck-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - kong
+    environment:
+      - KONGA_DB_ADAPTER=postgres
+      - KONGA_DB_HOST=kong-database
+      - KONGA_DB_USER=kong
+      - KONGA_DB_PASSWORD=kong
+      - KONGA_DB_DATABASE=kong
+      - NODE_ENV=development
+    ports:
+      - "1337:1337"
+    restart: always
+
+  ## ABAIXO TEM OS MICROSERVICOS DA APLICACAO ##
+
   imdtravel:
     build:
       context: .
@@ -61,6 +192,7 @@ services:
       - /app/apps/exchange/node_modules
     networks:
       - duck-network
+
     command: bash /app/scripts/init-exchange.sh
 
   # Fidelity Microservice
@@ -167,12 +299,4 @@ services:
       retries: 5
       start_period: 30s
 
-networks:
-  duck-network:
-    driver: bridge
-
-volumes:
-  rabbitmq_data:
-  postgres-data:
-  pgadmin-data:
 
