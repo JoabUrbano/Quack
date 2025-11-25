@@ -15,14 +15,13 @@ import {
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
   ApiCookieAuth,
-  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthService } from '@auth/auth/auth.service';
 import { RegisterDTO, LoginDTO } from '@auth/auth/dtos';
-import { JwtAuthGuard } from '@app/shared';
 import { Response } from 'express';
 import { RefreshToken } from '@auth/decorators/refresh-token.decorator';
 import { AccessToken } from '@auth/decorators/access-token.decorator';
+import { JwtAuthGuard } from "@auth/guards/jwt-auth.guard"
 
 @ApiTags('Authentication')
 @Controller('auth')
