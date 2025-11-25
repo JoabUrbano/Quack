@@ -8,11 +8,6 @@ services:
           - /imdtravel
         strip_path: true
         preserve_host: false
-      - name: imdtravel-swagger-route
-        paths:
-          - /imdtravel/docs
-        strip_path: true
-        preserve_host: false
         
   - name: airlineshub-srv
     url: http://airlineshub:3001
@@ -22,9 +17,21 @@ services:
           - /airlineshub
         strip_path: true
         preserve_host: false
-      - name: airlineshub-swagger-route
+
+  - name: exchange-srv
+    url: http://exchange:3002
+    routes:
+      - name: exchange-route
         paths:
-          - /airlineshub/docs
+          - /exchange
         strip_path: true
         preserve_host: false
-    
+        
+  - name: fidelity-srv
+    url: http://fidelity:3003
+    routes:
+      - name: fidelity-route
+        paths:
+          - /fidelity
+        strip_path: true
+        preserve_host: false
