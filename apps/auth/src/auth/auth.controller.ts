@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Body,
-  UseGuards,
   Request,
   UnauthorizedException,
   Get,
@@ -22,15 +21,17 @@ import { Response } from 'express';
 import { RefreshToken } from '@auth/decorators/refresh-token.decorator';
 import { AccessToken } from '@auth/decorators/access-token.decorator';
 import { JwtAuthGuard } from "@auth/guards/jwt-auth.guard"
+import { Public } from '@app/shared/decorators';
 
 @ApiTags('Authentication')
-@Controller('auth')
+@Controller('')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @ApiOperation({ summary: 'Register a new user' })
   @ApiOkResponse({ description: 'User registered successfully' })
   @ApiBadRequestResponse({ description: 'Invalid registration data' })
+  @Public()
   @Post('register')
   async register(@Body() registerDTO: RegisterDTO) {
     return this.authService.register(registerDTO);
@@ -43,6 +44,7 @@ export class AuthController {
     }
   })
   @ApiBadRequestResponse({ description: 'Invalid credentials' })
+  @Public()
   @Post('login')
   async login(@Body() loginDTO: LoginDTO, @Res({
     passthrough: true,
@@ -113,7 +115,6 @@ export class AuthController {
   @ApiOkResponse({ description: 'Current user information' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiCookieAuth('accessToken')
-  @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@Request() req: any) {
     return req.user;

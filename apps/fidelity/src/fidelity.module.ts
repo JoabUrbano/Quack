@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SharedModule } from '@app/shared';
 import { RabbitMQModule as FidelityRabbitMQModule } from '@fidelity/modules/rabbitmq/rabbitmq.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '@app/shared/guards';
 
 @Module({
   imports: [
@@ -22,6 +24,9 @@ import { RabbitMQModule as FidelityRabbitMQModule } from '@fidelity/modules/rabb
     SharedModule
   ],
   controllers: [FidelityController],
-  providers: [PrismaService],
+  providers: [{
+    provide: APP_GUARD,
+    useClass: AuthGuard
+  }, PrismaService],
 })
 export class FidelityModule { }

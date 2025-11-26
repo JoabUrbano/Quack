@@ -4,25 +4,30 @@ import { lastValueFrom, throwError, timeout, TimeoutError } from 'rxjs';
 import { FlightDto } from 'libs/shared/src/types/fligt.dto';
 import { AirTicketDto } from '@app/shared/types/airTicket.dto';
 import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
+import { AuthParams } from '@app/shared/dtos/auth.params';
 import { AirlinesHubExceptionTimeoutError } from './exceptions/airlineshubGatewayException';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AirlineHubGateway {
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private configService: ConfigService) { }
 
   getHello(): string {
     return 'Hello from AirlineHub Gateway!';
   }
 
-  async getFlight(flight: number, day: Date, ft: boolean): Promise<FlightDto> {
+  async getFlight(flight: number, day: Date, ft: boolean, auth: AuthParams): Promise<FlightDto> {
     try {
       const response$ = this.httpService.get<FlightDto>(
-        `${process.env.AIRLINESHUB_URL}/flights/flight/`,
+        `${this.configService.get<string>('AIRLINESHUB_URL')}/flights/flight/`,
         {
           params: {
             flight,
             day,
             ft
+          },
+          headers: {
+            Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
           },
         },
       ).pipe(timeout({
@@ -43,11 +48,16 @@ export class AirlineHubGateway {
     }
   }
 
-  async sellTicket(params: SellTicketDto): Promise<AirTicketDto> {
+  async sellTicket(params: SellTicketDto, auth: AuthParams): Promise<AirTicketDto> {
     try {
       const response = this.httpService.post<AirTicketDto>(
-        `${process.env.AIRLINESHUB_URL}/sell`,
+        `${this.configService.get<string>('AIRLINESHUB_URL')}/sell`,
         params,
+        {
+          headers: {
+            Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
+          },
+        },
       ).pipe(timeout({
         first: 2000,
         with: () => throwError(() => new AirlinesHubExceptionTimeoutError())

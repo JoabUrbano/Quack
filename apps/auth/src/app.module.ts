@@ -10,6 +10,8 @@ import { JwtService as JwtTokenService } from '@auth/auth/services/jwt.service';
 import { BcryptService } from '@auth/auth/services/bcrypt.service';
 import { TokenService } from '@auth/auth/services/token.service';
 import { RabbitMQModule } from '@apps/auth/src/rabbitmq/rabbitmq.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -34,6 +36,10 @@ import { RabbitMQModule } from '@apps/auth/src/rabbitmq/rabbitmq.module';
     JwtTokenService,
     BcryptService,
     TokenService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    }
   ],
   exports: [AuthService, JwtTokenService, BcryptService, TokenService],
 })

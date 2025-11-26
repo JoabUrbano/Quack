@@ -4,6 +4,7 @@ import { AppService } from '@airlineshub/app.service';
 import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 import { FailStateRequest03 } from '@app/shared/states/failStateRequest03';
+import { Public } from '@app/shared/decorators';
 
 @ApiTags('Health')
 @Controller()
@@ -16,6 +17,7 @@ export class AppController {
 
   @ApiOperation({ summary: 'Health check endpoint' })
   @ApiResponse({ status: 200, description: 'Service is running' })
+  @Public()
   @Get()
   getHello(): any {
     return this.appService.getHello();

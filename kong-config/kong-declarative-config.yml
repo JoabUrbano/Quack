@@ -35,6 +35,14 @@ services:
           - /fidelity
         strip_path: true
         preserve_host: false
+  - name: auth-srv
+    url: http://auth:3004
+    routes:
+      - name: auth-route
+        paths:
+          - /auth
+        strip_path: true
+        preserve_host: false
 
 plugins:
   - name: correlation-id

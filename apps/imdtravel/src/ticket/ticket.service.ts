@@ -1,12 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { BuyTicketDto } from '@imdtravel/ticket/dtos/buyTicket.dto';
 import { AirlineHubGateway } from '@app/shared';
 import { ExchangeGateway } from '@app/shared/exchange.gateway';
 import { FidelityGateway } from '@app/shared/fidelity.gateway';
 import { TicketEventService } from '@imdtravel/rabbitmq/ticket-event.service';
+import { AuthParams } from '@app/shared/dtos/auth.params';
 
 export type sellTicketReturn = {
   transactionId: string
+}
+
+export class BuyTicketParams {
+    flight: number;
+    day: Date;
+    userId: string;
+    ft?: boolean;
+    auth: AuthParams;
 }
 
 @Injectable()
@@ -20,12 +28,12 @@ export class TicketService {
     private ticketEventService: TicketEventService,
   ) { }
 
-  async buyTicket(input: BuyTicketDto): Promise<sellTicketReturn> {
-    const { flight: flightNumber, day, userId, ft } = input;
+  async buyTicket(input: BuyTicketParams): Promise<sellTicketReturn> {
+    const { flight: flightNumber, day, userId, ft, auth } = input;
 
-    const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft);
+    const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft, auth);
       
-    const conversionRate = await this.exchangeGateway.conversionRate(ft);
+    const conversionRate = await this.exchangeGateway.conversionRate(ft, auth);
 
     const airticket = await this.airlineHubGateway.sellTicket({
       day,
@@ -33,7 +41,7 @@ export class TicketService {
       finalValue: flight.value,
       userId: input.userId,
       ft
-    });
+    }, auth);
 
     const valueInDolar = Math.round(flight.value / conversionRate);
 

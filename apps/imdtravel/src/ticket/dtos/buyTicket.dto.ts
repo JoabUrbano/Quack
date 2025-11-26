@@ -16,9 +16,12 @@ export class BuyTicketDto {
   @Type(() => Date)
   day: Date;
 
-  @ApiProperty({ description: 'User ID' })
-  @IsUUID()
-  userId: string;
+  /*
+    Código comentado pois o usuário será identificado via token JWT
+  */
+  // @ApiProperty({ description: 'User ID' })
+  // @IsUUID()
+  // userId: string;
 
   @ApiProperty({
     description: 'Fault Tolerant',

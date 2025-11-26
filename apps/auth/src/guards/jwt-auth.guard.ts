@@ -7,6 +7,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
+import { Reflector } from '@nestjs/core';
+import { IS_PUBLIC_KEY } from '@app/shared/decorators';
 
 export interface TokenPayload {
   sub: string;
@@ -15,16 +17,25 @@ export interface TokenPayload {
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService, private reflector: Reflector) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ])
+
+    if (isPublic) {
+      return true;
+    }
 
     const {
       accessToken,
       refreshToken
     } = this.extractTokenFromCookies(request);
+
 
 
     if (!accessToken) {
