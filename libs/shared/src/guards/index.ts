@@ -1,0 +1,1 @@
+export * from "@app/shared/guards/auth.guard";

@@ -18,7 +18,6 @@ export class PrismaUsersRepository implements UsersRepository {
         id: true,
         name: true,
         email: true,
-        password: true,
       },
     });
 
@@ -30,7 +29,6 @@ export class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
-      password: user.password,
     });
   }
 
@@ -41,7 +39,6 @@ export class PrismaUsersRepository implements UsersRepository {
         id: true,
         name: true,
         email: true,
-        password: true,
       },
     });
 
@@ -53,7 +50,6 @@ export class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
-      password: user.password,
     });
   }
 
@@ -69,13 +65,11 @@ export class PrismaUsersRepository implements UsersRepository {
       update: {
         name: user.name,
         email: user.email,
-        password: user.password,
       },
       create: {
         id: user.id,
         name: user.name,
         email: user.email,
-        password: user.password,
       },
     });
   }
@@ -108,7 +102,6 @@ export class PrismaUsersRepository implements UsersRepository {
         id: true,
         name: true,
         email: true,
-        password: true,
       },
     });
 
@@ -118,7 +111,6 @@ export class PrismaUsersRepository implements UsersRepository {
           id: user.id,
           name: user.name,
           email: user.email,
-          password: user.password,
         }),
     );
   }

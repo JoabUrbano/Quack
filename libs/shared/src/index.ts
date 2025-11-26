@@ -1,3 +1,4 @@
-export * from './shared.module';
-export * from './airlineshub.gateway';
-export * from './exchange.gateway';
+export * from '@app/shared/shared.module';
+export * from '@app/shared/airlineshub.gateway';
+export * from '@app/shared/exchange.gateway';
+export * from '@app/shared/auth.gateway';

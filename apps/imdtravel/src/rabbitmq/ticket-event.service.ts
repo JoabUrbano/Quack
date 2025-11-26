@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { RabbitMQService } from '@app/shared/modules/rabbitmq/rabbitmq.service';
 import { TicketPurchasedEventDto } from '@app/shared/events/ticketPurchasedEventDto';
+import { TICKET_EXCHANGE, TICKET_ROUTING_KEY } from '@app/shared/constants/rabbitmq';
 
-export const TICKET_EXCHANGE = 'ticket_purchased';
-export const TICKET_ROUTING_KEY = 'ticket.purchased';
 
 @Injectable()
 export class TicketEventService {

@@ -1,0 +1,52 @@
+_format_version: "3.0"
+services:
+  - name: imdtravel-srv
+    url: http://imdtravel:3000
+    routes:
+      - name: imdtravel-route
+        paths:
+          - /imdtravel
+        strip_path: true
+        preserve_host: false
+        
+  - name: airlineshub-srv
+    url: http://airlineshub:3001
+    routes:
+      - name: airlineshub-route
+        paths:
+          - /airlineshub
+        strip_path: true
+        preserve_host: false
+
+  - name: exchange-srv
+    url: http://exchange:3002
+    routes:
+      - name: exchange-route
+        paths:
+          - /exchange
+        strip_path: true
+        preserve_host: false
+        
+  - name: fidelity-srv
+    url: http://fidelity:3003
+    routes:
+      - name: fidelity-route
+        paths:
+          - /fidelity
+        strip_path: true
+        preserve_host: false
+  - name: auth-srv
+    url: http://auth:3004
+    routes:
+      - name: auth-route
+        paths:
+          - /auth
+        strip_path: true
+        preserve_host: false
+
+plugins:
+  - name: correlation-id
+    config:
+      header_name: Kong-Request-ID
+      generator: uuid
+      echo_downstream: true

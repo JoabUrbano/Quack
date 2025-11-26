@@ -13,7 +13,7 @@
         "./apps/airlineshub/src/*"
       ],
       "@exchange/*": [
-        "./apps/exchanges/src/*"
+        "./apps/exchange/src/*"
       ],
       "@fidelity/*": [
         "./apps/fidelity/src/*"
@@ -29,6 +29,9 @@
       ],
       "@imdtravel/*": [
         "./apps/imdtravel/src/*"
+      ],
+      "@auth/*": [
+        "./apps/auth/src/*"
       ]
     },
     "outDir": "./dist",

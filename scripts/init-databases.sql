@@ -7,12 +7,16 @@ CREATE DATABASE airlineshub;
 -- Create fidelity database
 CREATE DATABASE fidelity;
 
+-- Create auth database
+CREATE DATABASE auth;
+
 -- Grant privileges
 GRANT ALL PRIVILEGES ON DATABASE imdtravel TO quack;
 GRANT ALL PRIVILEGES ON DATABASE airlineshub TO quack;
 GRANT ALL PRIVILEGES ON DATABASE fidelity TO quack;
+GRANT ALL PRIVILEGES ON DATABASE auth TO quack;
 
--- Create extensions in both databases
+-- Create extensions in all databases
 \c imdtravel
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
@@ -22,6 +26,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 \c fidelity
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
+\c auth
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
@@ -37,3 +45,8 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO quack;
 \c fidelity
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO quack;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO quack;
+
+\c auth
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO quack;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO quack;
+

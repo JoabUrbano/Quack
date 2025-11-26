@@ -3,17 +3,22 @@ import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ExchangeValueIsValid } from './utils/exchangeValueIsValid';
 import { RedisClient } from '@app/shared/infra/redis/redis';
+import { ConfigService } from '@nestjs/config';
+import { AuthParams } from '@app/shared/dtos/auth.params';
 
 @Injectable()
 export class ExchangeGateway {
-  constructor(private httpservice: HttpService, private readonly redisClient: RedisClient) { }
+  constructor(private httpservice: HttpService, private readonly redisClient: RedisClient, private configService: ConfigService) { }
 
-  async conversionRate(ft: boolean): Promise<number> {
+  async conversionRate(ft: boolean, auth: AuthParams): Promise<number> {
     try {
       const response = this.httpservice.get(
-        `${process.env.EXCHANGE_URL}/random/exchange/convert`,
+        `${this.configService.get<string>('EXCHANGE_URL')}/random/exchange/convert`,
         {
-          params: { ft }
+          params: { ft },
+          headers: {
+            Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
+          },
         }
       );
       const res = await lastValueFrom(response);

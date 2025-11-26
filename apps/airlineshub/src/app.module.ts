@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 import * as Joi from 'joi';
 
@@ -20,6 +20,8 @@ import { PrismaAirTicketsRepository } from '@airlineshub/infra/repositories/pris
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 import { FlightsRepository } from '@airlineshub/domains/repositories/flights.repository';
 import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights.repository';
+import { RabbitMQModule } from '@airlineshub/modules/rabbitmq/rabbitmq.module';
+import { AuthGuard } from '@app/shared/guards';
 
 @Module({
   imports: [
@@ -36,9 +38,14 @@ import { PrismaFlightsRepository } from '@airlineshub/infra/repositories/flights
     AirTicketsModule,
     UsersModule,
     SharedModule,
+    RabbitMQModule
   ],
   controllers: [AppController],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard
+    },
     AppService,
     PrismaService,
     {

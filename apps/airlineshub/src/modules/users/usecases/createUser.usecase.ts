@@ -1,13 +1,13 @@
 import { UsersRepository } from '@airlineshub/domains/repositories/users.repository';
-import { CreateUserDto } from '@airlineshub/modules/users/dtos/createUser.dto';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { UserEntity } from '@airlineshub/domains/entities/user.entity';
+import { UserCreatedEventDto } from '@app/shared/events';
 
 @Injectable()
 export class CreateUserUseCase {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) { }
 
-  async execute(input: CreateUserDto) {
+  async execute(input: UserCreatedEventDto) {
     const userWithEmail = await this.usersRepository.findOneByEmail(
       input.email,
     );
@@ -17,9 +17,9 @@ export class CreateUserUseCase {
     }
 
     const user = UserEntity.create({
+      id: input.userId,
       name: input.name,
       email: input.email,
-      password: input.password,
     });
 
     await this.usersRepository.save(user);

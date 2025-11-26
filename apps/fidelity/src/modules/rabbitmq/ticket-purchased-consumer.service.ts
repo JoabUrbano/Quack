@@ -1,12 +1,9 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { RabbitMQService } from '@app/shared/modules/rabbitmq/rabbitmq.service';
 
-import {
-    TICKET_EXCHANGE,
-    TICKET_ROUTING_KEY,
-} from '@imdtravel/rabbitmq/ticket-event.service';
 import { TicketPurchasedEventDto } from '@app/shared/events/ticketPurchasedEventDto';
 import { CreateBonusUsecase } from '@fidelity/modules/bonus/usecases/createBonus.usecase';
+import { TICKET_EXCHANGE, TICKET_ROUTING_KEY } from '@app/shared/constants/rabbitmq';
 
 
 @Injectable()
