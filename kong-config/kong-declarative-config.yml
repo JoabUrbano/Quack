@@ -35,3 +35,10 @@ services:
           - /fidelity
         strip_path: true
         preserve_host: false
+
+plugins:
+  - name: correlation-id
+    config:
+      header_name: Kong-Request-ID
+      generator: uuid
+      echo_downstream: true
