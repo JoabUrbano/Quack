@@ -41,6 +41,27 @@ Há um arquivo seed que vai popular os dados do banco quando subir o docker comp
 ## :dart: Project Status
 Backend: In Progress
 
+## 🧪 Performance Testing with k6
+
+k6 is used for load testing and performance evaluation of the microservices. The test scripts are located in the `scenarios/` directory.
+
+### Prerequisites
+- k6 installed ([Installation Guide](https://k6.io/docs/getting-started/installation/))
+- Services running (ensure Docker containers are up)
+
+### Running k6 Tests
+
+#### Basic Test Execution
+Run the Hello router test for the IMDTravel service:
+```bash
+k6 run scenarios/get-hello-imdtravel.js
+```
+
+#### Save Test Results to JSON
+To persist the test results for analysis:
+```bash
+k6 run scenarios/get-hello-imdtravel.js --out json=scenarios/get-hello-imdtravel-test-result.json
+```
 
 # Authors
 <a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
