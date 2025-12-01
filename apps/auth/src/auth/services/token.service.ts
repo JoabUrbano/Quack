@@ -24,13 +24,18 @@ export class TokenService {
     const expiresAtMs = this.parseExpirationToMs(expirationTime);
     const expiresAt = new Date(Date.now() + expiresAtMs);
 
-    await this.prismaService.refreshToken.create({
-      data: {
-        userId,
-        token: refreshToken,
-        expiresAt,
-      },
-    });
+    try {
+      
+      await this.prismaService.refreshToken.create({
+        data: {
+          userId,
+          token: refreshToken,
+          expiresAt,
+        },
+      });
+    } catch (error) {
+      throw new Error('Failed to store refresh token');
+    }
   }
 
   async validateRefreshToken(

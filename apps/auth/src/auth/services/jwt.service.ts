@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 
+import { v4 as uuidv4 } from 'uuid';
+
 export interface TokenPayload {
   sub: string;
   email: string;
@@ -25,7 +27,10 @@ export class JwtService {
 
   generateRefreshToken(payload: TokenPayload): string {
     return jwt.sign(
-      payload,
+      {
+        ...payload,
+        jti: this.generateJti(), // Fix the error caused by race condition where multiple refresh tokens are generated at the same time
+      },
       this.configService.get<string>('JWT_REFRESH_SECRET'),
       {
         expiresIn: this.configService.get<string>(
@@ -34,6 +39,10 @@ export class JwtService {
         ),
       } as any,
     );
+  }
+
+  private generateJti(): string {
+    return uuidv4();
   }
 
   verifyAccessToken(token: string): TokenPayload {
