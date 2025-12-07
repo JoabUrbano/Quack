@@ -33,9 +33,7 @@ export default async function () {
   const indexUser = exec.vu.idInTest % users.length;
   const user = users[indexUser];
 
-  console.log(`VU ID: ${exec.vu.idInTest}; Usando usuário: ${user.email}`);
-
-  console.log('indexUser => ', indexUser);
+  console.log(`VU ID: ${exec.vu.idInTest}; Index: ${indexUser}; Usando usuário: ${user.email}`);
 
   const loginPayload = {
     email: user.email,
@@ -79,8 +77,6 @@ export default async function () {
       headers,
     },
   );
-
-  console.log('res => ', res.body);
 
   check(res, {
     'status == 200': (r) => r.status === 200,
