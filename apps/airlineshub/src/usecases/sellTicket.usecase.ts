@@ -36,8 +36,6 @@ export class SellTicketUseCase {
       purchaseDate: new Date(),
     });
 
-    console.log('5')
-
 
     await this.airTicketsRepository.save(airTicket);
 
