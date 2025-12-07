@@ -66,7 +66,7 @@ export default async function () {
     flight: selectedFlight.flightNumber,
     day,
     cf: true,
-    ft: true,
+    ft: false,
   });
 
   const headers = {

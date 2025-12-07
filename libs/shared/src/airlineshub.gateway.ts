@@ -34,7 +34,7 @@ export class AirlineHubGateway {
 
       if (ft) {
         response$ = response$.pipe(timeout({
-          each: 5000,
+          first: 250,
           with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
         }));
       }
@@ -67,7 +67,7 @@ export class AirlineHubGateway {
       if (params.ft) {
         console.log('VOu tolerar a falha!!')
         response$ = response$.pipe(timeout({
-          first: 300,
+          first: 250,
           with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
         }));
       }

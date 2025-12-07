@@ -27,7 +27,7 @@ export class FidelityGateway {
 
       if (param.ft) {
         response$ = response$.pipe(timeout({
-          first: 2000,
+          first: 250,
           with: () => throwError(() => new FidelityExceptionTimeoutError())
         }));
       }
