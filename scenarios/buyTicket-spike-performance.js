@@ -7,7 +7,6 @@ import {
 } from './setups/index.js';
 import { getFlights, login, buyTicket } from './apis/index.js';
 import { check, sleep, group } from 'k6';
-import http from 'k6/http';
 import exec from 'k6/execution';
 import { Rate, Trend, Counter } from 'k6/metrics';
 import { selectRandomFlight } from './utils/index.js';
@@ -28,7 +27,7 @@ export const options = {
     { duration: '10s', target: 25 },
     { duration: '20s', target: 625 },
     { duration: '30s', target: 800 },
-    { duration: '30s', target: 1500 },
+    { duration: '30s', target: 1200 },
     { duration: '25s', target: 900 },
     { duration: '15s', target: 600 },
     { duration: '15s', target: 200 },
@@ -37,10 +36,13 @@ export const options = {
   thresholds: {
     http_req_duration: ['p(95)<800', 'p(99)<2000'],
     http_req_failed: ['rate<0.1'],
+    ticket_purchase_time: ['p(95)<5000'],
+    failed_requests: ['rate<0.05'],
+    successful_requests: ['rate>0.95'],
   },
   ext: {
     loadimpact: {
-      name: 'IMDTravel - Performance Test with Load Spikes',
+      name: 'IMDTravel - Teste de Pico de Estresse - Compra de Ticket',
     },
   },
 };
@@ -71,9 +73,6 @@ export default function () {
 
   group('Get Available Flights', () => {
     const flights = getFlights({});
-    check(flights, {
-      'flights retrieved': (f) => f && f.length > 0,
-    });
 
     if (!flights || flights.length === 0) {
       exec.test.abort('No flights available.');

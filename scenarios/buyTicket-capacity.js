@@ -45,6 +45,11 @@ export const options = {
     failed_requests: ['rate<0.05'],
     successful_requests: ['rate>0.95'],
   },
+  ext: {
+    loadimpact: {
+      name: 'IMDTravel - Teste de Capacidade - Compra de Ticket',
+    },
+  },
 };
 
 export function setup() {
