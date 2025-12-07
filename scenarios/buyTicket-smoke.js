@@ -79,8 +79,8 @@ export default async function () {
   );
 
   check(res, {
-    'status == 200': (r) => r.status === 200,
-    'response has ticketId': (r) => r.body.includes('ticketId'),
+    'status == 201': (r) => r.status === 201,
+    'response has transactionId': (r) => r.body.includes('transactionId'),
   });
 
   sleep(1);

@@ -39,7 +39,7 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
 
       const msgError = error?.message || 'Desconhecido';
       
-      throw new Error('Ocorreu um erro ao salvar o ticket: ', msgError)
+      throw new Error(`Ocorreu um erro ao salvar o ticket: ${msgError}`)
     }
 
 
