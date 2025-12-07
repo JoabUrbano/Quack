@@ -10,6 +10,14 @@ export class FidelityGateway {
   constructor(private httpservice: HttpService, private configService: ConfigService) { }
 
   async createBonus(param: { user: string; value: number, ft: boolean, cf: boolean, }, auth: AuthParams): Promise<string> {
+    console.log(`[FidelityGateway] params => ${JSON.stringify(
+      {
+        ft: param.ft,
+        cf: param.cf,
+      }
+    )}`)
+
+
     try {
       let response$ = this.httpservice.post<string>(
         `${this.configService.get<string>('FIDELITY_URL')}/bonus`,
@@ -26,6 +34,7 @@ export class FidelityGateway {
       );
 
       if (param.ft) {
+
         response$ = response$.pipe(timeout({
           first: 250,
           with: () => throwError(() => new FidelityExceptionTimeoutError())

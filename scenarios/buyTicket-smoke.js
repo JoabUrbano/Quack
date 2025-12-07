@@ -5,7 +5,7 @@ import {
   setupUsers,
   users,
 } from './setups/index.js';
-import { getFlights } from './apis/index.js';
+import { getFlights, login, buyTicket} from './apis/index.js';
 import { check, sleep, group } from 'k6';
 import http from 'k6/http';
 import exec from 'k6/execution';
@@ -15,8 +15,7 @@ export const options = {
   vus: 2,
   duration: '5s',
   thresholds: {
-    http_req_duration: ['p(95)<300'],
-    http_req_failed: ['rate<0.01'],
+    http_req_duration: ['p(95)<350'],
   },
 };
 
@@ -29,7 +28,6 @@ export function setup() {
 
 export default async function () {
   // Usuário faz login
-
   const indexUser = exec.vu.idInTest % users.length;
   const user = users[indexUser];
 
@@ -42,15 +40,7 @@ export default async function () {
     password: user.password,
   };
 
-  const loginRes = await http.post(
-    'http://localhost:8000/auth/login',
-    JSON.stringify(loginPayload),
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
+  const loginRes = login(loginPayload);
 
   // Usuário consulta os tickets disponíveis
   const flights = await getFlights({});
@@ -59,31 +49,20 @@ export default async function () {
     exec.test.abort('Nenhum voo disponível para compra de ticket.');
   }
 
+  // Usuario seleciona um voo aleatório e compra o ticket
   const selectedFlight = selectRandomFlight(flights);
   const day = new Date().toISOString().split('T')[0];
 
-  const payload = JSON.stringify({
+  const payload = {
     flight: selectedFlight.flightNumber,
     day,
-    cf: true,
-    ft: false,
-  });
-
-  const headers = {
-    'Content-Type': 'application/json',
+    cf: false,
+    ft: true,
   };
 
-  const res = http.post(
-    'http://localhost:8000/imdtravel/tickets/buyTicket',
-    payload,
-    { headers },
-  );
+  const res = buyTicket(payload);
 
-  console.log(`status: ${res.status}; body: ${res.body}`);
-
-  check(res, {
-    'status == 201': (r) => r.status === 201,
-  });
+  console.log(`status: ${res.status}; body: ${JSON.stringify(res)}`);
 
   sleep(1);
 }

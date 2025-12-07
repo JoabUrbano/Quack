@@ -11,6 +11,15 @@ export class ExchangeGateway {
   constructor(private httpservice: HttpService, private readonly redisClient: RedisClient, private configService: ConfigService) { }
 
   async conversionRate(ft: boolean, cf: boolean, auth: AuthParams): Promise<number> {
+
+
+    console.log(`[ExchangeGateway] params => ${JSON.stringify(
+      {
+        ft: ft,
+        cf: cf,
+      }
+    )}`)
+
     try {
       const response = this.httpservice.get(
         `${this.configService.get<string>('EXCHANGE_URL')}/random/exchange/convert`,

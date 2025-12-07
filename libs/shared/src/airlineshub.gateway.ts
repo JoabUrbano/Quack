@@ -17,6 +17,13 @@ export class AirlineHubGateway {
   }
 
   async getFlight(flight: number, day: Date, ft: boolean, cf: boolean, auth: AuthParams): Promise<FlightDto> {
+    console.log(`[AirlineHubGateway] params => ${JSON.stringify(
+      {
+        ft: ft,
+        cf: cf,
+      }
+    )}`)
+
     try {
       let response$ = this.httpService.get<FlightDto>(
         `${this.configService.get<string>('AIRLINESHUB_URL')}/flights/flight/`,
@@ -53,6 +60,14 @@ export class AirlineHubGateway {
   }
 
   async sellTicket(params: SellTicketDto, auth: AuthParams): Promise<AirTicketDto> {
+    console.log(`[AirlineHubGateway] params => ${JSON.stringify(
+      {
+        ft: params.ft,
+        cf: params.cf,
+      }
+    )}`)
+
+
     try {
       let response$ = this.httpService.post<AirTicketDto>(
         `${this.configService.get<string>('AIRLINESHUB_URL')}/sell`,
@@ -65,7 +80,6 @@ export class AirlineHubGateway {
       )
 
       if (params.ft) {
-        console.log('VOu tolerar a falha!!')
         response$ = response$.pipe(timeout({
           first: 250,
           with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
