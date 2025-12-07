@@ -1,4 +1,10 @@
-import { check, sleep } from 'k6';
+import {
+  setupAirlines,
+  setupAirplane,
+  setupAirports,
+  setupUsers,
+} from './setups/index.js';
+import { check, sleep, group } from 'k6';
 import http from 'k6/http';
 import exec from 'k6/execution';
 
@@ -11,34 +17,11 @@ export const options = {
   },
 };
 
-const users = [
-  {
-    name: 'luiz gustavo',
-    email: 'luizgustavooumbelino@gmail.com',
-    password: '123123',
-  },
-];
-
-
-export async function createUsers() {
-  for (const loginPayload of users) {
-    try {
-      await http.post('http://localhost:8000/auth/register', loginPayload);
-    } catch (e) {
-      // Ignore errors during registration
-      console.log(
-        'Setup registration error (possibly user already exists): ' + e.message,
-      );
-    }
-  }
-}
-
-export async function createFlights() {
-
-}
-
-export async function setup() {
-    await createUsers();
+export function setup() {
+  setupAirlines();
+  setupAirports();
+  setupAirplane();
+  setupUsers();
 }
 
 export default async function () {
