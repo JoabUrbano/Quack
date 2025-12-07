@@ -10,11 +10,11 @@ export type sellTicketReturn = {
 }
 
 export class BuyTicketParams {
-    flight: number;
-    day: Date;
-    userId: string;
-    ft?: boolean;
-    auth: AuthParams;
+  flight: number;
+  day: Date;
+  userId: string;
+  ft?: boolean;
+  auth: AuthParams;
 }
 
 @Injectable()
@@ -31,9 +31,15 @@ export class TicketService {
   async buyTicket(input: BuyTicketParams): Promise<sellTicketReturn> {
     const { flight: flightNumber, day, userId, ft, auth } = input;
 
+    this.logger.log(`Iniciando compra de passagem: ${JSON.stringify(input)}`);
+
     const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft, auth);
-      
+
+    this.logger.log(`Detalhes do flight: ${JSON.stringify(flight)}`);
+
     const conversionRate = await this.exchangeGateway.conversionRate(ft, auth);
+
+    this.logger.log(`Taxa de conversão: ${conversionRate}`);
 
     const airticket = await this.airlineHubGateway.sellTicket({
       day,
@@ -43,16 +49,31 @@ export class TicketService {
       ft
     }, auth);
 
+    this.logger.log(`Detalhes do airticket: ${JSON.stringify(airticket)}`);
+
     const valueInDolar = Math.round(flight.value / conversionRate);
 
-    await this.ticketEventService.publishTicketPurchased({
-      transactionId: airticket.id,
-      userId: userId,
-      flightNumber: flightNumber,
-      day: day,
-      value: flight.value,
-      timestamp: new Date(),
-    });
+    this.logger.log(`Valor em dólar: ${valueInDolar}`);
+
+    try {
+      const event = {
+        transactionId: airticket.id,
+        userId: userId,
+        flightNumber: flightNumber,
+        day: day,
+        value: flight.value,
+        timestamp: new Date(),
+      }
+
+      this.logger.log(`Enviando evento da compra do ticket: ${JSON.stringify(event)}`);
+
+      await this.ticketEventService.publishTicketPurchased(event);
+
+      this.logger.log(`Evento da compra do ticket enviado com sucesso`);
+    } catch (error) {
+      this.logger.error(`Erro ao enviar evento da compra do ticket: ${error.message}`);
+    }
+
 
 
     return {

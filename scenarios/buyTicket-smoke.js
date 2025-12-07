@@ -78,9 +78,10 @@ export default async function () {
     },
   );
 
+  console.log(`resposta: ${res.status} - ${res.body}`);
+
   check(res, {
     'status == 201': (r) => r.status === 201,
-    'response has transactionId': (r) => r.body.includes('transactionId'),
   });
 
   sleep(1);

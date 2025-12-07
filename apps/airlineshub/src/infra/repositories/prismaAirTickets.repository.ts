@@ -33,8 +33,6 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
         },
       });
     } catch (error) {
-      console.log('Error ao salvar ticket: ', error);
-      
       console.log('parametros de entrada: ', airTicket);
 
       const msgError = error?.message || 'Desconhecido';

@@ -11,7 +11,7 @@ export class SellTicketUseCase {
   constructor(
     private readonly airTicketsRepository: AirTicketsRepository,
     private readonly flightsRepository: FlightsRepository,
-  ) {}
+  ) { }
 
   async execute(input: SellTicketDto): Promise<AirTicketDto> {
     const { userId, day, flight: flightNumber, finalValue } = input;
@@ -23,6 +23,7 @@ export class SellTicketUseCase {
       throw new NotFoundException('Flight not found');
     }
 
+    // TODO: Buscar cliente pelo email
     if (!userId) {
       throw new NotFoundException('User not found');
     }
@@ -34,6 +35,9 @@ export class SellTicketUseCase {
       finalValue,
       purchaseDate: new Date(),
     });
+
+    console.log('5')
+
 
     await this.airTicketsRepository.save(airTicket);
 
