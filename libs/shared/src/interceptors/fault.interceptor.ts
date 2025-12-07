@@ -10,9 +10,9 @@ export class FaultInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
         const request = context.switchToHttp().getRequest()
 
-        const ft = request.body.ft || false;
+        const cf = request.body.cf || false;
 
-        if (!ft) {
+        if (!cf) {
             return next.handle();
         }
 

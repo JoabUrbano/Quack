@@ -4,7 +4,7 @@ import { AppService } from '@airlineshub/app.service';
 import { SellTicketDto } from '@app/shared/dtos/sellTicket.dto';
 import { SellTicketUseCase } from '@airlineshub/usecases/sellTicket.usecase';
 import { FailStateRequest03 } from '@app/shared/states/failStateRequest03';
-import { Public } from '@app/shared/decorators';
+import { Public, User, UserEntity } from '@app/shared/decorators';
 
 @ApiTags('Health')
 @Controller()
@@ -24,8 +24,8 @@ export class AppController {
   }
 
   @Post('sell')
-  async sell(@Body() body: SellTicketDto) {
-    if (body.ft) {
+  async sell(@Body() body: SellTicketDto, @User() user: UserEntity,) {
+    if (body.cf) {
       this.failStateRequest03.probability()
       if (this.failStateRequest03.request03State) {
         await new Promise((res, rej) => {
@@ -36,6 +36,9 @@ export class AppController {
       }
     }
 
-    return this.sellTicket.execute(body);
+    return this.sellTicket.execute({
+      ...body,
+      userId: user.sub
+    });
   }
 }

@@ -14,6 +14,7 @@ export class BuyTicketParams {
   day: Date;
   userId: string;
   ft?: boolean;
+  cf?: boolean;
   auth: AuthParams;
 }
 
@@ -29,15 +30,15 @@ export class TicketService {
   ) { }
 
   async buyTicket(input: BuyTicketParams): Promise<sellTicketReturn> {
-    const { flight: flightNumber, day, userId, ft, auth } = input;
+    const { flight: flightNumber, day, userId, ft, cf, auth } = input;
 
     this.logger.log(`Iniciando compra de passagem: ${JSON.stringify(input)}`);
 
-    const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft, auth);
+    const flight = await this.airlineHubGateway.getFlight(flightNumber, day, ft, cf, auth);
 
     this.logger.log(`Detalhes do flight: ${JSON.stringify(flight)}`);
-
-    const conversionRate = await this.exchangeGateway.conversionRate(ft, auth);
+ft
+    const conversionRate = await this.exchangeGateway.conversionRate(ft, cf, auth);
 
     this.logger.log(`Taxa de conversão: ${conversionRate}`);
 
@@ -45,8 +46,8 @@ export class TicketService {
       day,
       flight: flightNumber,
       finalValue: flight.value,
-      userId: input.userId,
-      ft
+      ft,
+      cf
     }, auth);
 
     this.logger.log(`Detalhes do airticket: ${JSON.stringify(airticket)}`);

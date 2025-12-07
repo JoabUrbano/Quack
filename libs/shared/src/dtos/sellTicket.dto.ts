@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsNumber, IsUUID } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
 export class SellTicketDto {
   @ApiProperty({ description: 'Flight number' })
@@ -20,19 +20,35 @@ export class SellTicketDto {
   @IsNumber()
   finalValue: number; // NOTE: Gibeon não especificou esse campo no documento, porém na minha cabeça faz sentido ter esse campo
 
-  @ApiProperty({ description: 'User ID' })
-  @IsUUID()
-  userId: string; // NOTE: Gibeon não especificou esse campo no documento, porém na minha cabeça faz sentido ter esse campo
+  // @ApiProperty({ description: 'User ID' })
+  // @IsUUID()
+  // userId: string; // NOTE: Gibeon não especificou esse campo no documento, porém na minha cabeça faz sentido ter esse campo
 
   @ApiProperty({
-    description: 'Fault Tolerant',
+    description: 'Cause Fault',
     type: Boolean
   })
+  @IsOptional()
   @Transform(({ value }) => {
     if (typeof value === 'boolean') return value; // Se já for boolean
     if (typeof value === 'string') return value.toLowerCase() === 'true'; // Se for string
     return Boolean(value); // Converte qualquer outro tipo
   })
   @IsBoolean()
-  ft: boolean;
+  cf?: boolean;
+
+  @ApiProperty({
+    description: 'Fault Tolerant',
+    type: Boolean
+  })
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'boolean') return value; // Se já for boolean
+    if (typeof value === 'string') return value.toLowerCase() === 'true'; // Se for string
+    return Boolean(value); // Converte qualquer outro tipo
+  })
+  @IsBoolean()
+  ft?: boolean;
+
+
 }

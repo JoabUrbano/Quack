@@ -65,10 +65,9 @@ export default async function () {
   const payload = JSON.stringify({
     flight: selectedFlight.flightNumber,
     day,
+    cf: true,
     ft: true,
   });
-
-  console.log(`status: ${loginRes.status}; body: ${loginRes.body}`);
 
   const headers = {
     'Content-Type': 'application/json',
@@ -79,6 +78,8 @@ export default async function () {
     payload,
     { headers },
   );
+
+  console.log(`status: ${res.status}; body: ${res.body}`);
 
   check(res, {
     'status == 201': (r) => r.status === 201,

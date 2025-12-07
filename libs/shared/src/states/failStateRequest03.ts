@@ -9,7 +9,7 @@ export class FailStateRequest03 {
   constructor() {}
 
   probability() {
-    const event = probabilityEvent(10);
+    const event = probabilityEvent(100);
 
     if (!event) return;
 

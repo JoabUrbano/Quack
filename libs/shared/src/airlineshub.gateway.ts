@@ -16,24 +16,28 @@ export class AirlineHubGateway {
     return 'Hello from AirlineHub Gateway!';
   }
 
-  async getFlight(flight: number, day: Date, ft: boolean, auth: AuthParams): Promise<FlightDto> {
+  async getFlight(flight: number, day: Date, ft: boolean, cf: boolean, auth: AuthParams): Promise<FlightDto> {
     try {
-      const response$ = this.httpService.get<FlightDto>(
+      let response$ = this.httpService.get<FlightDto>(
         `${this.configService.get<string>('AIRLINESHUB_URL')}/flights/flight/`,
         {
           params: {
             flight,
             day,
-            ft
+            cf
           },
           headers: {
             Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
           },
         },
-      ).pipe(timeout({
-        each: 5000,
-        with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
-      }));
+      )
+
+      if (ft) {
+        response$ = response$.pipe(timeout({
+          each: 5000,
+          with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
+        }));
+      }
 
       const res = await lastValueFrom(response$);
 
@@ -50,7 +54,7 @@ export class AirlineHubGateway {
 
   async sellTicket(params: SellTicketDto, auth: AuthParams): Promise<AirTicketDto> {
     try {
-      const response = this.httpService.post<AirTicketDto>(
+      let response$ = this.httpService.post<AirTicketDto>(
         `${this.configService.get<string>('AIRLINESHUB_URL')}/sell`,
         params,
         {
@@ -58,12 +62,17 @@ export class AirlineHubGateway {
             Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
           },
         },
-      ).pipe(timeout({
-        first: 2000,
-        with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
-      }));
+      )
 
-      const res = await lastValueFrom(response);
+      if (params.ft) {
+        console.log('VOu tolerar a falha!!')
+        response$ = response$.pipe(timeout({
+          first: 300,
+          with: () => throwError(() => new AirlinesHubExceptionTimeoutError())
+        }));
+      }
+
+      const res = await lastValueFrom(response$);
 
       return res.data;
     } catch (error) {

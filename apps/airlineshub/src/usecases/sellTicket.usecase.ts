@@ -6,6 +6,10 @@ import { FlightsRepository } from '@airlineshub/domains/repositories/flights.rep
 import { AirTicket } from '@airlineshub/domains/entities/airTicket.entity';
 import { AirTicketDto } from '@app/shared/types/airTicket.dto';
 
+export interface SellTicketUseCaseInput extends SellTicketDto {
+  userId: string;
+}
+
 @Injectable()
 export class SellTicketUseCase {
   constructor(
@@ -13,7 +17,7 @@ export class SellTicketUseCase {
     private readonly flightsRepository: FlightsRepository,
   ) { }
 
-  async execute(input: SellTicketDto): Promise<AirTicketDto> {
+  async execute(input: SellTicketUseCaseInput): Promise<AirTicketDto> {
     const { userId, day, flight: flightNumber, finalValue } = input;
 
     const flight =

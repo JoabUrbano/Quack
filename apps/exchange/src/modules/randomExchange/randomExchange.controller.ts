@@ -12,9 +12,9 @@ export class RandomExchangeController {
 
   @Get('convert')
   getRandomExchangeDolar(@Query() numbersDto: RandomNumbersDto) {
-    const { ft } = numbersDto;
+    const { cf } = numbersDto;
 
-    if (ft) {
+    if (cf) {
       this.failStateRequest02.probability()
 
       if (this.failStateRequest02.request02State) {
