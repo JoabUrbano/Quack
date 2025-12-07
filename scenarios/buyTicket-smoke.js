@@ -5,11 +5,16 @@ import {
   setupUsers,
   users,
 } from './setups/index.js';
-import { getFlights, login, buyTicket} from './apis/index.js';
+import { getFlights, login, buyTicket } from './apis/index.js';
 import { check, sleep, group } from 'k6';
 import http from 'k6/http';
 import exec from 'k6/execution';
 import { selectRandomFlight } from './utils/index.js';
+
+/**
+ * Cenário 1: Teste de Compra de Ticket - Smoke Test
+ * - Objetivo: Validar funcionalidade básica de compra de ticket sob carga leve
+ */
 
 export const options = {
   vus: 2,
@@ -26,7 +31,7 @@ export function setup() {
   setupUsers();
 }
 
-export default async function () {
+export default function () {
   // Usuário faz login
   const indexUser = exec.vu.idInTest % users.length;
   const user = users[indexUser];
@@ -43,7 +48,7 @@ export default async function () {
   const loginRes = login(loginPayload);
 
   // Usuário consulta os tickets disponíveis
-  const flights = await getFlights({});
+  const flights = getFlights({});
 
   if (!flights || flights.length === 0) {
     exec.test.abort('Nenhum voo disponível para compra de ticket.');
