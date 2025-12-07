@@ -3,10 +3,13 @@ import {
   setupAirplane,
   setupAirports,
   setupUsers,
+  users,
 } from './setups/index.js';
+import { getFlights } from './apis/index.js';
 import { check, sleep, group } from 'k6';
 import http from 'k6/http';
 import exec from 'k6/execution';
+import { selectRandomFlight } from './utils/index.js';
 
 export const options = {
   vus: 2,
@@ -25,13 +28,18 @@ export function setup() {
 }
 
 export default async function () {
-  const jar = http.cookieJar();
-  jar.set('http://localhost:8000', 'accessToken', '');
-  jar.set('http://localhost:8000', 'refreshToken', '');
+  // Usuário faz login
+
+  const indexUser = exec.vu.idInTest % users.length;
+  const user = users[indexUser];
+
+  console.log(`VU ID: ${exec.vu.idInTest}; Usando usuário: ${user.email}`);
+
+  console.log('indexUser => ', indexUser);
 
   const loginPayload = {
-    email: 'luizgustavooumbelino@gmail.com',
-    password: '123123',
+    email: user.email,
+    password: user.password,
   };
 
   const loginRes = await http.post(
@@ -41,13 +49,22 @@ export default async function () {
       headers: {
         'Content-Type': 'application/json',
       },
-      cookies: jar.cookiesForURL('http://localhost:8000'),
     },
   );
 
+  // Usuário consulta os tickets disponíveis
+  const flights = await getFlights({});
+
+  if (!flights || flights.length === 0) {
+    exec.test.abort('Nenhum voo disponível para compra de ticket.');
+  }
+
+  const selectedFlight = selectRandomFlight(flights);
+  const day = new Date().toISOString().split('T')[0];
+
   const payload = JSON.stringify({
-    flight: 1,
-    day: '2025-11-02',
+    flight: selectedFlight.flightNumber,
+    day,
     ft: false,
   });
 
@@ -60,13 +77,10 @@ export default async function () {
     payload,
     {
       headers,
-      cookies: jar.cookiesForURL('http://localhost:8000'),
     },
   );
 
   console.log('res => ', res.body);
-
-  console.log(`VU: ${exec.vu.idInInstance} - Status: ${res.status}`);
 
   check(res, {
     'status == 200': (r) => r.status === 200,

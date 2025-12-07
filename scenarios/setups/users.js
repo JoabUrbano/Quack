@@ -1,6 +1,6 @@
 import http from 'k6/http';
 
-const users = [
+export const users = [
   {
     name: 'Luiz Gustavo',
     email: 'luizgustavooumbelino@email.com',

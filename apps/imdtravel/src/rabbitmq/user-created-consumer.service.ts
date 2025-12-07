@@ -75,7 +75,8 @@ export class UserCreatedConsumerService implements OnModuleInit {
             this.logger.log(`User created in imdtravel: ${JSON.stringify(userCreated)}`);
         } catch (error) {
             this.logger.error('Error processing user created event:', error);
-            throw error;
+            // TODO: TRATAR O ERROR AQUI
+            // throw error;
         }
     }
 }

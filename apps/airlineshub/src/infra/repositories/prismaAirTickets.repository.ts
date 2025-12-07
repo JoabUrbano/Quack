@@ -13,24 +13,36 @@ export class PrismaAirTicketsRepository extends AirTicketsRepository {
   }
 
   async save(airTicket: AirTicket): Promise<void> {
-    await this.prismaService.airTicket.upsert({
-      where: { id: airTicket.id },
-      update: {
-        purchaseDate: airTicket.purchaseDate,
-        flightId: airTicket.flightId,
-        finalValue: airTicket.finalValue,
-        userId: airTicket.userId,
-        seatNumber: airTicket.seatNumber,
-      },
-      create: {
-        id: airTicket.id,
-        seatNumber: airTicket.seatNumber,
-        purchaseDate: airTicket.purchaseDate,
-        flightId: airTicket.flightId,
-        finalValue: airTicket.finalValue,
-        userId: airTicket.userId,
-      },
-    });
+    try {
+      await this.prismaService.airTicket.upsert({
+        where: { id: airTicket.id },
+        update: {
+          purchaseDate: airTicket.purchaseDate,
+          flightId: airTicket.flightId,
+          finalValue: airTicket.finalValue,
+          userId: airTicket.userId,
+          seatNumber: airTicket.seatNumber,
+        },
+        create: {
+          id: airTicket.id,
+          seatNumber: airTicket.seatNumber,
+          purchaseDate: airTicket.purchaseDate,
+          flightId: airTicket.flightId,
+          finalValue: airTicket.finalValue,
+          userId: airTicket.userId,
+        },
+      });
+    } catch (error) {
+      console.log('Error ao salvar ticket: ', error);
+      
+      console.log('parametros de entrada: ', airTicket);
+
+      const msgError = error?.message || 'Desconhecido';
+      
+      throw new Error('Ocorreu um erro ao salvar o ticket: ', msgError)
+    }
+
+
   }
 
   async findMany(input: IFindManyFilter): Promise<AirTicket[]> {

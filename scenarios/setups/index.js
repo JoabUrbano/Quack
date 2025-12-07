@@ -1,4 +1,4 @@
-export { setupAirlines } from './airlines.js';
-export { setupAirports } from './airports.js';
-export { setupAirplane } from './airplanes.js';
-export { setupUsers } from './users.js';
+export * from './airlines.js';
+export * from './airports.js';
+export * from './airplanes.js';
+export * from './users.js';
