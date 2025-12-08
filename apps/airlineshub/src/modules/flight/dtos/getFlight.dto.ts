@@ -30,6 +30,6 @@ export class GetFlightDto {
   })
   @IsOptional()
   @IsBoolean()
-  ft?: boolean;
+  cf?: boolean;
 }
 

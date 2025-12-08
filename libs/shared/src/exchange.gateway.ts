@@ -10,12 +10,21 @@ import { AuthParams } from '@app/shared/dtos/auth.params';
 export class ExchangeGateway {
   constructor(private httpservice: HttpService, private readonly redisClient: RedisClient, private configService: ConfigService) { }
 
-  async conversionRate(ft: boolean, auth: AuthParams): Promise<number> {
+  async conversionRate(ft: boolean, cf: boolean, auth: AuthParams): Promise<number> {
+
+
+    console.log(`[ExchangeGateway] params => ${JSON.stringify(
+      {
+        ft: ft,
+        cf: cf,
+      }
+    )}`)
+
     try {
       const response = this.httpservice.get(
         `${this.configService.get<string>('EXCHANGE_URL')}/random/exchange/convert`,
         {
-          params: { ft },
+          params: { cf },
           headers: {
             Cookie: `accessToken=${auth.accessToken};refreshToken=${auth.refreshToken}`,
           },
@@ -24,6 +33,10 @@ export class ExchangeGateway {
       const res = await lastValueFrom(response);
 
       const conversionRate = res.data;
+
+      if (!ft) {
+        return conversionRate;
+      }
 
 
       if (!ExchangeValueIsValid(conversionRate)) {

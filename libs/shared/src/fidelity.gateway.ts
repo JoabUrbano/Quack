@@ -1,21 +1,30 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, throwError, timeout } from 'rxjs';
 import { AuthParams } from '@app/shared/dtos/auth.params';
+import { FidelityExceptionTimeoutError } from './exceptions/fidelityGatewayException';
 
 @Injectable()
 export class FidelityGateway {
   constructor(private httpservice: HttpService, private configService: ConfigService) { }
 
-  async createBonus(param: { user: string; value: number, ft: boolean }, auth: AuthParams): Promise<string> {
+  async createBonus(param: { user: string; value: number, ft: boolean, cf: boolean, }, auth: AuthParams): Promise<string> {
+    console.log(`[FidelityGateway] params => ${JSON.stringify(
+      {
+        ft: param.ft,
+        cf: param.cf,
+      }
+    )}`)
+
+
     try {
-      const response = this.httpservice.post<string>(
+      let response$ = this.httpservice.post<string>(
         `${this.configService.get<string>('FIDELITY_URL')}/bonus`,
         {
           user: param.user,
           bonus: param.value,
-          ft: param.ft
+          cf: param.cf
         },
         {
           headers: {
@@ -24,7 +33,15 @@ export class FidelityGateway {
         },
       );
 
-      const res = await lastValueFrom(response);
+      if (param.ft) {
+
+        response$ = response$.pipe(timeout({
+          first: 250,
+          with: () => throwError(() => new FidelityExceptionTimeoutError())
+        }));
+      }
+
+      const res = await lastValueFrom(response$);
 
       return res.data;
     } catch (error) {

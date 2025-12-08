@@ -44,10 +44,10 @@ export class FlightController {
   async getFlight(
     @Query() getFlightDto: GetFlightDto,
   ) {
-    const { flight, day, ft } = getFlightDto;
+    const { flight, day, cf } = getFlightDto;
 
 
-    if (ft) {
+    if (cf) {
       this.failState.probability();
 
       if (this.failState.request01State == true) {
@@ -59,7 +59,7 @@ export class FlightController {
     return this.findFlightByNumberUseCase.execute({
       flight: +flight,
       day: day,
-      ft
+      cf
     });
   }
 }

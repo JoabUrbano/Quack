@@ -118,48 +118,48 @@ async function main() {
   }
 
   // Criar Users
-  console.log('👥 Criando usuários...');
+  // console.log('👥 Criando usuários...');
   // TODO: Em produção seria um hash de senha
-  const users = [
-    {
-      name: 'João Silva',
-      email: 'joao.silva@email.com',
-    },
-    {
-      name: 'Maria Santos',
-      email: 'maria.santos@email.com',
-    },
-    {
-      name: 'Pedro Oliveira',
-      email: 'pedro.oliveira@email.com',
-    },
-    {
-      name: 'Ana Costa',
-      email: 'ana.costa@email.com',
-    },
-    {
-      name: 'Luiz Gustavo',
-      email: 'luizgustavooumbelino@email.com',
-    },
-    {
-      name: 'Gibeon Aquino',
-      email: 'gibeon.aquino@email.com',
-    },
-  ];
+  // const users = [
+  //   {
+  //     name: 'João Silva',
+  //     email: 'joao.silva@email.com',
+  //   },
+  //   {
+  //     name: 'Maria Santos',
+  //     email: 'maria.santos@email.com',
+  //   },
+  //   {
+  //     name: 'Pedro Oliveira',
+  //     email: 'pedro.oliveira@email.com',
+  //   },
+  //   {
+  //     name: 'Ana Costa',
+  //     email: 'ana.costa@email.com',
+  //   },
+  //   {
+  //     name: 'Luiz Gustavo',
+  //     email: 'luizgustavooumbelino@email.com',
+  //   },
+  //   {
+  //     name: 'Gibeon Aquino',
+  //     email: 'gibeon.aquino@email.com',
+  //   },
+  // ];
 
-  const createdUsers = [];
-  for (const user of users) {
-    const created = await prisma.user.upsert({
-      where: { email: user.email },
-      update: {},
-      create: {
-        id: uuidv4(),
-        name: user.name,
-        email: user.email,
-      },
-    });
-    createdUsers.push(created);
-  }
+  // const createdUsers = [];
+  // for (const user of users) {
+  //   const created = await prisma.user.upsert({
+  //     where: { email: user.email },
+  //     update: {},
+  //     create: {
+  //       id: uuidv4(),
+  //       name: user.name,
+  //       email: user.email,
+  //     },
+  //   });
+  //   createdUsers.push(created);
+  // }
 
   if ((await prisma.flight.count()) === 0) {
     // Criar Flights
@@ -242,26 +242,26 @@ async function main() {
     }
 
     // Criar AirTickets
-    console.log('🎫 Criando passagens aéreas...');
-    const allFlights = await prisma.flight.findMany();
+    // console.log('🎫 Criando passagens aéreas...');
+    // const allFlights = await prisma.flight.findMany();
 
-    for (let i = 0; i < allFlights.length; i++) {
-      const flight = allFlights[i];
-      const seatsToCreate = Math.min(3, createdUsers.length);
+    // for (let i = 0; i < allFlights.length; i++) {
+    //   const flight = allFlights[i];
+    //   const seatsToCreate = Math.min(3, createdUsers.length);
 
-      for (let j = 0; j < seatsToCreate; j++) {
-        await prisma.airTicket.create({
-          data: {
-            id: uuidv4(),
-            seatNumber: j + 1,
-            flightId: flight.id,
-            userId: createdUsers[j].id,
-            purchaseDate: new Date(),
-            finalValue: flight.value,
-          },
-        });
-      }
-    }
+    //   for (let j = 0; j < seatsToCreate; j++) {
+    //     await prisma.airTicket.create({
+    //       data: {
+    //         id: uuidv4(),
+    //         seatNumber: j + 1,
+    //         flightId: flight.id,
+    //         userId: createdUsers[j].id,
+    //         purchaseDate: new Date(),
+    //         finalValue: flight.value,
+    //       },
+    //     });
+    //   }
+    // }
   }
 
   // Exibir resumo final

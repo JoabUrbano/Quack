@@ -209,6 +209,9 @@ services:
       - ./:/app
       - /app/node_modules
       - /app/apps/fidelity/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - duck-network
     command: bash /app/scripts/init-fidelity.sh

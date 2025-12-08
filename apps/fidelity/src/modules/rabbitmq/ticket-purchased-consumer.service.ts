@@ -63,7 +63,8 @@ export class TicketPurchasedConsumerService implements OnModuleInit {
 
         } catch (error) {
             this.logger.error('Error processing ticket purchased event:', error);
-            throw error;
+            // TODO: TRATAR O ERROR AQUI
+            // throw error;
         }
     }
 }

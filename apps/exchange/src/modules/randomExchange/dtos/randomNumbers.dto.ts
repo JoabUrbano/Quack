@@ -14,5 +14,5 @@ export class RandomNumbersDto {
     })
     @IsOptional()
     @IsBoolean()
-    ft?: boolean;
+    cf?: boolean;
 }
