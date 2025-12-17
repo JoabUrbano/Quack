@@ -36,7 +36,7 @@ export default function Login(){
 		
 			await new Promise(resolve => setTimeout(resolve, 100));
 				
-			const responseUsr = await fetch('http://localhost:3001/users',{
+			const responseUsr = await fetch('http://localhost:8000/airlineshub/users',{
 				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json',

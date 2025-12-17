@@ -12,7 +12,7 @@ export default function SearchFlight(){
 	const router = useRouter();
 	
 	useEffect(() => {
-		fetch(`http://localhost:3001/flights?page=${currentPage}&limit=${limit}`,{
+		fetch(`http://localhost:8000/airlineshub/flights?page=${currentPage}&limit=${limit}`,{
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',

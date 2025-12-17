@@ -26,7 +26,7 @@ export default function SearchFlight(){
 	useEffect(() => {
 		const flightId = searchParams.get('flightId');
 		
-		fetch('http://localhost:3001/flights/', {
+		fetch('http://localhost:8000/airlineshub/flights/', {
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function SearchFlight(){
 	const handleBuyTicket = async (e: React.FormEvent) => {
 		e.preventDefault()
 		
-		fetch('http://localhost:3001/airtickets/', {
+		fetch('http://localhost:8000/airlineshub/airtickets/', {
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',

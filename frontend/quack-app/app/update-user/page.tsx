@@ -21,7 +21,7 @@ export default function updateUser(){
 		setError(null);
 		
 		
-		const responseAuth = await fetch(`http://localhost:3001/users/${user.id}`, {
+		const responseAuth = await fetch(`http://localhost:8000/airlineshub/users/${user.id}`, {
 			method: 'PATCH',
 			headers: { 
 				'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default function updateUser(){
 		
 			await new Promise(resolve => setTimeout(resolve, 100));
 				
-			const responseUsr = await fetch('http://localhost:3001/users',{
+			const responseUsr = await fetch('http://localhost:8000/airlineshub/users',{
 				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json',

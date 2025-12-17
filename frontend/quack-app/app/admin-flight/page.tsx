@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 export default function SearchFlight(){
 	const [flights, setFlights]=useState([]);
 	useEffect(() => {
-		fetch('http://localhost:3001/flights',{
+		fetch('http://localhost:8000/airlineshub/flights',{
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',

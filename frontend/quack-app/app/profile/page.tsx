@@ -16,7 +16,7 @@ export default function perfil(){
 		setLoading(true);
 		
 		Promise.all([
-			fetch('http://localhost:3001/airtickets',{
+			fetch('http://localhost:8000/airlineshub/airtickets',{
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export default function perfil(){
 				return res.json();
 				}),
 			
-			fetch('http://localhost:3001/flights',{
+			fetch('http://localhost:8000/airlineshub/flights',{
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export default function perfil(){
 				        <td>
 				          <button
 				            onClick={async () => {
-						const response = await fetch(`http://localhost:3001/airtickets/${passage.id}`, {
+						const response = await fetch(`http://localhost:8000/airlineshub/airtickets/${passage.id}`, {
 							method: 'DELETE',				    
 							headers: {
 								'Content-Type':'application/json',

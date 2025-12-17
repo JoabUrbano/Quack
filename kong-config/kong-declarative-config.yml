@@ -8,6 +8,14 @@ services:
           - /imdtravel
         strip_path: true
         preserve_host: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local # default is local
+          fault_tolerant: true # default is false
+          limit_by: ip # default is consumer
+          hide_client_headers: false # default is false
         
   - name: airlineshub-srv
     url: http://airlineshub:3001
@@ -17,6 +25,14 @@ services:
           - /airlineshub
         strip_path: true
         preserve_host: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local # default is local
+          fault_tolerant: true # default is false
+          limit_by: ip # default is consumer
+          hide_client_headers: false # default is false
 
   - name: exchange-srv
     url: http://exchange:3002
@@ -26,6 +42,14 @@ services:
           - /exchange
         strip_path: true
         preserve_host: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local # default is local
+          fault_tolerant: true # default is false
+          limit_by: ip # default is consumer
+          hide_client_headers: false # default is false
         
   - name: fidelity-srv
     url: http://fidelity:3003
@@ -35,6 +59,14 @@ services:
           - /fidelity
         strip_path: true
         preserve_host: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local # default is local
+          fault_tolerant: true # default is false
+          limit_by: ip # default is consumer
+          hide_client_headers: false # default is false
   - name: auth-srv
     url: http://auth:3004
     routes:
@@ -43,6 +75,14 @@ services:
           - /auth
         strip_path: true
         preserve_host: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local # default is local
+          fault_tolerant: true # default is false
+          limit_by: ip # default is consumer
+          hide_client_headers: false # default is false
 
 plugins:
   - name: correlation-id
