@@ -22,6 +22,7 @@ export class JwtService {
   generateAccessToken(payload: TokenPayload): string {
     return jwt.sign(payload, this.configService.get<string>('JWT_SECRET'), {
       expiresIn: this.configService.get<string>('JWT_EXPIRATION', '15m'),
+      issuer: this.configService.get<string>('JWT_ISSUER', 'auth-service'),
     } as any);
   }
 

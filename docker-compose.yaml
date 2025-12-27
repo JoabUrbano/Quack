@@ -97,12 +97,14 @@ services:
       - exchange
       - fidelity
       - auth
+    env_file:
+      - .env.docker
     volumes:
       - ./kong-config/kong-declarative-config.yml:/config/kong-declarative-config.yml:ro
     command: gateway sync /config/kong-declarative-config.yml --kong-addr=http://kong:8001
     networks:
       - duck-network
-    restart: always
+    # restart: always
     
 
   ###
