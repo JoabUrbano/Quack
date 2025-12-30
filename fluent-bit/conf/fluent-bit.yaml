@@ -1,0 +1,34 @@
+service:
+  flush: 1
+  log_level: info
+  daemon: off
+  parsers_file: parsers.yaml
+  http_server: on
+  http_listen: 0.0.0.0
+  http_port: 2020
+  storage.metrics: on
+
+pipeline:
+  inputs:
+    - name: forward
+      buffer_chunk_size: 1M
+      buffer_max_size: 5M
+
+    - name: syslog
+      mode: udp
+
+    - name: tcp
+      listen: 0.0.0.0
+      port: 5170
+      chunk_size: 32
+      buffer_size: 64
+      format: json
+
+  outputs:
+    - name: es
+      match: "*"
+      host: elasticsearch
+      port: 9200
+      logstash_format: on
+      replace_dots: on
+      retry_limit: false

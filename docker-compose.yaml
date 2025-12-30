@@ -62,6 +62,7 @@ services:
     depends_on:
       - kong-database
       - kong-migrations
+      - fluent-bit
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
@@ -360,9 +361,8 @@ services:
   ### Fluent-bit
   ### Container para envio de logs para o Elasticsearch
   ###
-  # professor
   fluent-bit:
-    image: fluent/fluent-bit:1.9.3
+    image: fluent/fluent-bit:4.2.2
     volumes:
       - ./fluent-bit/conf:/fluent-bit/etc
     ports:
@@ -377,20 +377,13 @@ services:
         max-file: "5"
     networks:
       - duck-network
-  # meu
-  # fluent-bit:
-  #   image: fluent/fluent-bit
-  #   volumes:
-  #     - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-  #   depends_on:
-  #     - elasticsearch
-
-
+    depends_on:
+      - elasticsearch
+    command: ["fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.yaml"]
   ### 
   ### Elasticsearch
   ### Container para armazenamento e busca de logs
   ###
-  # professor
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
     container_name: elasticsearch
@@ -400,19 +393,11 @@ services:
       - "discovery.type=single-node"
     ports:
       - "9200:9200"
-  # meu
-  # elasticsearch:
-  #   image: elasticsearch:7.17.6
-  #   ports:
-  #     - "9200:9200"
-  #   environment:
-  #     - discovery.type=single-node
 
   ###
   ### Kibana
   ### Container para visualizacao de logs
   ###
-  # professor
   kibana:
     image: docker.elastic.co/kibana/kibana:7.13.1
     environment:
