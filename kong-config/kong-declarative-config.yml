@@ -135,3 +135,10 @@ plugins:
     config:
       host: fluent-bit
       port: 5170
+  - name: zipkin
+    service: exchange-srv
+    config:
+      default_header_type: b3 # default is b3
+      http_endpoint: http://jaeger:9411/api/v2/spans
+      sample_ratio: 1 # default is 0.001
+      local_service_name: kong # default is kong
