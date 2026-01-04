@@ -3,6 +3,7 @@ name: ci-quack-workflow
 on: [push]
 jobs:
   check-application:
+    name: Check application
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # Configura o repositório no ambiente
