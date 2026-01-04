@@ -33,6 +33,11 @@ services:
           fault_tolerant: true # default is false
           limit_by: ip # default is consumer
           hide_client_headers: false # default is false
+      # - name: jwt
+      #   config:
+      #     key_claim_name: iss
+      #     cookie_names:
+      #       - accessToken
 
   - name: exchange-srv
     url: http://exchange:3002
@@ -50,7 +55,8 @@ services:
           fault_tolerant: true # default is false
           limit_by: ip # default is consumer
           hide_client_headers: false # default is false
-        
+      # - name: basic-auth        
+      
   - name: fidelity-srv
     url: http://fidelity:3003
     routes:
@@ -84,9 +90,55 @@ services:
           limit_by: ip # default is consumer
           hide_client_headers: false # default is false
 
+consumers:
+  - custom_id: dab19db7-d907-4705-b3c9-aa309a3cebbf
+    username: api-consumer
+    tags:
+      - api-client
+    keyauth_credentials:
+      - key: "my-secret-api-key-123456"
+  - username: joaburbano
+    tags:
+      - user
+    basicauth_credentials:
+      - username: joaburbano
+        password: "123123"
+  - username: auth-service-client
+    tags:
+      - service
+    jwt_secrets:
+      - algorithm: HS256
+        key: auth-service
+        secret: ${JWT_SECRET}
+
 plugins:
   - name: correlation-id
     config:
       header_name: Kong-Request-ID
       generator: uuid
       echo_downstream: true
+  - name: response-transformer
+    config:
+      add:
+        headers:
+          - "X-API-Version:v1"
+  - name: prometheus
+    config:
+      ai_metrics: true
+      bandwidth_metrics: true
+      latency_metrics: true
+      per_consumer: true
+      status_code_metrics: true
+      bandwidth_metrics: true
+      upstream_health_metrics: true
+  - name: tcp-log
+    config:
+      host: fluent-bit
+      port: 5170
+  - name: zipkin
+    service: exchange-srv
+    config:
+      default_header_type: b3 # default is b3
+      http_endpoint: http://jaeger:9411/api/v2/spans
+      sample_ratio: 1 # default is 0.001
+      local_service_name: kong # default is kong

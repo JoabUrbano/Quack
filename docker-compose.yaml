@@ -62,6 +62,7 @@ services:
     depends_on:
       - kong-database
       - kong-migrations
+      - fluent-bit
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
@@ -97,12 +98,14 @@ services:
       - exchange
       - fidelity
       - auth
+    env_file:
+      - .env.docker
     volumes:
       - ./kong-config/kong-declarative-config.yml:/config/kong-declarative-config.yml:ro
     command: gateway sync /config/kong-declarative-config.yml --kong-addr=http://kong:8001
     networks:
       - duck-network
-    restart: always
+    # restart: always
     
 
   ###
@@ -303,3 +306,127 @@ services:
       start_period: 30s
 
 
+  ### Containers para observabilidade dos servicos ###
+
+  ###
+  ### Prometheus
+  ### Container para coleta de metricas dos servicos
+  ###
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    networks:
+      - duck-network
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prom-conf/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  ###
+  ### Grafana
+  ### Container para monitoramento dos servicos
+  ###
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    networks:
+      - duck-network
+    ports:
+      - "3005:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+  ###
+  ### Node Exporter
+  ### Container para coleta de metricas do host
+  ###
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    networks:
+      - duck-network
+    ports:
+      - "9100:9100"
+    restart: always
+    depends_on:
+      - prometheus
+
+  ###
+  ### Fluent-bit
+  ### Container para envio de logs para o Elasticsearch
+  ###
+  fluent-bit:
+    image: fluent/fluent-bit:4.2.2
+    volumes:
+      - ./fluent-bit/conf:/fluent-bit/etc
+    ports:
+      - "24224:24224"
+      - "5140:5140/udp"
+      - "2020:2020"
+      - "5170:5170"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
+        max-file: "5"
+    networks:
+      - duck-network
+    depends_on:
+      - elasticsearch
+    command: ["fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.yaml"]
+  ### 
+  ### Elasticsearch
+  ### Container para armazenamento e busca de logs
+  ###
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    container_name: elasticsearch
+    networks:
+      - duck-network
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - "9200:9200"
+
+  ###
+  ### Kibana
+  ### Container para visualizacao de logs
+  ###
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.1
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    networks:
+      - duck-network
+    ports:
+      - "5601:5601"
+  
+
+  ###
+  ### Jaeger
+  ### Container para rastreamento distribuído
+  ###
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    networks:
+      - duck-network
+    ports:
+      - "5775:5775/udp" # Porta compactada UDP
+      - "6831:6831/udp" # Porta Thrift UDP
+      - "6832:6832/udp" # Porta Thrift compactada
+      - "5778:5778" # Porta de configuração
+      - "16686:16686" # Porta da UI do Jaeger
+      - "14250:14250" # Porta gRPC
+      - "14268:14268" # Porta HTTP
+      - "14269:14269" # Porta ADMIN
+      - "9411:9411" # Porta Zipkin
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=9411
+    
