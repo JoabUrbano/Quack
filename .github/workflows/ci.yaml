@@ -12,5 +12,6 @@ jobs:
       - uses: actions/setup-node@v2 # Configura o NodeJS
         with:
           node-version: '20.19.0'
-      - run: yarn install
+          cache: 'yarn'
+      - run: yarn --frozen-lockfile
       - run: yarn test
