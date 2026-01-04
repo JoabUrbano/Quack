@@ -8,8 +8,8 @@ jobs:
     name: Check application
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 # Configura o repositório no ambiente
-      - uses: actions/setup-node@v2 # Configura o NodeJS
+      - uses: actions/checkout@v5 # Configura o repositório no ambiente
+      - uses: actions/setup-node@v4 # Configura o NodeJS
         with:
           node-version: '20.19.0'
           cache: 'yarn'
