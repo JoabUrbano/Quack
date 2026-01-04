@@ -33,11 +33,11 @@ services:
           fault_tolerant: true # default is false
           limit_by: ip # default is consumer
           hide_client_headers: false # default is false
-      - name: jwt
-        config:
-          key_claim_name: iss
-          cookie_names:
-            - accessToken
+      # - name: jwt
+      #   config:
+      #     key_claim_name: iss
+      #     cookie_names:
+      #       - accessToken
 
   - name: exchange-srv
     url: http://exchange:3002
@@ -55,7 +55,7 @@ services:
           fault_tolerant: true # default is false
           limit_by: ip # default is consumer
           hide_client_headers: false # default is false
-      - name: basic-auth        
+      # - name: basic-auth        
       
   - name: fidelity-srv
     url: http://fidelity:3003
