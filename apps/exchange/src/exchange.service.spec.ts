@@ -18,6 +18,6 @@ describe('ExchangeService', () => {
 
   it('should return "Hello World!"', () => {
     const result = service.getHello();
-    expect(result).toBe('Hello Worldd!');
+    expect(result).toBe('Hello World!');
   });
 });
